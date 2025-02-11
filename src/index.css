@@ -1,13 +1,16 @@
 @import "tailwindcss";
+@import "@fontsource/poppins/300.css"; /* light */
+@import "@fontsource/poppins/400.css";/* regular */
+@import "@fontsource/poppins/600.css"; /* semi bold */
+@import "@fontsource/poppins/700.css"; /* bold */
+
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Poppins",Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
+ 
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+ 
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,56 +18,84 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+ 
+
+.orange-shadow {
+ box-shadow: 0 2px 2px 1px rgba(246,150,54,1)
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+.blue-shadow {
+  box-shadow: 0 2px 2px 1px #530DF6;
+ }
+ 
+
+
+.bg-white {
+  background-color:  white;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+
+.custom-scrollbar{
+  width: 500px;
+  height: 200px;
+  overflow-y: auto;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.custom-scrollbar::-webkit-scrollbar{
+  width: 8px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color:#D9D9D9;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track{
+  background: white;
+}
+
+.blue-bg {
+  background-color: #530DF6;
+}
+
+.gray-bg{
+  background-color:#D9D9D9;
+}
+
+
+
+
+.heading-config {
+  border: none;
+  padding:1px;
+  outline:none;
+  /* width: 500px; */
+  font-size: 25px;
+  font-weight:600;
+  color:#757575;
+}
+
+.heading-config:focus {
+border: none;
+outline: none;
+font-size: 28px;
+}
+
+
+
+.heading-config-mini {
+  border: none;
+  padding:1px;
+  outline:none;
+  width: 100px;
+  font-size: 15px;
+  font-weight:400;
+  color: #757575;
+
+
+}
+
+.heading-config-mini:focus {
+border: none;
+outline: none;
+font-size: 20px;
 }
