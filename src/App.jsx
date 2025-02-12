@@ -9,8 +9,6 @@ import GithubPhase1 from './features/onbaordingWizard/configuration/GithubPhase1
 import MeetTeamPhase from './features/onbaordingWizard/configuration/meetTeamPhase'
 
 function App() {
-
-
   return (
     <>
     <MeetTeamPhase/>
