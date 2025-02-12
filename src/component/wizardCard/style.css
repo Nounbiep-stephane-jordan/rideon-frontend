@@ -1,0 +1,12 @@
+.custom-wizard-config-shadow {  
+   box-shadow: inset 0px 2px 2px 1px rgba(246, 150, 54, 1);      
+}
+
+.text-custom-gray {
+     color:#757575;
+}
+
+.custom-blue-plus-position {
+     bottom: 20px;
+     right: 46px; 
+}
