@@ -1,6 +1,7 @@
 
 
 import './App.css'
+import Nav from './component/nav/nav'
 import ProgressTracker from './component/progressTracker/progressTracker'
 import ProjectCard from './component/ProjectCard/projectCard'
 import Steps from './component/steps/steps'
@@ -12,7 +13,9 @@ import MeetTeamPhase from './features/onbaordingWizard/configuration/meetTeamPha
 function App() {
   return (
     <>
-    <MeetTeamPhase/>
+
+    <Nav/>
+    {/* <MeetTeamPhase/> */}
     {/* <AddMember/> */}
     {/* <GithubPhase1/> */}
     {/* <WhiteContainer/> 

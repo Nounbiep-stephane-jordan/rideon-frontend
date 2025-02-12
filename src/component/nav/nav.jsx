@@ -1,19 +1,25 @@
+/* eslint-disable react/prop-types */
 /** Here is the implementation of the navigation bar component**/
 import { useState } from "react";
 import { motion } from "framer-motion";
 
 /* importing all necessary icons used in the nav bar*/
-import home from "../assets/home.svg";
-import homeSelected from "../assets/home_selected.svg";
-import onboardingWizard from "../assets/onboarding_wizard.svg";
-import onboardingWizardSelected from "../assets/onboarding_wizard_selected.svg";
-import fileVisualisation from "../assets/file_visualisation.svg";
-import fileVisualisationSelected from "../assets/file_visualisation_Selected.svg";
-import faq from "../assets/faq.svg";
-import faqSelected from "../assets/faq_selected.svg";
-import logedUser from "../assets/loged_user.svg";
+import home from "../../assets/home.svg";
+import homeSelected from "../../assets/home_selected.svg";
+import onboardingWizard from "../../assets/onboarding_wizard.svg";
+import onboardingWizardSelected from "../../assets/onboarding_wizard_selected.svg";
+import fileVisualisation from "../../assets/file_visualisation.svg";
+import fileVisualisationSelected from "../../assets/file_visualisation_Selected.svg";
+import faq from "../../assets/faq.svg";
+import faqSelected from "../../assets/faq_selected.svg";
+import logedUser from "../../assets/loged_user.svg";
+import "./style.css"
 
-/* Seperated the nav bar elements into 4 main components */
+
+
+const Nav = () => { // 4-nav bar component
+
+  /* Seperated the nav bar elements into 4 main components */
 
 const Icon = ({ source, onClick }) => { // 1-Unselected nav bar icon
   return (
@@ -59,7 +65,8 @@ const LogedUser = ({ source }) => { // 3-Authenticated user avatar
   );
 };
 
-const nav = () => { // 4-nav bar component
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selectedIcon, setSelectedIcon] = useState("home");
   return (
     // managing various states based on the selected icon variable name
@@ -116,4 +123,4 @@ const nav = () => { // 4-nav bar component
   );
 };
 
-export default nav;
+export default Nav;
