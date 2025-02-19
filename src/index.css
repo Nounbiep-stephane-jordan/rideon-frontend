@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
+*:focus{
+    outline: none;
+}
 
+ 
+ 
 
 :root {
   font-family: "Poppins", system-ui, Helvetica, Arial, sans-serif;
