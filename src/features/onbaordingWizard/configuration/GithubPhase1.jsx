@@ -7,7 +7,7 @@ import Littleplus from "../../../assets/little-plus.svg"
 import { useGlobalVariables } from "../../../context/global";
 
 const testvalues = {
-    token:"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",
+    token:"",
     repo:"rideon-frontend",
     owner:"Nounbiep-stephane-jordan"
 }
