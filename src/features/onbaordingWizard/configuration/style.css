@@ -1,0 +1,51 @@
+.github-place {
+     top: -23px;
+     right: 137px;
+     z-index: 999 !important; 
+}
+
+.input-config {
+     border: none;
+     padding:1px;
+     outline:none;
+     border-bottom: 2px solid #F5F5F5;
+}
+
+.input-config:focus {
+     border-bottom: 2px solid #D9D9D9;
+
+}
+
+
+.question-mark-place {
+     bottom: 10px;
+     right: 10px;
+     z-index: 999 !important;    
+}
+
+
+.blue-shadow-custom {
+  box-shadow: 0 2px 0px 1px #530DF6;
+ }
+
+ .custom-position {
+     bottom: 90px;
+     right: -50px;
+     display: none;
+ }
+
+
+ .question-mark-place:hover .custom-position{
+     display: block;
+ }
+
+
+
+
+
+.custom-position-add-form {
+     position:absolute;
+     top:79px;
+     z-index: 9999 !important;
+     background-color: whites;
+}
