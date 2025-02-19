@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /** Here is the implementation of the navigation bar component**/
-import { useState } from "react";
+
 import { motion } from "framer-motion";
 
 /* importing all necessary icons used in the nav bar*/
@@ -13,13 +13,8 @@ import fileVisualisationSelected from "../../assets/file_visualisation_Selected.
 import faq from "../../assets/faq.svg";
 import faqSelected from "../../assets/faq_selected.svg";
 import logedUser from "../../assets/loged_user.svg";
-import "./style.css"
-
-
-
-const Nav = () => { // 4-nav bar component
-
-  /* Seperated the nav bar elements into 4 main components */
+import { useNavigate } from "react-router-dom";
+import { useGlobalVariables } from "../../context/global";
 
 const Icon = ({ source, onClick }) => { // 1-Unselected nav bar icon
   return (
@@ -30,7 +25,7 @@ const Icon = ({ source, onClick }) => { // 1-Unselected nav bar icon
       whileHover={{ scale: 1.1 }}
     >
       <motion.img
-        className="size-7"
+        className="size-8"
         src={source}
         alt="icon"
         transition={{ duration: 0.2 }}
@@ -43,7 +38,7 @@ const IconSelected = ({ source, onClick }) => { // 2-selected nav bar icon
   return (
     // layout and animating transitions
     <motion.div
-      className="bg-white grid place-items-center w-7 ml-1 mr-3 relative top-[-10px] rounded-full cursor-pointer focus:outline-none"
+      className="bg-white grid place-items-center w-8 h-8 ml-1 mr-3 relative top-[-10px] rounded-full cursor-pointer focus:outline-none"
       onClick={onClick}
       layout
       initial={{ scale: 0.8 }}
@@ -60,18 +55,21 @@ const LogedUser = ({ source }) => { // 3-Authenticated user avatar
     <img
       src={source}
       alt="icon"
-      className=" size-6 outline-white outline-4 rounded-full"
+      className=" size-8 outline-white outline-4 rounded-full"
     />
   );
 };
 
+const Nav = () => { // 4-nav bar component
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [selectedIcon, setSelectedIcon] = useState("home");
+  const navigate = useNavigate()
+  /* Seperated the nav bar elements into 4 main components */
+
+ const {selectedIcon,setSelectedIcon} = useGlobalVariables()
   return (
     // managing various states based on the selected icon variable name
     <div
-      className="relative bg-[#530DF6] rounded-r-2xl flex justify-between  w-[230px] overflow-visible shadow-md focus:outline-none"
+      className="mt-5 relative bg-[#530DF6] rounded-r-2xl flex justify-between h-[35px] w-[230px] overflow-visible shadow-md focus:outline-none"
       tabIndex={-1}
     >
       <div className="flex flex-row justify-between ml-3 focus:outline-none">
@@ -81,7 +79,10 @@ const LogedUser = ({ source }) => { // 3-Authenticated user avatar
             onClick={() => setSelectedIcon("home")}
           />
         ) : (
-          <Icon source={home} onClick={() => setSelectedIcon("home")} />
+          <Icon source={home} onClick={() => {
+            setSelectedIcon("home")
+            navigate("/dashboard")
+          }} />
         )}
         {selectedIcon === "onboardingWizard" ? (
           <IconSelected

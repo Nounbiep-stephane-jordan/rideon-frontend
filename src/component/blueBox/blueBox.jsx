@@ -1,10 +1,10 @@
-import "./style.css"
+
 // eslint-disable-next-line react/prop-types
-const BlueBox = ({text}) => {
+const BlueBox = ({text,h=50,w=50}) => {
 
      return (
-          <div className="w-50 h-50 blue-bg shadow-lg p-5 rounded-sm">
-               <p className="text-white text-small text-left">{text}</p>
+          <div className={`blue-bg shadow-lg p-5 rounded-sm h-${h} w-${w}`}>
+               <p className="text-white text-[10px] text-left">{text}</p>
           </div>
      )
 }

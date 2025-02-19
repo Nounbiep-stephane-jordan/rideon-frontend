@@ -1,29 +1,74 @@
+/* eslint-disable react/prop-types */
 
+import { useState } from "react";
 import "./style.css"
-const AddMember = () => {
+import { frameData } from "framer-motion";
+import { MAXMEMBERS } from "../../../utils/constants";
+const AddMember = ({formdata,members,setMembers,setFormData,setShouldShow,setMembersLengthError}) => {
+     const [acessLevel,setAcessLevel] = useState("")
+
+     const handleSave  = () => {
+     if(members.length>MAXMEMBERS) {
+          setFormData({
+               username:"",
+               email:"",
+               access:"",
+               password:""
+          })
+          setMembersLengthError(true)
+     } else {
+          setMembers([...members,{...formdata}])
+          setShouldShow(false)
+     }
+
+     }
+
+     const cancelSave = () => {
+          setFormData({
+               username:"",
+               email:"",
+               access:"",
+               password:""
+          })
+          setShouldShow(false)
+          setMembersLengthError(null)
+
+     }
+
      return (
           <div className="h-90 w-80 shadow p-5">
           <div className="flex flex-col items-start place-items-start  ">
-               <div className="flex flex-col items-start mb-5"> 
+               <div className="flex flex-col items-start mb-2"> 
                     <span className="">User Name </span>
-                    <input className="input-config w-70" type="text" />
+                    <input className="input-config w-70" type="text"   onChange={(e) => setFormData({...frameData,username:e.target.value})} />
                </div>
-               <div className="flex flex-col items-start mb-5"> 
+               <div className="flex flex-col items-start mb-2"> 
                     <span>Email</span>
-                    <input className="input-config w-70" type="text" />
+                    <input className="input-config w-70" type="text"  onChange={(e) => setFormData({...frameData,email:e.target.value})} />
                </div>
-               <div className="flex flex-col items-start mb-5"> 
+               <div className="flex flex-col items-start mb-2"> 
                     <span>Acess level</span>
                     <div className="flex flex-initial flex-row items-center justify-between mt-2">
-                         <button className="w-30 p-2 blue-bg text-white mr-5 cursor-pointer">Manager</button>
-                         <button className="w-30 p-2 gray-bg  text-white cursor-pointer">User</button>
+                         <button className={`${acessLevel=="m"?"blue-bg":"gray-bg"} w-30 p-2 text-white mr-5 cursor-pointer`} onClick={() =>{
+                              setFormData({...frameData,access:"m"})
+                              setAcessLevel("m")
+                              }}>Manager</button>
+                         <button className={`${acessLevel=="u"?"blue-bg":"gray-bg"} w-30 p-2 text-white cursor-pointer`} onClick={() =>{
+                              setFormData({...frameData,access:"u"})
+                              setAcessLevel("u")
+                         }}>User</button>
                     </div>
                </div>
 
-               <div className="flex flex-col items-start mb-5"> 
+               <div className="flex flex-col items-start mb-2"> 
                     <span>Password</span>
-                    <input className="input-config w-70 shadow" type="text" />
+                    <input className="input-config w-70 shadow" type="text" onChange={(e) => setFormData({...formdata,password:e.target.value})}/>
                </div>
+          </div>
+
+          <div className="flex flex-row justify-between items-center">
+          <button className="cursor-pointer p-[10px] m-2 bg-[#530DF6] text-sm text-white" onClick={()=> handleSave()} >Save</button>
+          <button className="cursor-pointer p-[10px] m-2 bg-[#FA1818] text-sm text-white" onClick={()=> cancelSave()} >Cancel</button>
           </div>
           </div>
      )
