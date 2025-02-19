@@ -64,7 +64,7 @@ const nav = () => { // 4-nav bar component
   return (
     // managing various states based on the selected icon variable name
     <div
-      className="relative bg-[#530DF6] rounded-r-2xl flex justify-between  w-[230px] overflow-visible shadow-md focus:outline-none"
+      className=" fixed left-0 bg-[#530DF6] rounded-r-[5px] flex justify-between  w-full max-w-[230px] h-full max-h-[30px]  shadow-md "
       tabIndex={-1}
     >
       <div className="flex flex-row justify-between ml-3 focus:outline-none">
@@ -114,6 +114,6 @@ const nav = () => { // 4-nav bar component
       </div>
     </div>
   );
-};
+}
 
 export default nav;

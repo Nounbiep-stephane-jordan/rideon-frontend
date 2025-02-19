@@ -1,14 +1,19 @@
+import "./App.css";
+// import Nav  from './components/nav'
+// import RideonButton from './components/RideonButton'
+//import AdminNewDashboardCard from "./components/adminNewDashboardCard";
 
+import DashboardAdminNewView from "./screen/dashboardAdminNewView";
 
-import './App.css'
-import Nav  from './components/nav'
 function App() {
-  
   return (
     <>
-    <Nav />
+      {/* <Nav /> */}
+      {/* <RideonButton/> */}
+      {/* <AdminNewDashboardCard /> */}
+      <DashboardAdminNewView/>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
