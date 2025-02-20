@@ -10,12 +10,12 @@ const [isClicked,setIsclicked] = useState(false)
 
 
   return <>
-      <div className="flex-col w-40">
+      <div className={`flex-col w-40 h-30`}>
         <div className="orange-shadow relative" onClick={() => {
           setIsclicked(false)
           handleCardClick(p)
         }}>
-        <img className="" src="/card.jpg"alt="card-img"/>
+        <img className="cursor-pointer" src="/card.jpg" alt="card-img"/>
         {isFullySetup ? null :<img alt="exclamation" src={OrangeExclamation} className="w-7 absolute top-[5px] right-[0px]"/>}
         </div>
       <div className="flex items-center place-content-start">
@@ -27,7 +27,7 @@ const [isClicked,setIsclicked] = useState(false)
 
 
       {isClicked === true && isSelected === true ? 
-      <div className={`z-[99999] top-[1px] left-[120px] absolute w-[150px] h-[100px] blue-bg blue-shadow p-[10px] rounded-sm`}>
+      <div className={`z-[99999] top-[1px] left-[100px] absolute w-[150px] h-[100px] blue-bg blue-shadow p-[10px] rounded-sm`}>
                     {options.map((val) => (
                          <p key={val} className="text-white text-[10px] text-left mb-[2px] cursor-pointer hover:text-[15px] transition duration-300">{val}</p>
                     ))}

@@ -7,6 +7,7 @@ import {motion} from "framer-motion"
 import { useNavigate } from "react-router-dom";
 import { useGlobalVariables } from "../context/global";
 import API from "../api/api";
+import {PROJECT_LIMIT} from "../utils/constants"
 
 const MainDashboard = () => {
      const [projectsList,setProjectList] = useState([{id:1,name:"dec"},
@@ -41,18 +42,25 @@ const MainDashboard = () => {
           setSelectedIcon("home")
      },[])
 
-    const PROJECT_LIMIT = 10
+ 
     const [offset,setOffSet] = useState(0)
+    const fetchData = async() => {
+     let user = JSON.parse(localStorage.getItem("user"))
+     await API.post(`/user-projects`,{user,offset,limit:PROJECT_LIMIT}).then((res) => {
+          let newdata = res.data?.projects
+          if(res.data?.projects.length>0)setProjectList([...projectsList,...newdata])
+          setOffSet(offset+res.data?.projects.length)
+     console.log(offset,projectsList,"lets see",res.data?.projects)
+     }).catch(err => {
+          console.log(err,err?.status)
+
+
+         
+     })
+    }
 
      useEffect(()=> {
-          let user = JSON.parse(localStorage.getItem("user"))
-          API.post(`/user-projects`,{user,offset,limit:PROJECT_LIMIT}).then((res) => {
-               setProjectList(res.data?.projects)
-               setOffSet(offset+res.data?.projects.length)
-
-          }).catch(err => {
-               console.log(err)
-          })
+          fetchData()
 
      },[])
       
@@ -62,30 +70,30 @@ const MainDashboard = () => {
                <div className="flex flex-row justify-between mb-5">
                
                <div className="flex flex-col">
-               <div className="flex flex-row justify-between mr-5 p-2 w-[500px] h-[150px] custom-scroll-x realative">
+               <div className="flex flex-row justify-between mr-5 p-2 w-[500px] h-[180px] custom-scroll-x realative">
                <div className="absolute inset-0 pointer-events-none border-4 border-transparent bg-gradient-to-b-from-transparent to-white"></div>
                
              
                {projectsList.map((project) => (
-                    <>
+     
                     <motion.div key={project.id} className="mr-5" 
                     initial={{opacity:0.8}}
                     animate={{
                          opacity:focusedIndex === null || focusedIndex === project.id ? 1: 0.4,
                          scale:focusedIndex ===project.id ? 1.1 : 1,
-                         y:focusedIndex===null?0:project.id===focusedIndex?-project.id*1:20,
+                         // y:focusedIndex===null?0:project.id===focusedIndex?-project.id*1:20,
                          
                         }}
 
                     transition={{type:"spring",stiffness:300,damping:20}}
                     
                     >
-                    <ProjectCard handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name} isFullySetup={false}/>
+                    <ProjectCard handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} isFullySetup={false}/>
                     </motion.div>
-                    </>
+                    
                ))}
             
-            
+            <img onClick={()=> fetchData()} className="w-50 cursor-pointer self-center" src="/icons-plus.png"/>
 
                
 

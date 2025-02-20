@@ -67,9 +67,9 @@ const InstallationGuideConfig = () => {
      const [textData,setTextData] = useState( installationGuidesConfigData.textData ||defaultText)
 
      const [prerequisites,setPrerequisites] = useState(installationGuidesConfigData.prerequisites || [{id:1,key:"",value:""}])
-     const [additionalLinks,setAdditionalLinks] = useState(installationGuidesConfigData.additionalLinks || [{id:"add1",key:"",value:""}])
+     const [additionalLinks,setAdditionalLinks] = useState(installationGuidesConfigData.additionalLinks || [{id:"add1",value:""}])
      const [activeOS,setActiveOS] = useState("windows")
-     const [installationGuides,setInstallationGuides] = useState(installationGuidesConfigData.installationGuides || {
+     const [installationGuidesOsText,setInstallationGuidesOsText] = useState(installationGuidesConfigData.installationGuidesOsText || {
       windows:"",
       ios:"",
       linux:""
@@ -85,10 +85,10 @@ const InstallationGuideConfig = () => {
 
         useEffect(()=> {
           setInstallationGuidesConfigData((prev)=>({
-              ...prev,textData,prerequisites,credentials,installationGuides,additionalLinks
+              ...prev,textData,prerequisites,credentials,installationGuidesOsText,additionalLinks
           }))
            
-        },[textData,prerequisites,credentials,installationGuides,additionalLinks])
+        },[textData,prerequisites,credentials,installationGuidesOsText,additionalLinks])
 
 
 
@@ -114,7 +114,6 @@ const InstallationGuideConfig = () => {
           } else {
                setAdditionalLinks([...additionalLinks,{
                     id:`add${additionalLinks.length+1}`,
-                    key:"",
                     value:""
                }])
           }
@@ -270,7 +269,7 @@ const InstallationGuideConfig = () => {
                <div className="mt-5">
                <h1 className="text-left font-medium">Installation guides</h1>
                <div className="flex flex-row items-center justify-between">
-               {Object.keys(installationGuides).map((os) => (
+               {Object.keys(installationGuidesOsText).map((os) => (
                     <button
                       key={os}
                       className={`text-[15px] cursor-pointer ${
@@ -286,16 +285,16 @@ const InstallationGuideConfig = () => {
 
  
                 <textarea
-                  value={installationGuides[activeOS]}
-                  onChange={(e) => setInstallationGuides({
-                    ...installationGuides,
+                  value={installationGuidesOsText[activeOS]}
+                  onChange={(e) => setInstallationGuidesOsText({
+                    ...installationGuidesOsText,
                     [activeOS]: e.target.value
                   })}
                   placeholder={defaultTextOS[activeOS]}
 
                   onFocus={() => {
-                    if( installationGuides[activeOS] === defaultTextOS[activeOS]) {
-                         setInstallationGuides((prev)=>({
+                    if( installationGuidesOsText[activeOS] === defaultTextOS[activeOS]) {
+                      setInstallationGuidesOsText((prev)=>({
                               ...prev,[activeOS]:""
                          }))
                     }
@@ -303,8 +302,8 @@ const InstallationGuideConfig = () => {
                   }}
 
                   onBlur={() => {
-                    setInstallationGuides((prev)=>({
-                         ...prev,[activeOS]:installationGuides[activeOS].trim() === ""?defaultTextOS[activeOS]:prev[activeOS]
+                    setInstallationGuidesOsText((prev)=>({
+                         ...prev,[activeOS]:installationGuidesOsText[activeOS].trim() === ""?defaultTextOS[activeOS]:prev[activeOS]
                     }))
                   }}
                   className="p-1 rounded border text-[12px] mt-[5px] text-[#757575] bg-transparent focus:outline-none resize-none w-[250px]"
@@ -414,10 +413,10 @@ const InstallationGuideConfig = () => {
                       <input
                         className="text-sm mr-2 p-1 rounded border"
                         placeholder="Link"
-                        value={pair.key}
+                        value={pair.value}
                         onChange={(e) => {
                           const newPairs = [...additionalLinks];
-                          newPairs[index].key = e.target.value;
+                          newPairs[index].value = e.target.value;
                           setAdditionalLinks(newPairs);
                         }}
                       />

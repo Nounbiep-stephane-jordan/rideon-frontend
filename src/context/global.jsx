@@ -12,7 +12,7 @@ const defaultGuide  = {
           projectDescription:"Enter the project description in brief..."
      },
      prerequisites:[{id:1,key:"",value:""}],
-     additionalLinks:[{id:"add1",key:"",value:""}],
+     additionalLinks:[{id:"add1",value:""}],
      credentials:[{
           id:1,
           title:"",

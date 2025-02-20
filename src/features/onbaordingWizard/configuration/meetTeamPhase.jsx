@@ -62,7 +62,7 @@ const MeetTeamPhase = () => {
 
      const handleFocus = () => {
           if(text==defaultText) setText(() => '')
-           
+           setError(null)
      }
 
      return (
@@ -96,7 +96,7 @@ const MeetTeamPhase = () => {
                               <img className="w-[20px] items-center self-center" src="/person-orange.png" alt="person image"/>
                          </div>
 
-                        {shouldShow ? <div className="custom-position-add-form absolute"><AddMember setMembersLengthError={setMembersLengthError} formdata={formdata} members={members} setMembers={setMembers} setFormData={setFormData} setShouldShow={setShouldShow}/></div> : null}
+                        {shouldShow ? <div className="custom-position-add-form absolute"><AddMember setError={setError} setMembersLengthError={setMembersLengthError} formdata={formdata} members={members} setMembers={setMembers} setFormData={setFormData} setShouldShow={setShouldShow}/></div> : null}
                     </div>
                </div>
 
