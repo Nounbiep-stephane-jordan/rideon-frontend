@@ -1,4 +1,4 @@
-import {Line} from "rc-progress"
+// import {Line} from "rc-progress"
 import "./style.css"
 
 const ProgressTracker = () => {
