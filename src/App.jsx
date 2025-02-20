@@ -17,9 +17,19 @@ import MeetTeamPhase from "./features/onbaordingWizard/configuration/meetTeamPha
 function App() {
   return (
     <>
-      <Nav />
+
+
+    {/* <MeetTeamPhase/> */}
+    {/* <AddMember/> */}
+    {/* <GithubPhase1/> */}
+    {/* <WhiteContainer/> 
+    <ProjectCard/>
+    <Steps/>
+    <ProgressTracker/> */}
+
+      {/* <Nav /> */}
       <DashboardAdminNewView />
-      <MeetTeamPhase />
+      {/* <MeetTeamPhase /> */}
       {/* Uncomment the following components as needed */}
       {/* <AddMember /> */}
       {/* <GithubPhase1 /> */}

@@ -1,12 +1,9 @@
 
-
-import React from 'react'
-
-const wizardConfigCard = ({title,default,imagesource,iconSource}) => {
+const wizardConfigCard = ({title,default:def,imagesource,iconSource}) => {
   return (
     <div>
         <div>{title}</div>
-        <div><input placeholder={default}/></div>
+        <div><input placeholder={def}/></div>
         <div>
             <div><img src={imagesource} alt="image"/></div>
             <div><img src={iconSource} alt="icon"/></div>

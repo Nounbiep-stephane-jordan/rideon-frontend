@@ -1,19 +1,11 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
 *:focus{
     outline: none;
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-}
-
-
-
 :root {
-  font-family: "Poppins",Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Poppins", system-ui, Helvetica, Arial, sans-serif;
   line-height: 1.5;
  
 
@@ -42,9 +34,29 @@ body {
 }
 
 
+/* custom schrolls */
+
+.custom-scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.custom-scroll-x::-webkit-scrollbar{
+  height: 8px;
+}
+
+
+.custom-scroll-x::-webkit-scrollbar-thumb {
+  background-color:#D9D9D9;
+}
+
+.custom-scroll-x::-webkit-scrollbar-track{
+  background: white;
+}
+
+
+
+
 .custom-scrollbar{
-  width: 500px;
-  height: 200px;
   overflow-y: auto;
 }
 
@@ -56,9 +68,13 @@ body {
   background-color:#D9D9D9;
 }
 
+
 .custom-scrollbar::-webkit-scrollbar-track{
   background: white;
+  margin: 10px;
 }
+
+
 
 .blue-bg {
   background-color: #530DF6;
@@ -68,6 +84,22 @@ body {
   background-color:#D9D9D9;
 }
 
+.main-text{
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.second-text{
+  font-weight: 400;
+  font-size: 18px;
+}
+
+body{
+  overflow: hidden;
+  user-select: none;
+}
+
+
 
 
 
@@ -75,8 +107,7 @@ body {
   border: none;
   padding:1px;
   outline:none;
-  /* width: 500px; */
-  font-size: 25px;
+  font-size: 20px;
   font-weight:600;
   color:#757575;
 }
@@ -84,7 +115,7 @@ body {
 .heading-config:focus {
 border: none;
 outline: none;
-font-size: 28px;
+font-size: 25px;
 }
 
 
@@ -93,7 +124,6 @@ font-size: 28px;
   border: none;
   padding:1px;
   outline:none;
-  width: 100px;
   font-size: 15px;
   font-weight:400;
   color: #757575;
@@ -105,4 +135,5 @@ font-size: 28px;
 border: none;
 outline: none;
 font-size: 20px;
+border-bottom: 2px solid #757575;
 }
