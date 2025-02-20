@@ -24,6 +24,7 @@ const WizardCard = ({img,text,heading,numberOfSteps,subcards,stepsId,ids}) => {
      })
 
      useEffect(()=> {
+          
           setMeetTheTeamConfigData((prev)=>({
                ...prev,stepContents:{...prev.stepContents,[ids[activeWizardCardIndex]]:stepContents[ids[activeWizardCardIndex]]}
           }))

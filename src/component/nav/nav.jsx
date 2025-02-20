@@ -81,7 +81,7 @@ const Nav = () => { // 4-nav bar component
         ) : (
           <Icon source={home} onClick={() => {
             setSelectedIcon("home")
-            navigate("/dashboard")
+            navigate("/")
           }} />
         )}
         {selectedIcon === "onboardingWizard" ? (

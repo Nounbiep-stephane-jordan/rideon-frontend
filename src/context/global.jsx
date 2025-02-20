@@ -36,7 +36,7 @@ const defaultCod = {
 
  const defaultMeet = {
      members:[],
-     text:"Enter the wellcome message...",
+     text:"Enter the welcome message...",
      stepContents:{}
 
  }
@@ -53,9 +53,7 @@ const defaultCod = {
 
 export const GlobalProvider = ({children}) => {
      const [selectedIcon, setSelectedIcon] = useState("home"); //for nav bar
-     const [user,setUser] = useState({
-
-     })
+     const [user,setUser] = useState(null)
      const [coddingStandardsConfigData,setCoddingStandardsConfigData] = useState(defaultCod)
 
       const [meetTheTeamConfigData,setMeetTheTeamConfigData] = useState(defaultMeet)
@@ -78,26 +76,30 @@ export const GlobalProvider = ({children}) => {
 
       useEffect(()=>{
           //verify if alrady logggedin
-          const token = localStorage.getItem("token")
-          if(token){
-               setUser({...user,token})
+          const loggedin = getUser()
+          if(loggedin){
+               setUser(loggedin)
           }
       },[])
 
-      const logIn = (user) => {
-          localStorage.setItem("token",user.token)
-          setUser({...user})
+      const logIn = async(user) => {
+          localStorage.setItem("user",JSON.stringify(user))
+          setUser(user)
       }
 
-     const logOut = () => {
-          localStorage.removeItem("token")
-          setUser({...user,token:null})
+      const getUser = async() => {
+          return JSON.parse(localStorage.getItem("user"))
+      }
+
+     const logOut = async() => {
+          localStorage.removeItem("user")
+          setUser(null)
      }
 
 
      return (
           <GlobalVariablesContext.Provider value={{
-          user,setUser,logIn,logOut,
+          user,setUser,logIn,logOut,getUser,
           selectedIcon,setSelectedIcon,
           coddingStandardsConfigData,setCoddingStandardsConfigData,
           githubPhaseConfigData,setGithubPhaseConfigData,

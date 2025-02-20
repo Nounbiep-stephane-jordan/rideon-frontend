@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react"
 import MeetTeamPhase from "./configuration/meetTeamPhase"
@@ -6,11 +7,13 @@ import InstallationGuideConfig from "./configuration/installationGuide"
 import CoddingStandardsConfig from "./configuration/coddingStandards"
 import FileVisualizationConfig from "./configuration/fileVisualizationConfig"
 import {AnimatePresence,motion} from "framer-motion"
+import { useGlobalVariables } from "../../context/global"
 
 const OnboardingWizardConfig = ({stage}) => {
       const [activeStep,setActiveStep] = useState(stage)
       const [direction,setDirection] = useState(1) // 1=forward -1 =backward
       const previousStep = useRef(stage)
+      const {setSelectedIcon} = useGlobalVariables()
 
       const steps = [
           {name:"Meet the Team",component:<MeetTeamPhase/>},
@@ -32,6 +35,10 @@ const OnboardingWizardConfig = ({stage}) => {
         previousStep.current = activeStep
        
       },[activeStep])
+
+      useEffect(()=>{
+        setSelectedIcon("onboardingWizard")
+   },[])
 
      return (
           <div className="">

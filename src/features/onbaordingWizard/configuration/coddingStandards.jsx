@@ -134,12 +134,16 @@ const Step1 = ({standards,descriptions,setDescriptions,handleStandardChange}) =>
 
 const saveDataInBackend = (githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,coddingStandardsConfigData,handleCleanWizardConfig,gotToDashBoard) => {
     //save to backend
-             API.post('/store-wizard-config',{
-              phase3:githubPhaseConfigData,
-              phase1:meetTheTeamConfigData,
-              phase2:installationGuidesConfigData,
-              phase4:coddingStandardsConfigData
-          })
+    const projectData = {
+      title: installationGuidesConfigData.textData.projectName,
+      description: installationGuidesConfigData.textData.projectDescription,
+      installationGuide:installationGuidesConfigData,
+      codingStandards: coddingStandardsConfigData,
+      meetTheTeam: meetTheTeamConfigData,
+      githubWorkflow: githubPhaseConfigData
+    };
+    let user = JSON.parse(localStorage.getItem("user"))
+             API.post('/wizard-config-save',{userId:user.id,projectData})
           .then((res) =>{
             console.log(res,"good response")
             //only after sucessfully inserting you clean the wizard
@@ -237,7 +241,7 @@ return (
      </div>
 
      <button onClick={() => {
-     saveDataInBackend(githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,coddingStandardsConfigData,handleCleanWizardConfig,() => navigate("/dashboard"))
+     saveDataInBackend(githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,coddingStandardsConfigData,handleCleanWizardConfig,() => navigate("/"))
      }} className='blue-bg text-white 2xl p-[10px] cursor-pointer rounded-tr-lg rounded-br-lg'>Finish</button>
     </div>
   );

@@ -14,21 +14,24 @@ const LoginScreen = () => {
      const [email,setEmail] = useState("")
      const [password,setPassword] = useState("")
      const [error,setError] = useState(null)
-     const {setSelectedIcon,user,logIn} = useGlobalVariables()
+     const {setSelectedIcon,setUser,logIn} = useGlobalVariables()
      useEffect(()=>{
+
+
           //by default there should be no active icon here
           setSelectedIcon("")
         
-          if(user.token !== "") {
-               navigate("/dashboard")
-          }
+          
+
      },[])
 
      const submitData = () => {
           API.post('/login',{email,password}).then((res) => {
                console.log("resposne after login",res)
+               setSelectedIcon("home")
                logIn(res.data.user)
-               navigate("/dashboard")
+               setUser(res.data.user)
+               navigate("/")
           }).catch((err) => {
                console.log(err,"an erroroccured")
                

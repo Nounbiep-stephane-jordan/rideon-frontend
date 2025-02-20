@@ -66,7 +66,7 @@ const MeetTeamPhase = () => {
      }
 
      return (
-          <div className="meetTheTEam flex flex-auto items-start flex-col place-items-center p-[20px]">
+          <div className="flex flex-auto items-start flex-col place-items-center p-[20px]">
                {error ? <p className="text-red-700">{error}</p>: null}
                <motion.div 
               

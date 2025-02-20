@@ -33,7 +33,8 @@ const RegisterScreen = () => {
           API.post('/register',{enterprise:data}).then((res) => {
                console.log("resposne after register",res)
                logIn(res.data.user)
-               navigate("/dashboard")
+               setSelectedIcon("home")
+               navigate("/")
           }).catch((err) => {
                console.log(err.response.data.error,err.message,"an erroroccured")
                setError(err?.response?.data?.error || err?.message)
@@ -101,7 +102,7 @@ const RegisterScreen = () => {
                 
                </div>
                <img alt="button" className="w-10 self-center mt-5 mb-5 cursor-pointer" src={wizardbtn} onClick={() => submitData()}/>
-               <p className="text-sm cursor-pointer fixed bottom-10">Login instead <span className="underline" onClick={()=> navigate("/")}>GO</span></p>
+               <p className="text-sm cursor-pointer fixed bottom-10">Login instead <span className="underline" onClick={()=> navigate("/login")}>GO</span></p>
                </div>
 
                <img alt="ilustration-register" className="w-80 self-start fixed" src="./illustration-register.jpg" />

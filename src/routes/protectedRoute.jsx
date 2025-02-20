@@ -1,8 +1,18 @@
-import {Navigate,Outlet} from "react-router-dom"
+import {Outlet,Navigate} from "react-router-dom"
+ 
 
 const ProtectedRoute = () => {
-     let token = localStorage.getItem('token')
-     return token ? <Outlet/> : <Navigate to="/login" />
+    let user = JSON.parse(localStorage.getItem("user"))
+    if(user&&user?.token) {
+    if(user?.is_new == "new") {
+     return <Navigate to="/new" />
+    } else {
+     return <Outlet/>
+    }
+    } else {
+     return <Navigate to="/login"/>
+    }
+    
 }
 
 export default ProtectedRoute
