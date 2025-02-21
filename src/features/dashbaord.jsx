@@ -10,12 +10,9 @@ import API from "../api/api";
 import {PROJECT_LIMIT} from "../utils/constants"
 
 const MainDashboard = () => {
-     const [projectsList,setProjectList] = useState([{id:1,name:"dec"},
-          {id:2,name:"dec"},
-          {id:3,name:"dec"},
-          {id:4,name:"dec"},
-          {id:5,name:"dec"},
-          {id:6,name:"dec"}])
+     const [projectsList,setProjectList] = useState([ 
+          {id:"p;",name:"dec"},
+          {id:"p;;",name:"dec"}])
 
      const [copied,setCopied] = useState(false)
      const [focusedIndex,setFocusedIndex] = useState(null)
@@ -88,13 +85,15 @@ const MainDashboard = () => {
                     transition={{type:"spring",stiffness:300,damping:20}}
                     
                     >
-                    <ProjectCard handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} isFullySetup={false}/>
+                    <ProjectCard  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
                     </motion.div>
                     
                ))}
-            
-            <img onClick={()=> fetchData()} className="w-50 cursor-pointer self-center" src="/icons-plus.png"/>
 
+               <div className='w-50 self-center'>
+               <img onClick={()=> fetchData()} className=" cursor-pointer self-center" src="/icons-plus.png"/>
+
+               </div>
                
 
                </div>

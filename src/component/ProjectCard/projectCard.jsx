@@ -3,7 +3,7 @@
 import OrangeExclamation from "../../assets/orange-exclamation.png"
 import { useState } from "react"
 
-const ProjectCard = ({name,isSelected,handleCardClick,p,isFullySetup}) => {
+const ProjectCard = ({name,isSelected,handleCardClick,p,is_fully_configured}) => {
 
 const options = ["Start wizard","Edit wizard","File visual..","Faq","Delete"]
 const [isClicked,setIsclicked] = useState(false)
@@ -16,7 +16,7 @@ const [isClicked,setIsclicked] = useState(false)
           handleCardClick(p)
         }}>
         <img className="cursor-pointer" src="/card.jpg" alt="card-img"/>
-        {isFullySetup ? null :<img alt="exclamation" src={OrangeExclamation} className="w-7 absolute top-[5px] right-[0px]"/>}
+        {is_fully_configured ? null :<img alt="exclamation" src={OrangeExclamation} className="w-7 absolute top-[5px] right-[0px]"/>}
         </div>
       <div className="flex items-center place-content-start">
         <p className="">{name}</p>

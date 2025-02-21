@@ -1,6 +1,4 @@
 
-import "./style.css"
-
 import {Line} from "rc-progress"
 
 
