@@ -85,7 +85,7 @@ const MainDashboard = () => {
                     transition={{type:"spring",stiffness:300,damping:20}}
                     
                     >
-                    <ProjectCard  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
+                    <ProjectCard project_id={project.id}  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
                     </motion.div>
                     
                ))}

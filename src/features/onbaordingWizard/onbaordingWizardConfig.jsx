@@ -1,26 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react"
-import MeetTeamPhase from "./configuration/meetTeamPhase"
+import MeetTeamPhaseConfig from "./configuration/meetTeamPhase"
 import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"
 import InstallationGuideConfig from "./configuration/installationGuide"
 import CoddingStandardsConfig from "./configuration/coddingStandards"
 import FileVisualizationConfig from "./configuration/fileVisualizationConfig"
 import {AnimatePresence,motion} from "framer-motion"
 import { useGlobalVariables } from "../../context/global"
+ 
 
 const OnboardingWizardConfig = ({stage}) => {
       const [activeStep,setActiveStep] = useState(stage)
       const [direction,setDirection] = useState(1) // 1=forward -1 =backward
       const previousStep = useRef(stage)
       const {setSelectedIcon} = useGlobalVariables()
-
-      const steps = [
-          {name:"Meet the Team",component:<MeetTeamPhase/>},
-          {name:"Installation guide",component:<InstallationGuideConfig/>},
-          {name:"File Visualization",component:<FileVisualizationConfig/>},
-          {name:"Codding Standards",component:<CoddingStandardsConfig/>},
-      ]
+    
+         let steps = [
+            {name:"Meet the Team",component:<MeetTeamPhaseConfig/>},
+            {name:"Installation guide",component:<InstallationGuideConfig/>},
+            {name:"File Visualization",component:<FileVisualizationConfig/>},
+            {name:"Codding Standards",component:<CoddingStandardsConfig/>},
+        ]
+   
 
       const stepsId = [
           {index:"meet team",barIndex:"meat teambar1"},

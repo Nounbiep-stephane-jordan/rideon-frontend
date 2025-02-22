@@ -9,7 +9,7 @@ import { MaxLength, MAXMEMBERS } from "../../../utils/constants";
 import { useGlobalVariables } from "../../../context/global";
  
 
-const MeetTeamPhase = () => {
+const MeetTeamPhaseConfig = () => {
      const {meetTheTeamConfigData,setMeetTheTeamConfigData} = useGlobalVariables() // get the wizaad data if it had it
      const [shouldShow,setShouldShow] = useState(false)
      const defaultText = "Enter the wellcome message..."
@@ -140,4 +140,4 @@ const MeetTeamPhase = () => {
      )
 }
 
-export default MeetTeamPhase;
+export default MeetTeamPhaseConfig;

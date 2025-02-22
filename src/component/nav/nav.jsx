@@ -69,7 +69,7 @@ const Nav = () => { // 4-nav bar component
   return (
     // managing various states based on the selected icon variable name
     <div
-      className="mt-5 relative bg-[#530DF6] rounded-r-2xl flex justify-between h-[35px] w-[230px] overflow-visible shadow-md focus:outline-none"
+      className="mt-5 relative bg-[#530DF6] rounded-r-sm flex justify-between h-[35px] w-[230px] overflow-visible shadow-md focus:outline-none"
       tabIndex={-1}
     >
       <div className="flex flex-row justify-between ml-3 focus:outline-none">
