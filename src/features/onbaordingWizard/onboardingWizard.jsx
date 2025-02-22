@@ -9,6 +9,7 @@ import FileVisualization from "./screens/fileVisualisation"
 import CoddingStandards from "./screens/coddingStandards"
 import InstallationGuide from "./screens/installationGuide"
 import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"
+import Congratulations from "./screens/congratulation"
 
 
 const OnboardingWizard = ({stage}) => {
@@ -22,6 +23,7 @@ const OnboardingWizard = ({stage}) => {
            {name:"Installation guide",component:<InstallationGuide/>},
            {name:"File Visualization",component:<FileVisualization/>},
            {name:"Codding Standards",component:<CoddingStandards/>},
+           {name:"Congratulations",component:<Congratulations/>},
        ]
   
 
@@ -30,6 +32,7 @@ const OnboardingWizard = ({stage}) => {
          {index:"file viz",barIndex:"file vizbar1"},
          {index:"instal guid",barIndex:"instal guidbar1"},
          {index:"cod stan",barIndex:"cod stanbar1"},
+         {index:"congrat",barIndex:"cod congrat1"},
      ]
 
      //update direction when steps changes
@@ -45,7 +48,7 @@ const OnboardingWizard = ({stage}) => {
 
     return (
          <div className="">
-           <AnimatePresence mode="wait" custom={direction}>
+           <AnimatePresence mode="wait" initial={false} custom={direction}>
            <motion.div
              key={activeStep}
              custom={direction}

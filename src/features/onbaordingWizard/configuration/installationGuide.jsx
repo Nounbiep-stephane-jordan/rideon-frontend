@@ -225,7 +225,7 @@ const InstallationGuideConfig = () => {
               
               <div className="flex flex-col justify-evenly items-start ">
               {prerequisites.map((pair, index) => (
-                 <>
+                 
                  <div key={pair.id} className="flex flex-row justify-between items-centers mt-[5px]">
                  <div  className="mt-[2px] flex flex-row justify-between items-centers">
                       <input
@@ -255,7 +255,7 @@ const InstallationGuideConfig = () => {
                 </div>
                  </div>
 
-                 </>
+                
                   ))}    
               </div>
             
@@ -407,7 +407,6 @@ const InstallationGuideConfig = () => {
               
               <div className="flex flex-col justify-evenly items-start ">
               {additionalLinks.map((pair, index) => (
-                 <>
                  <div key={pair.id} className="flex flex-row justify-between items-centers mt-[5px]">
                  <div  className="mt-[2px] flex flex-row justify-between items-centers">
                       <input
@@ -427,8 +426,6 @@ const InstallationGuideConfig = () => {
                     <img onClick={addAditionalLink} className="w-7" alt="plus" src="/icons-plus.png" />
                 </div>
                  </div>
-
-                 </>
                   ))}    
               </div>
             

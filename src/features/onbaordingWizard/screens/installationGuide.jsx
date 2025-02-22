@@ -159,12 +159,12 @@ const InstallationGuide = () => {
       linux:""
  })
      const [credentials,setCredentials] = useState([{
-      id:1,
+      id:"unique1",
       title:"",
       pairs:[{id:1,key:"",value:""}]
  }])
 
- const [prerequisites,setPrerequisites] = useState([{id:1,key:"",value:""}])
+ const [prerequisites,setPrerequisites] = useState([{id:"unique2",key:"",value:""}])
 
  const [copied,setCopied] = useState(false)
  const handleCopyClicked = async(value) => {
@@ -179,7 +179,7 @@ const InstallationGuide = () => {
 
 
      return (
-          <div className="flex flex-col justify-bewtween items-center p-[20px]">
+          <motion.div className="flex flex-col justify-bewtween items-center p-[20px]">
 
           <div className="flex flex-row items-center justify-center ml-20">
           <div className="flex-col flex">
@@ -321,7 +321,7 @@ const InstallationGuide = () => {
            
            <div className="flex flex-col justify-evenly items-start ">
            {additionalLinks.map((pair) => (
-              <>
+              
               <div key={pair.id} className="flex flex-row justify-between items-centers mt-[2px]">
               <div  className="mt-[2px] flex flex-row justify-between items-center">
                    <p className="text-sm mr-2 p-1">John</p>
@@ -333,7 +333,7 @@ const InstallationGuide = () => {
  
               </div>
 
-              </>
+          
                ))}    
            </div>
          
@@ -352,7 +352,7 @@ const InstallationGuide = () => {
                <div className="fixed w-90 bottom-10 z-[-5]">
                <img alt="img" src="/guide-center.svg"/>
                </div>
-          </div>
+          </motion.div>
      )
 }
 
