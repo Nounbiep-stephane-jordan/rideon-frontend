@@ -133,16 +133,22 @@ const Step1 = ({standards,descriptions,setDescriptions,handleStandardChange}) =>
 
 
 const saveDataInBackend = (githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,coddingStandardsConfigData,handleCleanWizardConfig,gotToDashBoard) => {
-    //save to backend
+  let user = JSON.parse(localStorage.getItem("user"))  
+  //save to backend
     const projectData = {
       title: installationGuidesConfigData.textData.projectName,
       description: installationGuidesConfigData.textData.projectDescription,
+      enterprise_id:user.enterprise_id,
+
+
+
       installationGuide:installationGuidesConfigData,
       codingStandards: coddingStandardsConfigData,
       meetTheTeam: meetTheTeamConfigData,
-      githubWorkflow: githubPhaseConfigData
+      githubWorkflow: githubPhaseConfigData,
+
     };
-    let user = JSON.parse(localStorage.getItem("user"))
+
              API.post('/wizard-config-save',{userId:user.id,projectData})
           .then((res) =>{
             console.log(res,"good response")

@@ -7,15 +7,15 @@ import {motion} from "framer-motion"
 import { useNavigate } from "react-router-dom";
 import { useGlobalVariables } from "../context/global";
 import API from "../api/api";
+import {PROJECT_LIMIT} from "../utils/constants"
 
 const MainDashboard = () => {
-     const [projectsList,setProjectList] = useState([{id:1,name:"dec"},
-          {id:2,name:"dec"},
-          {id:3,name:"dec"},
-          {id:4,name:"dec"},
-          {id:5,name:"dec"},
-          {id:6,name:"dec"}])
+     const [projectsList,setProjectList] = useState([ 
+          {id:"p;",name:"dec"},
+          {id:"p;;",name:"dec"}])
 
+     const [activeProject,setActiveProject] = useState({})
+     const [showDeleteModal,setShowDeleteModal] = useState(false)
      const [copied,setCopied] = useState(false)
      const [focusedIndex,setFocusedIndex] = useState(null)
      const navigate = useNavigate()
@@ -24,6 +24,15 @@ const MainDashboard = () => {
 
      const handleCardClick = (index) => {
           setFocusedIndex(index === focusedIndex ? null:index)
+     }
+
+     const deleteProject = async(project_id) => {
+          setShowDeleteModal(false)
+         await API.post("/delete-project",{project_id}).then((res) => {
+               console.log(res)
+          }).catch((err) => {
+               console.log(err)
+          })
      }
 
      const handleCopyClicked = async(value) => {
@@ -41,18 +50,25 @@ const MainDashboard = () => {
           setSelectedIcon("home")
      },[])
 
-    const PROJECT_LIMIT = 10
+ 
     const [offset,setOffSet] = useState(0)
+    const fetchData = async() => {
+     let user = JSON.parse(localStorage.getItem("user"))
+     await API.post(`/user-projects`,{user,offset,limit:PROJECT_LIMIT}).then((res) => {
+          let newdata = res.data?.projects
+          if(res.data?.projects.length>0)setProjectList([...projectsList,...newdata])
+          setOffSet(offset+res.data?.projects.length)
+     console.log(offset,projectsList,"lets see",res.data?.projects)
+     }).catch(err => {
+          console.log(err,err?.status)
+
+
+         
+     })
+    }
 
      useEffect(()=> {
-          let user = JSON.parse(localStorage.getItem("user"))
-          API.post(`/user-projects`,{user,offset,limit:PROJECT_LIMIT}).then((res) => {
-               setProjectList(res.data?.projects)
-               setOffSet(offset+res.data?.projects.length)
-
-          }).catch(err => {
-               console.log(err)
-          })
+          fetchData()
 
      },[])
       
@@ -62,29 +78,33 @@ const MainDashboard = () => {
                <div className="flex flex-row justify-between mb-5">
                
                <div className="flex flex-col">
-               <div className="flex flex-row justify-between mr-5 p-2 w-[500px] h-[150px] custom-scroll-x realative">
+               <div className="flex flex-row justify-between mr-5 p-2 w-[500px] h-[180px] custom-scroll-x realative">
                <div className="absolute inset-0 pointer-events-none border-4 border-transparent bg-gradient-to-b-from-transparent to-white"></div>
                
              
                {projectsList.map((project) => (
-                    <>
+     
                     <motion.div key={project.id} className="mr-5" 
                     initial={{opacity:0.8}}
                     animate={{
                          opacity:focusedIndex === null || focusedIndex === project.id ? 1: 0.4,
                          scale:focusedIndex ===project.id ? 1.1 : 1,
-                         y:focusedIndex===null?0:project.id===focusedIndex?-project.id*1:20,
+                         // y:focusedIndex===null?0:project.id===focusedIndex?-project.id*1:20,
                          
                         }}
 
                     transition={{type:"spring",stiffness:300,damping:20}}
                     
                     >
-                    <ProjectCard handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name} isFullySetup={false}/>
+                    <ProjectCard setActiveProject={() =>setActiveProject({...project})} project_id={project.id} setShowDeleteModal={setShowDeleteModal}  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
                     </motion.div>
-                    </>
+                    
                ))}
 
+               <div className='w-50 self-center'>
+               <img onClick={()=> fetchData()} className=" cursor-pointer self-center" src="/icons-plus.png"/>
+
+               </div>
                
 
                </div>
@@ -194,6 +214,36 @@ const MainDashboard = () => {
 
                </div>
               
+
+{/* delete modal */}
+{showDeleteModal ?     <div> 
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center"
+    >
+
+      <motion.div
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0.8 }}
+        className="bg-white rounded-sm p-6 w-full max-w-lg"
+      >
+        <div className="flex flex-col items-center justify-between">
+          <div className="self-center">
+          <img alt="dustbin" src="/delete-icon.svg"/>
+          </div>
+          <p className="w-1/2 m-auto text-center">Do you really want to delete <span className="text-[#530DF6] font-semibold uppercase">{activeProject.name}</span> ? this action is irriversible</p>
+           <div className="grid gap-5 grid-cols-2 items-center justify-between mt-5">
+               <button onClick={() => setShowDeleteModal(false)} className="cursor-pointer bg-[#FA1818] px-5 py-2 shadow text-white font-semibold">Cancel</button>
+               <button onClick={() => deleteProject(activeProject.id)} className="cursor-pointer bg-[#8EFF2C] px-5 py-2 shadow text-white font-semibold">Ok</button>
+           </div>
+        </div>
+
+      </motion.div>
+    </motion.div>
+</div>:null}
 
           </div>
      )

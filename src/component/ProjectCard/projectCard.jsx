@@ -1,22 +1,51 @@
 /* eslint-disable react/prop-types */
  
+import API from "../../api/api"
 import OrangeExclamation from "../../assets/orange-exclamation.png"
 import { useState } from "react"
+import {useNavigate} from "react-router-dom"
+import {useGlobalVariables} from "../../context/global"
+ 
 
-const ProjectCard = ({name,isSelected,handleCardClick,p,isFullySetup}) => {
 
-const options = ["Start wizard","Edit wizard","File visual..","Faq","Delete"]
+const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
+  const navigate = useNavigate()
+  const {setWizardData} = useGlobalVariables()
+ 
+  const startWiward = (project_id) => {
+    console.log(project_id,"in start wizard handler")
+    API.post("/start-wizard",{project_id}).then((res) => {
+      console.log(res.data)
+      setWizardData(res.data.wizardData)
+      navigate("/wizard")
+    }).catch(err => {
+      console.log(err,"in start wizard")
+    })
+  
+  }
+
+ 
+const options = [
+  {key:"Start wizard",handler:(project_id)=> startWiward(project_id)},
+  {key:"Edit wizard",handler:()=> {}},
+  {key:"File visual..",handler:()=> {}},
+  {key:"Faq",handler:()=> {}},
+  {key:"Delete",handler:()=> {
+    setShowDeleteModal(true) 
+    setActiveProject()
+  }},
+]
 const [isClicked,setIsclicked] = useState(false)
 
 
   return <>
-      <div className="flex-col w-40">
+      <div className={`flex-col w-40 h-30`}>
         <div className="orange-shadow relative" onClick={() => {
           setIsclicked(false)
           handleCardClick(p)
         }}>
-        <img className="" src="/card.jpg"alt="card-img"/>
-        {isFullySetup ? null :<img alt="exclamation" src={OrangeExclamation} className="w-7 absolute top-[5px] right-[0px]"/>}
+        <img className="cursor-pointer" src="/card.jpg" alt="card-img"/>
+        {is_fully_configured ? null :<img alt="exclamation" src={OrangeExclamation} className="w-7 absolute top-[5px] right-[0px]"/>}
         </div>
       <div className="flex items-center place-content-start">
         <p className="">{name}</p>
@@ -27,13 +56,13 @@ const [isClicked,setIsclicked] = useState(false)
 
 
       {isClicked === true && isSelected === true ? 
-      <div className={`z-[99999] top-[1px] left-[120px] absolute w-[150px] h-[100px] blue-bg blue-shadow p-[10px] rounded-sm`}>
+      <div className={`z-[99999] top-[1px] left-[100px] absolute w-[150px] h-[100px] blue-bg blue-shadow p-[10px] rounded-sm`}>
                     {options.map((val) => (
-                         <p key={val} className="text-white text-[10px] text-left mb-[2px] cursor-pointer hover:text-[15px] transition duration-300">{val}</p>
+                         <p key={val.key} onClick={()=> val.handler(project_id)} className="text-white text-[10px] text-left mb-[2px] cursor-pointer hover:text-[15px] transition duration-300">{val.key}</p>
                     ))}
       </div>
-      
      :null}
+     
     </div>
   </>
   

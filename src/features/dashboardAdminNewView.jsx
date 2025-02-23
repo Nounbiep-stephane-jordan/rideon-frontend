@@ -75,14 +75,19 @@ const handleCardClick = (clickedId) => {
 
   useEffect(()=> {
     //when user reaches here meaning hewas new. we need to tell teh backend now that he isnt new anymore for net time he is directed to the dashboard
-    let user = JSON.parse(localStorage.getItem("user"))
-    API.post("/user-status",{user}).then((res) => {
-      console.log(res,"in admin new dhasboard")
-      user.is_new = res.data.user.is_new
-      localStorage.setItem("user",JSON.stringify(user))
-    }).catch((err) => {
-      console.log(err,"aneeroro occured")
-    })
+    async function fetchData(){
+      let user = JSON.parse(localStorage.getItem("user"))
+      console.log("in here",user)
+      await API.post("/user-status",{user}).then((res) => {
+        console.log(res,"in admin new dhasboard")
+        user.is_new = res.data.user.is_new
+        localStorage.setItem("user",JSON.stringify(user))
+      }).catch((err) => {
+        console.log(err,"aneeroro occured")
+      })
+    }
+
+    fetchData()
 
   },[])
 

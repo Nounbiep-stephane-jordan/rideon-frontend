@@ -34,7 +34,7 @@ const RegisterScreen = () => {
                console.log("resposne after register",res)
                logIn(res.data.user)
                setSelectedIcon("home")
-               navigate("/")
+               navigate("/new")
           }).catch((err) => {
                console.log(err.response.data.error,err.message,"an erroroccured")
                setError(err?.response?.data?.error || err?.message)

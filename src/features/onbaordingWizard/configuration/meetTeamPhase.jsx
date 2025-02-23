@@ -9,7 +9,7 @@ import { MaxLength, MAXMEMBERS } from "../../../utils/constants";
 import { useGlobalVariables } from "../../../context/global";
  
 
-const MeetTeamPhase = () => {
+const MeetTeamPhaseConfig = () => {
      const {meetTheTeamConfigData,setMeetTheTeamConfigData} = useGlobalVariables() // get the wizaad data if it had it
      const [shouldShow,setShouldShow] = useState(false)
      const defaultText = "Enter the wellcome message..."
@@ -62,7 +62,7 @@ const MeetTeamPhase = () => {
 
      const handleFocus = () => {
           if(text==defaultText) setText(() => '')
-           
+           setError(null)
      }
 
      return (
@@ -96,7 +96,7 @@ const MeetTeamPhase = () => {
                               <img className="w-[20px] items-center self-center" src="/person-orange.png" alt="person image"/>
                          </div>
 
-                        {shouldShow ? <div className="custom-position-add-form absolute"><AddMember setMembersLengthError={setMembersLengthError} formdata={formdata} members={members} setMembers={setMembers} setFormData={setFormData} setShouldShow={setShouldShow}/></div> : null}
+                        {shouldShow ? <div className="custom-position-add-form absolute"><AddMember setError={setError} setMembersLengthError={setMembersLengthError} formdata={formdata} members={members} setMembers={setMembers} setFormData={setFormData} setShouldShow={setShouldShow}/></div> : null}
                     </div>
                </div>
 
@@ -140,4 +140,4 @@ const MeetTeamPhase = () => {
      )
 }
 
-export default MeetTeamPhase;
+export default MeetTeamPhaseConfig;

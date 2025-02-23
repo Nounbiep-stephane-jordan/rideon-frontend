@@ -12,7 +12,7 @@ const defaultGuide  = {
           projectDescription:"Enter the project description in brief..."
      },
      prerequisites:[{id:1,key:"",value:""}],
-     additionalLinks:[{id:"add1",key:"",value:""}],
+     additionalLinks:[{id:"add1",value:""}],
      credentials:[{
           id:1,
           title:"",
@@ -54,6 +54,7 @@ const defaultCod = {
 export const GlobalProvider = ({children}) => {
      const [selectedIcon, setSelectedIcon] = useState("home"); //for nav bar
      const [user,setUser] = useState(null)
+
      const [coddingStandardsConfigData,setCoddingStandardsConfigData] = useState(defaultCod)
 
       const [meetTheTeamConfigData,setMeetTheTeamConfigData] = useState(defaultMeet)
@@ -61,6 +62,19 @@ export const GlobalProvider = ({children}) => {
       const [githubPhaseConfigData,setGithubPhaseConfigData] = useState(defaultGit)
 
      const [installationGuidesConfigData,setInstallationGuidesConfigData] = useState(defaultGuide)
+
+
+     //actaul wizard data
+     const [wizardData,setWizardData] = useState({
+          coddingStandardsData:defaultCod,
+          meetTheTeamData:defaultMeet,
+          githubPhaseData:defaultGit,
+          installationGuidesData:defaultGuide
+     })
+ 
+
+ 
+ 
 
 
       const handleCleanWizardConfig = () => {
@@ -105,7 +119,13 @@ export const GlobalProvider = ({children}) => {
           githubPhaseConfigData,setGithubPhaseConfigData,
           meetTheTeamConfigData,setMeetTheTeamConfigData,
           installationGuidesConfigData,setInstallationGuidesConfigData,
-          handleCleanWizardConfig
+          handleCleanWizardConfig,
+
+          //actaul data
+          wizardData,setWizardData
+
+
+
           }}> 
                {children}
           </GlobalVariablesContext.Provider>

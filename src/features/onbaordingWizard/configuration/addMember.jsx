@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import "./style.css"
-import { frameData } from "framer-motion";
 import { MAXMEMBERS } from "../../../utils/constants";
-const AddMember = ({formdata,members,setMembers,setFormData,setShouldShow,setMembersLengthError}) => {
+const AddMember = ({formdata,setError,members,setMembers,setFormData,setShouldShow,setMembersLengthError}) => {
      const [acessLevel,setAcessLevel] = useState("")
 
      const handleSave  = () => {
-     if(members.length>MAXMEMBERS) {
+          console.log(formdata)
+     if(formdata.username == "" || formdata.email == "" ||formdata.access ==="" || formdata.password === "") {
+          setError("Please fill in the form")
+          setTimeout(()=>setError(null),3000)
+          return
+     } else if(members.length>MAXMEMBERS) {
           setFormData({
                username:"",
                email:"",
@@ -19,6 +23,13 @@ const AddMember = ({formdata,members,setMembers,setFormData,setShouldShow,setMem
      } else {
           setMembers([...members,{...formdata}])
           setShouldShow(false)
+          //clean after we finish adding
+          setFormData({
+               username:"",
+               email:"",
+               access:"",
+               password:""
+          })
      }
 
      }
@@ -40,21 +51,21 @@ const AddMember = ({formdata,members,setMembers,setFormData,setShouldShow,setMem
           <div className="flex flex-col items-start place-items-start  ">
                <div className="flex flex-col items-start mb-2"> 
                     <span className="">User Name </span>
-                    <input className="input-config w-70" type="text"   onChange={(e) => setFormData({...frameData,username:e.target.value})} />
+                    <input value={formdata.username} className="input-config w-70" type="text"   onChange={(e) => setFormData({...formdata,username:e.target.value})} />
                </div>
                <div className="flex flex-col items-start mb-2"> 
                     <span>Email</span>
-                    <input className="input-config w-70" type="text"  onChange={(e) => setFormData({...frameData,email:e.target.value})} />
+                    <input value={formdata.email} className="input-config w-70" type="text"  onChange={(e) => setFormData({...formdata,email:e.target.value})} />
                </div>
                <div className="flex flex-col items-start mb-2"> 
                     <span>Acess level</span>
                     <div className="flex flex-initial flex-row items-center justify-between mt-2">
                          <button className={`${acessLevel=="m"?"blue-bg":"gray-bg"} w-30 p-2 text-white mr-5 cursor-pointer`} onClick={() =>{
-                              setFormData({...frameData,access:"m"})
+                              setFormData({...formdata,access:"m"})
                               setAcessLevel("m")
                               }}>Manager</button>
                          <button className={`${acessLevel=="u"?"blue-bg":"gray-bg"} w-30 p-2 text-white cursor-pointer`} onClick={() =>{
-                              setFormData({...frameData,access:"u"})
+                              setFormData({...formdata,access:"u"})
                               setAcessLevel("u")
                          }}>User</button>
                     </div>
@@ -62,7 +73,7 @@ const AddMember = ({formdata,members,setMembers,setFormData,setShouldShow,setMem
 
                <div className="flex flex-col items-start mb-2"> 
                     <span>Password</span>
-                    <input className="input-config w-70 shadow" type="text" onChange={(e) => setFormData({...formdata,password:e.target.value})}/>
+                    <input value={formdata.password} className="input-config w-70 shadow" type="text" onChange={(e) => setFormData({...formdata,password:e.target.value})}/>
                </div>
           </div>
 
