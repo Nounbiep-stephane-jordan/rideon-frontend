@@ -8,8 +8,8 @@ const WelcomeMessage = "Welcome from the entire team, John";
 
 const onboardingPhase1 = () => {
   return (
-    <div className="flex flex-col justify-center min-h-screen  ">
-      <div className="relative -top-10 left-10">
+    <div className="grid grid-cols-1 justify-center align-center min-h-screen  ">
+      <div className="justify-self-start mt-[30px] ml-[40px]">
         <div>
           <p className="font-none mb-[10px]">{WelcomeMessage}</p>
         </div>
@@ -24,7 +24,7 @@ const onboardingPhase1 = () => {
       <div className="flex justify-center m-[50px]">
         <WizardPhase1Card />
       </div>
-      <div className="flex justify-center">
+      <div className="justify-self-center mt-18 ">
         <WizardButton />
       </div>
     </div>

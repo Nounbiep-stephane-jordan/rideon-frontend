@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import AdminNewDashboardCard from "../component/adminNewDashboardCard.jsx";
-
+import { motion } from "framer-motion";
 import cardillustration1 from "../assets/img/adminNewDashboardIllustration1.svg";
 import cardillustration2 from "../assets/img/adminNewDashboardIllustration2.svg";
 import cardillustration3 from "../assets/img/adminNewDashboardIllustration3.svg";
@@ -43,10 +43,11 @@ const CardBlock = ({
 }) => {
 
   return (
-    <div
+    <motion.div
       className={`transition-all duration-500 ease-in-out cursor-pointer 
         ${isSelected ? "scale-110 backdrop-blur-xs shadow-lg" : "scale-90 "}`}
       onClick={onClick}
+      whileHover={{scale: 1.1}}
     >
       <AdminNewDashboardCard
         imageSource={imageSource}
@@ -54,7 +55,7 @@ const CardBlock = ({
         description={description}
         route={route}
       />
-    </div>
+    </motion.div>
   );
 };
 
@@ -66,9 +67,9 @@ const handleCardClick = (clickedId) => {
 
     setCards((prevCards) => {
       if (prevCards[0].id === clickedId) {
-        return [prevCards[1], prevCards[0], prevCards[2]]; // Left -> Center, Center -> Right, Right -> Left
+        return [prevCards[2], prevCards[0], prevCards[1]]; // Left -> Center, Center -> Right, Right -> Left
       } else {
-        return [prevCards[0], prevCards[2], prevCards[1]]; // Right -> Center, Center -> Left, Left -> Right
+        return [prevCards[1], prevCards[2], prevCards[0]]; // Right -> Center, Center -> Left, Left -> Right
       }
     });              
   };
@@ -93,33 +94,52 @@ const handleCardClick = (clickedId) => {
 
   
   return (
-    <div className="flex flex-col p-10">
-      <div className="mt-[20px] relative flex justify-center items-center w-full h-[300px] space-x-6">
-        {cards.map((card, index) => {
-          const positionClass =
-            index === 0
-              ? "transform translate-x-1/4 scale-90 z-0"
-              : index === 1
-              ? "transform  translate-y-1 scale-110 z-10"
-              : "transform -translate-x-1/4 scale-90 z-0 ";
+    <div className="flex justify-center items-center h-screen relative">
+      {cards.map((card, index) => {
+        const variants = {
+          initial: {
+            opacity: 0,
+            scale: 0.5,
+          },
+          animate: {
+            opacity: 1,
+            scale: index === 1 ? 1.1 : 0.9,
+            x: index === 0 ? -300 : index === 2 ? 300 : 0,
+            y: index === 1 ? -40 : 0,
+            zIndex: index === 1 ? 10 : 0,
+            transition: {
+              type: "spring",
+              stiffness: 150,
+              damping: 25,
+            },
+          },
+          exit: {
+            opacity: 0,
+            scale: 0.5,
+            transition: { duration: 0.5 },
+          },
+        };
 
-          return (
-            <div
-              key={card.id}
-              className={`transition-all duration-500 ease-in-out ${positionClass}`}
-            >
-              <CardBlock
-                {...card}
-                onClick={() => handleCardClick(card.id)}
-                isSelected={index === 1}
-              />
-               
-            </div>
-          );
-        })}
-      </div>
+        return (
+          <motion.div
+            key={card.id}
+            className="absolute"
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={variants}
+          >
+            <CardBlock
+              {...card}
+              onClick={() => handleCardClick(card.id)}
+              isSelected={index === 1}
+            />
+          </motion.div>
+        );
+      })}
     </div>
   );
+
 };
 
 export default DashboardAdminNewView;

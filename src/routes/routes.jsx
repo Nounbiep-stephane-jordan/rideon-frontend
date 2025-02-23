@@ -7,17 +7,16 @@ import OnboardingWizardConfig from "../features/onbaordingWizard/onbaordingWizar
 import LoginScreen from "../features/loginScreen"
 import DashboardAdminNewView from "../features/dashboardAdminNewView"
 
-import OnboardingPhase1 from "../features/onbaordingWizard/onboardingSteps/onboardingPhase1/onboardingPhase1"
+//  import OnboardingPhase1 from "../features/onbaordingWizard/onboardingSteps/onboardingPhase1/onboardingPhase1"
 import OnboardingWizard from "../features/onbaordingWizard/onboardingWizard"
-
-
 const AppRoutes = () => {
 
      
      return (
           <Router>
                <Nav/>
-               <OnboardingPhase1/>
+                {/* <OnboardingPhase1/> */}
+                {/* <DashboardAdminNewView/> */}
                <Routes>
                     
                     <Route path="/login" element={<LoginScreen/>} />
