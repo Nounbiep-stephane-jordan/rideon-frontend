@@ -1,5 +1,5 @@
 
-import GithubPhase1 from "./githubPhase1"
+import GithubPhase1 from "./GithubPhase1"
 const FileVisualizationConfig = () => {
      return (
           <div className="p-[20px]">

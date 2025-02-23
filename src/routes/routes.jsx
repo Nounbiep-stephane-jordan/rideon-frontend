@@ -6,7 +6,7 @@ import MainDashboard from "../features/dashbaord"
 import OnboardingWizardConfig from "../features/onbaordingWizard/onbaordingWizardConfig"
 import LoginScreen from "../features/loginScreen"
 import DashboardAdminNewView from "../features/dashboardAdminNewView"
-
+import OnboardingPhase1 from "../features/onbaordingWizard/onboardingSteps/onboardingPhase1/onboardingPhase1"
 
 const AppRoutes = () => {
 
@@ -14,9 +14,9 @@ const AppRoutes = () => {
      return (
           <Router>
                <Nav/>
+               <OnboardingPhase1/>
                <Routes>
-              
-   
+                    
                     <Route path="/login" element={<LoginScreen/>} />
                     <Route path="/register" element={<RegisterScreen/>} />
                     <Route path="/new" element={<DashboardAdminNewView/>} />

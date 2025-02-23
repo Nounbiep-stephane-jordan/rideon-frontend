@@ -45,7 +45,7 @@ const CardBlock = ({
   return (
     <div
       className={`transition-all duration-500 ease-in-out cursor-pointer 
-        ${isSelected ? "scale-110 backdrop-blur-xs shadow-lg z-[999]" : "z-[10] scale-90 "}`}
+        ${isSelected ? "scale-110 backdrop-blur-xs shadow-lg" : "scale-90 "}`}
       onClick={onClick}
     >
       <AdminNewDashboardCard
@@ -61,7 +61,7 @@ const CardBlock = ({
 const DashboardAdminNewView = () => {
   const [cards, setCards] = useState(initialCards);
   
-  const handleCardClick = (clickedId) => {
+const handleCardClick = (clickedId) => {
     if (cards[1].id === clickedId) return; // Do nothing if center is clicked
 
     setCards((prevCards) => {

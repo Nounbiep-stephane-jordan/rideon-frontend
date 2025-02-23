@@ -75,7 +75,7 @@ export const GlobalProvider = ({children}) => {
       //for auth
 
       useEffect(()=>{
-          //verify if alrady logggedin
+          //verify if already logggedin
           const loggedin = getUser()
           if(loggedin){
                setUser(loggedin)
