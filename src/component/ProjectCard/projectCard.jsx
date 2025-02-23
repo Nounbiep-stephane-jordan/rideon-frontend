@@ -5,15 +5,13 @@ import OrangeExclamation from "../../assets/orange-exclamation.png"
 import { useState } from "react"
 import {useNavigate} from "react-router-dom"
 import {useGlobalVariables} from "../../context/global"
+ 
 
 
-
-
-const ProjectCard = ({name,isSelected,handleCardClick,p,is_fully_configured,project_id}) => {
+const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
   const navigate = useNavigate()
   const {setWizardData} = useGlobalVariables()
-
-
+ 
   const startWiward = (project_id) => {
     console.log(project_id,"in start wizard handler")
     API.post("/start-wizard",{project_id}).then((res) => {
@@ -26,12 +24,16 @@ const ProjectCard = ({name,isSelected,handleCardClick,p,is_fully_configured,proj
   
   }
 
+ 
 const options = [
   {key:"Start wizard",handler:(project_id)=> startWiward(project_id)},
   {key:"Edit wizard",handler:()=> {}},
   {key:"File visual..",handler:()=> {}},
   {key:"Faq",handler:()=> {}},
-  {key:"Delete",handler:()=> {}},
+  {key:"Delete",handler:()=> {
+    setShowDeleteModal(true) 
+    setActiveProject()
+  }},
 ]
 const [isClicked,setIsclicked] = useState(false)
 
@@ -59,8 +61,8 @@ const [isClicked,setIsclicked] = useState(false)
                          <p key={val.key} onClick={()=> val.handler(project_id)} className="text-white text-[10px] text-left mb-[2px] cursor-pointer hover:text-[15px] transition duration-300">{val.key}</p>
                     ))}
       </div>
-      
      :null}
+     
     </div>
   </>
   

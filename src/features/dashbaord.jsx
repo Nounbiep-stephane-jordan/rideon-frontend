@@ -14,6 +14,8 @@ const MainDashboard = () => {
           {id:"p;",name:"dec"},
           {id:"p;;",name:"dec"}])
 
+     const [activeProject,setActiveProject] = useState({})
+     const [showDeleteModal,setShowDeleteModal] = useState(false)
      const [copied,setCopied] = useState(false)
      const [focusedIndex,setFocusedIndex] = useState(null)
      const navigate = useNavigate()
@@ -22,6 +24,15 @@ const MainDashboard = () => {
 
      const handleCardClick = (index) => {
           setFocusedIndex(index === focusedIndex ? null:index)
+     }
+
+     const deleteProject = async(project_id) => {
+          setShowDeleteModal(false)
+         await API.post("/delete-project",{project_id}).then((res) => {
+               console.log(res)
+          }).catch((err) => {
+               console.log(err)
+          })
      }
 
      const handleCopyClicked = async(value) => {
@@ -85,7 +96,7 @@ const MainDashboard = () => {
                     transition={{type:"spring",stiffness:300,damping:20}}
                     
                     >
-                    <ProjectCard project_id={project.id}  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
+                    <ProjectCard setActiveProject={() =>setActiveProject({...project})} project_id={project.id} setShowDeleteModal={setShowDeleteModal}  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
                     </motion.div>
                     
                ))}
@@ -203,6 +214,36 @@ const MainDashboard = () => {
 
                </div>
               
+
+{/* delete modal */}
+{showDeleteModal ?     <div> 
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center"
+    >
+
+      <motion.div
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0.8 }}
+        className="bg-white rounded-sm p-6 w-full max-w-lg"
+      >
+        <div className="flex flex-col items-center justify-between">
+          <div className="self-center">
+          <img alt="dustbin" src="/delete-icon.svg"/>
+          </div>
+          <p className="w-1/2 m-auto text-center">Do you really want to delete <span className="text-[#530DF6] font-semibold uppercase">{activeProject.name}</span> ? this action is irriversible</p>
+           <div className="grid gap-5 grid-cols-2 items-center justify-between mt-5">
+               <button onClick={() => setShowDeleteModal(false)} className="cursor-pointer bg-[#FA1818] px-5 py-2 shadow text-white font-semibold">Cancel</button>
+               <button onClick={() => deleteProject(activeProject.id)} className="cursor-pointer bg-[#8EFF2C] px-5 py-2 shadow text-white font-semibold">Ok</button>
+           </div>
+        </div>
+
+      </motion.div>
+    </motion.div>
+</div>:null}
 
           </div>
      )

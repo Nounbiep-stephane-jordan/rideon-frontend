@@ -65,7 +65,6 @@ export const GlobalProvider = ({children}) => {
 
 
      //actaul wizard data
-
      const [wizardData,setWizardData] = useState({
           coddingStandardsData:defaultCod,
           meetTheTeamData:defaultMeet,
