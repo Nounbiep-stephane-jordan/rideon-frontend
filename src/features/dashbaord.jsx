@@ -8,15 +8,24 @@ import { useNavigate } from "react-router-dom";
 import { useGlobalVariables } from "../context/global";
 import API from "../api/api";
 import {PROJECT_LIMIT} from "../utils/constants"
+import CustomNotification from "../component/animmateNotification/animatedNotificaiton";
 
 const MainDashboard = () => {
      const [projectsList,setProjectList] = useState([ 
           {id:"p;",name:"dec"},
+          {id:"x;",name:"dec"},
+          {id:"xx;",name:"dec"},
+          {id:"xxx;",name:"dec"},
           {id:"p;;",name:"dec"}])
 
      const [activeProject,setActiveProject] = useState({})
      const [showDeleteModal,setShowDeleteModal] = useState(false)
-     const [copied,setCopied] = useState(false)
+
+
+     const [message,setMessage] = useState(false)
+     const [isVisible,setIsVisible]= useState(false)
+
+
      const [focusedIndex,setFocusedIndex] = useState(null)
      const navigate = useNavigate()
      const {setSelectedIcon} = useGlobalVariables()
@@ -30,6 +39,9 @@ const MainDashboard = () => {
           setShowDeleteModal(false)
          await API.post("/delete-project",{project_id}).then((res) => {
                console.log(res)
+               //eliminate hte deleted project from the list
+               let newList = projectsList.filter((p)=> p.id != project_id)
+               setProjectList(newList)
           }).catch((err) => {
                console.log(err)
           })
@@ -38,8 +50,9 @@ const MainDashboard = () => {
      const handleCopyClicked = async(value) => {
           try{
                await navigator.clipboard.writeText(value)
-               setCopied(true)
-               setTimeout(()=>setCopied(false),2000)
+               setMessage("Copied!")
+               setIsVisible(true)
+                
           }catch(err){
                console.log(err)
           }
@@ -74,13 +87,14 @@ const MainDashboard = () => {
       
      return (
           <div className="flex flex-col justify-between p-[20px]">
+               {isVisible && (               <CustomNotification message={message} isVisible={isVisible} setIsVisible={setIsVisible}/>
+               )}
                <h2 className="mb-2 flex flex-start place-items-start main-text">Projects</h2>
                <div className="flex flex-row justify-between mb-5">
                
                <div className="flex flex-col">
-               <div className="flex flex-row justify-between mr-5 p-2 w-[500px] h-[180px] custom-scroll-x realative">
-               <div className="absolute inset-0 pointer-events-none border-4 border-transparent bg-gradient-to-b-from-transparent to-white"></div>
-               
+               <div className="flex flex-initial justify-between mr-5 p-2 w-[500px] h-[180px] custom-scroll-x relative">
+          
              
                {projectsList.map((project) => (
      
@@ -101,8 +115,8 @@ const MainDashboard = () => {
                     
                ))}
 
-               <div className='w-50 self-center'>
-               <img onClick={()=> fetchData()} className=" cursor-pointer self-center" src="/icons-plus.png"/>
+               <div className='self-center w-40 m-auto'>
+               <img onClick={()=> fetchData()} className="cursor-pointer" src="/icons-plus.png"/>
 
                </div>
                
@@ -127,8 +141,7 @@ const MainDashboard = () => {
 
                <div className="">
                     <h2 className="text-left second-text">Project Credentials</h2>
-                    {copied&&<span className="text-green-500">Copied!</span>}
-                    <div className="relative orange-shadow p-4 flex flex-col w-[400px] h-[250px] custom-scrollbar box-border">
+                    <div className="orange-shadow p-4 flex flex-col w-[400px] h-[250px] custom-scrollbar box-border">
                     <div className="absolute inset-0 pointer-events-none border-4 border-transparent bg-gradient-to-b-from-transparent to-white"></div>
 
                     <div className="h-full px-4 pb-10 overflow-y-scroll custom-scrollbar">

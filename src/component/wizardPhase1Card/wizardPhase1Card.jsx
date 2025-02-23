@@ -57,7 +57,7 @@ const CardSelector = ({isClicked,onClick}) => {
  
   return (
     <div
-      className={` w-full max-w-[20px] h-full max-h-[20px] rounded-full text-center transition-all duration-500 ease-in-out 
+      className={` w-full max-w-[20px] h-full max-h-[20px] text-center transition-all duration-500 ease-in-out 
     ${isClicked ? "bg-[#FF8000]" : "bg-[#D9D9D9]"}`}
       onClick={onClick}
     >
@@ -79,7 +79,7 @@ const handleViewSelection = (view) => {
 const activeView = views.find((v) => v.view === selectedView) ;
   return (
     <div
-      className={`p-[4px] custom-wizard-config-shadow w-full max-w-[300px] h-full max-h-[325px] transition-all duration-500 ease-in-out  
+      className={`p-[4px] custom-wizard-config-shadow w-full max-w-[280px] outline-2 outline-[#FF8000] h-full max-h-[280px] transition-all duration-500 ease-in-out  
         ${isSelected ? "scale-110 bg-white" : " scale-90 "}`}
       onClick={onClick}
     >

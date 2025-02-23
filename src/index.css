@@ -56,6 +56,7 @@
 
 
 
+
 .custom-scrollbar{
   overflow-y: auto;
 }
@@ -72,6 +73,25 @@
 .custom-scrollbar::-webkit-scrollbar-track{
   background: white;
   margin: 10px;
+}
+
+
+.hide-schrollbar{
+  overflow-x: scroll;
+}
+
+.hide-schrollbar::-webkit-scrollbar{
+  height: 1px
+}
+
+.hide-schrollbar::-webkit-scrollbar-thumb {
+  background-color:white;
+}
+
+
+.hide-schrollbar::-webkit-scrollbar-track{
+  background: white;
+  margin: 2px;
 }
 
 

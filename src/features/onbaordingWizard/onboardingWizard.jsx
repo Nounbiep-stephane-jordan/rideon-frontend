@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from "react"
 import {AnimatePresence,motion} from "framer-motion"
 import { useGlobalVariables } from "../../context/global"
-import MeetTheTeam from "./screens/meetTheTeam"
+import MeetTheTeam from "./screens/onboardingPhase1"
 import FileVisualization from "./screens/fileVisualisation"
 import CoddingStandards from "./screens/coddingStandards"
 import InstallationGuide from "./screens/installationGuide"

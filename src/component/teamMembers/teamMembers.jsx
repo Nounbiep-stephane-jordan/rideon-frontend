@@ -15,7 +15,7 @@ const Member = () => {
 
 const TeamMembers = () => {
   return (
-    <div className="w-full max-w-[400px] overflow-x-auto flex space-x-3 py-2 custom-scrollbar">
+    <div className="w-full max-w-[400px] flex space-x-3 py-2 hide-schrollbar">
       {[...Array(MAXMEMBERS)].map((_, index) => (
         <Member key={index} />
       ))}
