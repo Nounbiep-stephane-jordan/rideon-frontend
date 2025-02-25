@@ -48,12 +48,12 @@ const LoginScreen = () => {
                <div className="flex flex-col jsutify-between items-center">
                 
                <div className="relative w-[300px] ">
-               <label className="text-xs">Name</label>
-               <input onFocus={() => setError(null)} value={email} onChange={(e) => setEmail(e.target.value)} type="text" name="n" className="p-2 bg-black/10 mb-5 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-sm" />
+               <label className="text-xs">Email</label>
+               <input onFocus={() => setError(null)} value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="n" className="p-2 bg-black/10 mb-5 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-sm" />
                </div>
 
                <div className="relative w-[300px]">
-               <label className="text-xs">Industry</label>
+               <label className="text-xs">Password</label>
                <input onFocus={() => setError(null)} value={password} onChange={(e) => setPassword(e.target.value)} type="text" name="n" className="p-2 bg-black/10 mb-5 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-sm" />
                </div>
                

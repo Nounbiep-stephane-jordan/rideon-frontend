@@ -9,18 +9,17 @@ const Steps = ({numberOfSteps,activeWizardCardIndex,setActiveWiwardCardIndex,ste
      return ( 
 
         
-           <div key={currrentContent.heading+currrentContent.text} className="flex flex-auto flex-row justify-evenly place-content-evenly items-center">
+           <div key={currrentContent.heading+currrentContent.text} className="flex flex-auto flex-row justify-center items-center">
                {steps.map((step,index) => (
-                    <div key={stepsId[index].index} className="flex flex-auto flex-row justify-evenly place-content-evenly items-center">
+                    <div key={stepsId[index].index} className="grid grid-cols-3 grid-rows-1 place-items-center justify-center items-center">
                     <div    onClick={()=> setActiveWiwardCardIndex(index)}
                          className={`${stepsId[index].index} w-5 h-5 cursor-pointer rounded-full transition duration-300 ${index===activeWizardCardIndex?'shadow-lg bg-[#ff8000]':'bg-[#D9D9D9]'}`}
                          ></div>
 
                     {index<steps.length-1 && (
-                         <div key={stepsId[index].barIndex} className={`${stepsId[index].barIndex} w-5 h-1 ml-2 mr-2 bg-[#D9D9D9]`}  ></div>
+                         <div key={stepsId[index].barIndex} className={`${stepsId[index].barIndex} w-5 h-1 ml-2 ml-10 bg-[#D9D9D9]`}  ></div>
                     )}
-                
-                    </div>
+                    </div>   
           ))}
             </div>
            

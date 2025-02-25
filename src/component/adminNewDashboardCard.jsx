@@ -24,7 +24,18 @@ const AdminNewDashboardCard = ({ imageSource, featureTitle, description,route })
           <p>{description}</p>
         </div>
         <div className="m-1">
-        <button onClick={() => navigate(route)} className="bg-[#530DF6] cursor-pointer rounded-l-full w-[108px] h-[40px] text-white font-semibold">
+        <button onClick={() => {
+          let user = JSON.parse(localStorage.getItem("user"))
+          if(user.role == "admin") {
+          //if your a new user and admin redirect to the configuration so you can start adding project
+          navigate(route)
+          } else {
+          // otherwise
+          // new user but not admin redirect to the configured wizard for which this credentials were created
+          
+          }
+
+        }} className="bg-[#530DF6] cursor-pointer rounded-l-full w-[108px] h-[40px] text-white font-semibold">
       <span className="text-transparent ">R</span>
       Ride on
     </button>

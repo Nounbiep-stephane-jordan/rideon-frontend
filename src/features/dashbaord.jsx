@@ -42,6 +42,8 @@ const MainDashboard = () => {
                //eliminate hte deleted project from the list
                let newList = projectsList.filter((p)=> p.id != project_id)
                setProjectList(newList)
+               setMessage(res.data.message)
+               setIsVisible(true)
           }).catch((err) => {
                console.log(err)
           })

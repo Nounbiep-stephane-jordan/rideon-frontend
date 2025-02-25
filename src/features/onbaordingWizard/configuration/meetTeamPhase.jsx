@@ -17,6 +17,7 @@ const MeetTeamPhaseConfig = () => {
      const [error,setError] = useState(null)
      const [memberLengthError,setMembersLengthError] = useState(null)
      const [members,setMembers] = useState(meetTheTeamConfigData.members||[])
+     const [isEditingMember,setIsEditingMember] = useState(false)
 
    useEffect(()=> {
      setMeetTheTeamConfigData((prev)=>({
@@ -51,7 +52,7 @@ const MeetTeamPhaseConfig = () => {
 
      const getText = (value) => {
           if(value.length>MaxLength) {
-              setError(`max length of words excited please reduced the letter count to ${MaxLength}`) 
+              setError(`max length of words exceeded please reduced the letter count to ${MaxLength}`) 
               setTimeout(()=> setError(null),3000)
           }  else setText(value)    
      }
@@ -87,7 +88,11 @@ const MeetTeamPhaseConfig = () => {
                     <div className="flex flex-auto flex-row justify-between mt-2 relative">
                          {members.map((m)=>(
                           
-                          <div key={m.username+m.email+m.password} className="mr-2 rounded-full gray-bg h-[50px] w-[50px] flex justify-center cursor-pointer items-center">
+                          <div onClick={()=>{
+                              setIsEditingMember(true)
+                              setShouldShow(!shouldShow)
+                              setFormData({...m})
+                          }} key={m.username+m.email+m.password} className="mr-2 rounded-full gray-bg h-[50px] w-[50px] flex justify-center cursor-pointer items-center">
                                <p className="font-medium uppercase text-center text-sm">{m?.username?.slice(0,1)}</p>
                           </div>
                      
@@ -96,7 +101,7 @@ const MeetTeamPhaseConfig = () => {
                               <img className="w-[20px] items-center self-center" src="/person-orange.png" alt="person image"/>
                          </div>
 
-                        {shouldShow ? <div className="custom-position-add-form absolute"><AddMember setError={setError} setMembersLengthError={setMembersLengthError} formdata={formdata} members={members} setMembers={setMembers} setFormData={setFormData} setShouldShow={setShouldShow}/></div> : null}
+                        {shouldShow ? <div className="custom-position-add-form absolute"><AddMember isEditingMember={isEditingMember} setIsEditingMember={setIsEditingMember} setError={setError} setMembersLengthError={setMembersLengthError} formdata={formdata} members={members} setMembers={setMembers} setFormData={setFormData} setShouldShow={setShouldShow}/></div> : null}
                     </div>
                </div>
 

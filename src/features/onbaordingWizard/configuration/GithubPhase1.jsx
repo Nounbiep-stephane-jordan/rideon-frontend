@@ -145,11 +145,11 @@ const GithubPhase1 = () => {
                         handleFileClick(file)
                       }}> {file.name}
                             {hoveredFile?.path === file.path && fileAnnotations[file.path]  &&(
-                            <div className="absolute w-80 left-1/2 z-50">
+                            <div className="fixed w-80 left-1/2 top-1/2 z-50">
                                 <div className="bg-black shadow-lg p-5 rounded-sm">
                                         <h1 className="text-2xl capitalize text-white text-[10px] text-left">{fileAnnotations[file?.path]?.notes}</h1>
                                         <div className="flex flex-row bg-gray mt-2">
-                                            {fileAnnotations[file?.path]?.colors.map(color =>(
+                                            {fileAnnotations[file?.path]?.colors?.map(color =>(
                                                 <div style={{backgroundColor:color}} key={color} className="w-4 h-4 rounded-full mr-2"></div>
                                             ))}
                                         </div>

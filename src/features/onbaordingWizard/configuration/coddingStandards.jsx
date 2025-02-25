@@ -138,7 +138,7 @@ const saveDataInBackend = (githubPhaseConfigData,meetTheTeamConfigData,installat
     const projectData = {
       title: installationGuidesConfigData.textData.projectName,
       description: installationGuidesConfigData.textData.projectDescription,
-      enterprise_id:user.enterprise_id,
+      enterprise_id:user.enterpriseId,
 
 
 
@@ -153,8 +153,8 @@ const saveDataInBackend = (githubPhaseConfigData,meetTheTeamConfigData,installat
           .then((res) =>{
             console.log(res,"good response")
             //only after sucessfully inserting you clean the wizard
-            handleCleanWizardConfig()
-            gotToDashBoard()
+            // handleCleanWizardConfig()
+            // gotToDashBoard()
 
           })
           .catch((err) => console.log(err,"in handle wizard clean config"))
@@ -202,7 +202,7 @@ const CoddingStandardsConfig = () => {
 }
 return (
     <div className="flex justify-center mt-5">
-     <div className="p-10 w-[800px] bg-white shadow-lg border-[2px] border-[#D9D9D9] rounded-tl-lg rounded-bl-lg">
+     <div className="p-10 w-2/3 bg-white shadow-lg border-[2px] border-[#D9D9D9] rounded-tl-lg rounded-bl-lg">
 
      <div className="relative h-70 overflow-x-scroll custom-scrollbar">
           {allSteps[active.value]}  
