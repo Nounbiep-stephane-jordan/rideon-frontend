@@ -10,7 +10,7 @@ import {MAX_CONTENT_LENGTH_FILE} from "../../../utils/constants"
  
 
 const testvalues = {
-    token:"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",
+    token:"",
     repo:"rideon-frontend",
     owner:"Nounbiep-stephane-jordan"
 }
