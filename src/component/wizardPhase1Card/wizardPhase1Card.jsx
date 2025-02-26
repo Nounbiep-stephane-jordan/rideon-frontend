@@ -58,7 +58,7 @@ const CardSelector = ({isClicked,onClick}) => {
  
   return (
     <div
-      className={` static self-center w-full max-w-[15px] h-full max-h-[15px] rounded-full text-center transition-all duration-200 ease-in-out 
+      className={`self-center w-full max-w-[15px] h-full max-h-[15px] rounded-full text-center transition-all duration-200 ease-in-out 
     ${isClicked ? "bg-[#FF8000]" : "bg-[#D9D9D9]"}`}
       onClick={onClick}
     >
@@ -80,17 +80,22 @@ const handleViewSelection = (view) => {
 const activeView = views.find((v) => v.view === selectedView) ;
   return (
     <motion.div
-      className={`grid gap-3 relative p-[20px] w-full max-w-[240px] h-full max-h-[240px] custom-wizard-config-shadow  
-        ${isSelected ? "scale-110 bg-white" : " blur-[2px] scale-90 "}`}
+      className={`grid gap-3 relative p-[20px] w-full max-w-[240px] rounded border-[2px] border-[#D9D9D9] h-full max-h-[240px]   
+        ${
+          isSelected
+            ? "scale-110 backdrop-blur-xs shadow-lg"
+            : " blur-[1px] scale-90 "
+        }`}
       onClick={onClick}
-      
     >
-      <CardContent
-        title={activeView.title}
-        description={activeView.description}
-        imageSource={activeView.imageSource}
-      />
-      <div className=" flex flex-auto flex-row justify-center items-center gap-2 transition-all duration-500 ease-in-out">
+      <div className="mb-[10px]">
+        <CardContent
+          title={activeView.title}
+          description={activeView.description}
+          imageSource={activeView.imageSource}
+        />
+      </div>
+      <div className="flex flex-auto flex-row justify-center items-center gap-2 transition-all duration-500 ease-in-out">
         {[...Array(viewsNo)].map((_, index) => (
           <>
             <CardSelector

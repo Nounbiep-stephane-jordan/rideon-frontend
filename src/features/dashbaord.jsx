@@ -13,6 +13,7 @@ const MainDashboard = () => {
      const [projectsList,setProjectList] = useState([ 
           {id:"p;",name:"dec"},
           {id:"p;;",name:"dec"}])
+     // const [credentials, setCredentials] = useState()
 
      const [activeProject,setActiveProject] = useState({})
      const [showDeleteModal,setShowDeleteModal] = useState(false)
@@ -46,31 +47,48 @@ const MainDashboard = () => {
      }
 
 
-     useEffect(()=>{
-          setSelectedIcon("home")
-     },[])
+
 
  
     const [offset,setOffSet] = useState(0)
     const fetchData = async() => {
      let user = JSON.parse(localStorage.getItem("user"))
-     await API.post(`/user-projects`,{user,offset,limit:PROJECT_LIMIT}).then((res) => {
-          let newdata = res.data?.projects
-          if(res.data?.projects.length>0)setProjectList([...projectsList,...newdata])
-          setOffSet(offset+res.data?.projects.length)
-     console.log(offset,projectsList,"lets see",res.data?.projects)
+     await API.post(`/user-projects`, { user, offset, limit: PROJECT_LIMIT })
+       .then((res) => {
+         let newdata = res.data?.projects;
+         if (res.data?.projects.length > 0)
+           setProjectList([...projectsList, ...newdata]);
+         setOffSet(offset + res.data?.projects.length);
+         console.log(offset, projectsList, "lets see", res.data?.projects);
+       }) .catch((err) => {
+         console.log(err, err?.status);
+       });
+}
+
+
+
+const fetchCredentials = async() => {
+     const {pid} = activeProject
+     await API.post(`/project-credentials`,{pid})
+     .then((res) => {
+          // let credentialsData = res.data?.projects
+          console.log("Cedentials in description",res.data?.projects)
+          console.log("Active project data", activeProject)
      }).catch(err => {
-          console.log(err,err?.status)
+console.log(err,err?.status)})
+}
 
-
-         
-     })
-    }
+     useEffect(() => {
+          setSelectedIcon("home");
+     }, []);
 
      useEffect(()=> {
           fetchData()
 
      },[])
+    useEffect(() => {
+     fetchCredentials();}, [activeProject])
+
       
      return (
           <div className="flex flex-col justify-between p-[20px]">
