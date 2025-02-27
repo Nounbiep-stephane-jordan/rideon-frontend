@@ -8,7 +8,7 @@ const AdminNewDashboardCard = ({ imageSource, featureTitle, description,route })
   const navigate = useNavigate()
  
   return (
-    <div className="w-full max-w-[552px] p-4 border border-[#D9D9D9] rounded-[10px] flex flex-col">
+    <div className="w-full max-w-[450px] h-full max-h-[400px] p-4 border border-[#D9D9D9] rounded-[10px] flex flex-col ">
       <div>
         <img
           src={imageSource}
