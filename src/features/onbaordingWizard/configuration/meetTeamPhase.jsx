@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import AddMember from "./addMember";
 import {motion} from "framer-motion"
-import "./style.css"
+import "../style.css"
 import WizardCard from "../../../component/wizardCard/wizardCard";
 import { MaxLength, MAXMEMBERS } from "../../../utils/constants";
 import { useGlobalVariables } from "../../../context/global";
@@ -18,7 +18,12 @@ const MeetTeamPhaseConfig = () => {
      const [text,setText] = useState(meetTheTeamConfigData.text|| defaultText)
      const [error,setError] = useState(null)
      const [memberLengthError,setMembersLengthError] = useState(null)
-     const [members,setMembers] = useState(meetTheTeamConfigData.members||[])
+     const [members,setMembers] = useState(meetTheTeamConfigData.members||[{
+          username:"",
+          email:"",
+          access:"",
+          password:""
+     }])
      const [isEditingMember,setIsEditingMember] = useState(false)
      const [editingIndex,setEditingIndex] = useState(-1)
 

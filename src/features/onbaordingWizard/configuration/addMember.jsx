@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import { useState } from "react";
-import "./style.css"
+import "../style.css"
 import { MAXMEMBERS } from "../../../utils/constants";
 
 

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import BlueBox from "../../../component/blueBox/blueBox";
-import "./style.css";
+import "../style.css"
 import { AnimatePresence,motion } from "framer-motion";
 import Littleplus from "../../../assets/little-plus.svg"
 import { useGlobalVariables } from "../../../context/global";

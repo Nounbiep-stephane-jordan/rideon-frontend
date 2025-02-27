@@ -84,7 +84,6 @@ const MainDashboard = () => {
 
      useEffect(()=> {
           fetchData()
-
      },[])
       
      return (

@@ -63,6 +63,8 @@ export const GlobalProvider = ({children}) => {
 
      const [installationGuidesConfigData,setInstallationGuidesConfigData] = useState(defaultGuide)
 
+     const [isEditingWizard,setIsEditingWizard] = useState(true)
+     const [editingWizardProjectId,setEditingWizardProjectId] = useState(null) //contains the id of hte project edited
 
      //actaul wizard data
      const [wizardData,setWizardData] = useState({
@@ -71,6 +73,8 @@ export const GlobalProvider = ({children}) => {
           githubPhaseData:defaultGit,
           installationGuidesData:defaultGuide
      })
+
+ 
  
 
  
@@ -122,7 +126,10 @@ export const GlobalProvider = ({children}) => {
           handleCleanWizardConfig,
 
           //actaul data
-          wizardData,setWizardData
+          wizardData,setWizardData,
+
+
+          isEditingWizard,setIsEditingWizard, editingWizardProjectId,setEditingWizardProjectId
 
 
 

@@ -57,7 +57,7 @@ const CardSelector = ({isClicked,onClick}) => {
  
   return (
     <div
-      className={` w-full max-w-[20px] h-full max-h-[20px] text-center transition-all duration-500 ease-in-out 
+      className={`rounded-full w-full max-w-[20px] h-full max-h-[20px] text-center transition-all duration-500 ease-in-out 
     ${isClicked ? "bg-[#FF8000]" : "bg-[#D9D9D9]"}`}
       onClick={onClick}
     >

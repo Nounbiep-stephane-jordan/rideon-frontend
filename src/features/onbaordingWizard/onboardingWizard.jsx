@@ -15,7 +15,7 @@ import WizardFallBackLoader from "../../component/fallback/wizardFallbackLoader"
 const FileVisualization = lazy(()=> import("./screens/fileVisualisation"))
 const CoddingStandards = lazy(()=> import("./screens/coddingStandards"))
 const InstallationGuide = lazy(()=> import("./screens/installationGuide"))
-const MeetTheTeam = lazy(()=> import("./screens/onboardingPhase1"))
+const MeetTheTeam = lazy(()=> import("./screens/meetTheTeam"))
 
 const OnboardingWizard = ({stage}) => {
      const [activeStep,setActiveStep] = useState(stage)

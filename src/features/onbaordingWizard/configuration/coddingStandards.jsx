@@ -132,7 +132,7 @@ const Step1 = ({standards,descriptions,setDescriptions,handleStandardChange}) =>
   }
 
 
-const saveDataInBackend = (githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,coddingStandardsConfigData,handleCleanWizardConfig,gotToDashBoard) => {
+const saveDataInBackend = (githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,coddingStandardsConfigData,handleCleanWizardConfig,gotToDashBoard,isEditingWizard,setIsEditingWizard,editingWizardProjectId) => {
   let user = JSON.parse(localStorage.getItem("user"))  
   //save to backend
     const projectData = {
@@ -149,19 +149,20 @@ const saveDataInBackend = (githubPhaseConfigData,meetTheTeamConfigData,installat
 
     };
 
-             API.post('/wizard-config-save',{userId:user.id,projectData})
+    let route = isEditingWizard ? "/wizard-save-edit" : "/wizard-config-save"
+             API.post(route,{userId:user.id,projectData,project_id:editingWizardProjectId})
           .then((res) =>{
             console.log(res,"good response")
             //only after sucessfully inserting you clean the wizard
             handleCleanWizardConfig()
             gotToDashBoard()
-
+            setIsEditingWizard(false)
           })
           .catch((err) => console.log(err,"in handle wizard clean config"))
 }
 
 const CoddingStandardsConfig = () => {
-  const {coddingStandardsConfigData,setCoddingStandardsConfigData,handleCleanWizardConfig,githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData} = useGlobalVariables()
+  const {coddingStandardsConfigData,setCoddingStandardsConfigData,handleCleanWizardConfig,githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,isEditingWizard,setIsEditingWizard,editingWizardProjectId} = useGlobalVariables()
   const navigate = useNavigate()
   const [active, setActive] = useState({
      value:"step1",
@@ -247,8 +248,8 @@ return (
      </div>
 
      <button onClick={() => {
-     saveDataInBackend(githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,coddingStandardsConfigData,handleCleanWizardConfig,() => navigate("/"))
-     }} className='blue-bg text-white 2xl p-[10px] cursor-pointer rounded-tr-lg rounded-br-lg'>Finish</button>
+     saveDataInBackend(githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,coddingStandardsConfigData,handleCleanWizardConfig,() => navigate("/"),isEditingWizard,setIsEditingWizard,editingWizardProjectId)
+     }} className='blue-bg text-white 2xl p-[10px] cursor-pointer rounded-tr-lg rounded-br-lg'>{isEditingWizard ? "Update":"Finish"}</button>
     </div>
   );
 };
