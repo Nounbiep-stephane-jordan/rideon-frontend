@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import {useState} from 'react'
+import { motion } from 'framer-motion';
 import CardContent from './cardContent.jsx'
 import "../wizardCard/style.css";
 
@@ -57,7 +58,7 @@ const CardSelector = ({isClicked,onClick}) => {
  
   return (
     <div
-      className={` w-full max-w-[20px] h-full max-h-[20px] text-center transition-all duration-500 ease-in-out 
+      className={`self-center w-full max-w-[15px] h-full max-h-[15px] rounded-full text-center transition-all duration-200 ease-in-out 
     ${isClicked ? "bg-[#FF8000]" : "bg-[#D9D9D9]"}`}
       onClick={onClick}
     >
@@ -78,17 +79,23 @@ const handleViewSelection = (view) => {
 
 const activeView = views.find((v) => v.view === selectedView) ;
   return (
-    <div
-      className={`p-[4px] custom-wizard-config-shadow w-full max-w-[280px] outline-2 outline-[#FF8000] h-full max-h-[280px] transition-all duration-500 ease-in-out  
-        ${isSelected ? "scale-110 bg-white" : " scale-90 "}`}
+    <motion.div
+      className={`grid gap-3 relative p-[20px] w-full max-w-[240px] rounded border-[2px] border-[#D9D9D9] h-full max-h-[240px]   
+        ${
+          isSelected
+            ? "scale-110 backdrop-blur-xs shadow-lg"
+            : " blur-[1px] scale-90 "
+        }`}
       onClick={onClick}
     >
-      <CardContent
-        title={activeView.title}
-        description={activeView.description}
-        imageSource={activeView.imageSource}
-      />
-      <div className="relative justify-center flex flex-row items-center gap-2">
+      <div className="mb-[10px]">
+        <CardContent
+          title={activeView.title}
+          description={activeView.description}
+          imageSource={activeView.imageSource}
+        />
+      </div>
+      <div className="flex flex-auto flex-row justify-center items-center gap-2 transition-all duration-500 ease-in-out">
         {[...Array(viewsNo)].map((_, index) => (
           <>
             <CardSelector
@@ -97,12 +104,12 @@ const activeView = views.find((v) => v.view === selectedView) ;
               onClick={() => handleViewSelection(views[index].view)}
             />
             {index < viewsNo - 1 && (
-              <div className="w-[20px] h-[2px] bg-[#D9D9D9]" />
+              <div className="w-[20px] h-[1px] bg-[#D9D9D9]" />
             )}
           </>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -118,28 +125,50 @@ const WizardPhase1Cards = () => {
       const clickedIndex = prevCards.findIndex((card) => card.id === clickedId);
 
       if (clickedIndex === 0) {
-        return [prevCards[1], prevCards[0], prevCards[2]];
+        return [prevCards[2], prevCards[0], prevCards[1]];
       } else if (clickedIndex === 2) {
-        return [prevCards[0], prevCards[2], prevCards[1]];
+        return [prevCards[1], prevCards[2], prevCards[0]];
       }
       return prevCards;
     });
   };
 
   return (
-    <div className="flex">
+    <div className="flex justify-center items-center  ">
       {cards.map((element, index) => {
-        const positionClass =
-          index === 0
-            ? "transform translate-x-1/4 scale-90 z-0"
-            : index === 1
-            ? "transform -translate-y-[20px] scale-110 z-10"
-            : "transform -translate-x-1/4 scale-90 z-0 ";
+        const variants = {
+          initial: {
+            opacity: 0,
+            scale: 0.5,
+            
+          },
+          animate: {
+            opacity: 1,
+            scale: index === 1 ? 1.1 : 0.9,
+            x: index === 0 ? -200 : index === 2 ? 200 : 0,
+            y: index === 1 ? -40: 0,
+            zIndex: index === 1 ? 10 : 0,
+            transition: {
+              type: "spring",
+              stiffness: 150,
+              damping: 25,
+            },
+          },
+          exit: {
+            opacity: 0,
+            scale: 0.5,
+            transition: { duration: 0.5 },
+          },
+        };
 
         return (
-          <div
+          <motion.div
             key={element.id}
-            className={`transition-all duration-500 ease-in-out ${positionClass}`}
+            className="absolute"
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            variants={variants}
           >
             <CardBlock
               id={element.id}
@@ -148,7 +177,7 @@ const WizardPhase1Cards = () => {
               onClick={() => handleCardSelection(element.id)}
               isSelected={index === 1}
             />
-          </div>
+          </motion.div>
         );
       })}
     </div>
