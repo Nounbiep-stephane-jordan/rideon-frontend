@@ -11,18 +11,23 @@ import { useGlobalVariables } from "../../../context/global";
 
 const MeetTeamPhaseConfig = () => {
      const {meetTheTeamConfigData,setMeetTheTeamConfigData} = useGlobalVariables() // get the wizaad data if it had it
+
+    
      const [shouldShow,setShouldShow] = useState(false)
      const defaultText = "Enter the wellcome message..."
-     const [text,setText] = useState(meetTheTeamConfigData.text || defaultText)
+     const [text,setText] = useState(meetTheTeamConfigData.text|| defaultText)
      const [error,setError] = useState(null)
      const [memberLengthError,setMembersLengthError] = useState(null)
      const [members,setMembers] = useState(meetTheTeamConfigData.members||[])
      const [isEditingMember,setIsEditingMember] = useState(false)
+     const [editingIndex,setEditingIndex] = useState(-1)
+
 
    useEffect(()=> {
      setMeetTheTeamConfigData((prev)=>({
          ...prev,text,members
      }))
+  
       
    },[text,members])
 
@@ -86,12 +91,13 @@ const MeetTeamPhaseConfig = () => {
                     <h1 className="self-start cursor-pointer">Add Team Members</h1>
                     {memberLengthError ? <p className="text-red-700">{`The number of members should not exceed a maximum of ${MAXMEMBERS}`}</p>:null}
                     <div className="flex flex-auto flex-row justify-between mt-2 relative">
-                         {members.map((m)=>(
+                         {members.map((m,index)=>(
                           
                           <div onClick={()=>{
                               setIsEditingMember(true)
                               setShouldShow(!shouldShow)
                               setFormData({...m})
+                              setEditingIndex(index)
                           }} key={m.username+m.email+m.password} className="mr-2 rounded-full gray-bg h-[50px] w-[50px] flex justify-center cursor-pointer items-center">
                                <p className="font-medium uppercase text-center text-sm">{m?.username?.slice(0,1)}</p>
                           </div>
@@ -101,7 +107,7 @@ const MeetTeamPhaseConfig = () => {
                               <img className="w-[20px] items-center self-center" src="/person-orange.png" alt="person image"/>
                          </div>
 
-                        {shouldShow ? <div className="custom-position-add-form absolute"><AddMember isEditingMember={isEditingMember} setIsEditingMember={setIsEditingMember} setError={setError} setMembersLengthError={setMembersLengthError} formdata={formdata} members={members} setMembers={setMembers} setFormData={setFormData} setShouldShow={setShouldShow}/></div> : null}
+                        {shouldShow ? <div className="custom-position-add-form absolute"><AddMember editingIndex={editingIndex} isEditingMember={isEditingMember} setIsEditingMember={setIsEditingMember} setError={setError} setMembersLengthError={setMembersLengthError} formdata={formdata} members={members} setMembers={setMembers} setFormData={setFormData} setShouldShow={setShouldShow}/></div> : null}
                     </div>
                </div>
 

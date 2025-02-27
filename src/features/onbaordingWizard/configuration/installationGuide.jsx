@@ -174,6 +174,9 @@ const InstallationGuideConfig = () => {
      
      return (
           <div className="p-[20px] flex flex-col justify-between">
+              {isOpen ? (
+                <StepModal key={"modal-pop-up"} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+               ) : null}
                {error && <p className="text-red-700">{error}</p>}
                <textarea
                value={textData.projectName}
@@ -314,13 +317,11 @@ const InstallationGuideConfig = () => {
                <img alt="plus image " className="w-5 cursor-pointer" src="/icons-plus.png"/>
                </div>
 
-               {isOpen ? (
-                <StepModal key={"modal-pop-up"} isOpen={isOpen} onClose={() => setIsOpen(false)} />
-               ) : null}
+
 
               </div>
 
-      <div className={`relative ${isOpen ? 'blur-sm left-1/2':'right-1/20'}`}>
+      <div className={`relative right-1/20 z-[5]`}>
             <motion.div
             className="absolute left-[20px]"
             variants={cardVariants}

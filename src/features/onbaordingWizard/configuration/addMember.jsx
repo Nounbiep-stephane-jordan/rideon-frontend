@@ -8,9 +8,8 @@ import { MAXMEMBERS } from "../../../utils/constants";
 
 
  
-
-
-const AddMember = ({isEditingMember,setIsEditingMember,formdata,setError,members,setMembers,setFormData,setShouldShow,setMembersLengthError}) => {
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const AddMember = ({editingIndex,isEditingMember,setIsEditingMember,formdata,setError,members,setMembers,setFormData,setShouldShow,setMembersLengthError}) => {
      const [acessLevel,setAcessLevel] = useState("")
 
      const handleSave  = () => {
@@ -19,39 +18,37 @@ const AddMember = ({isEditingMember,setIsEditingMember,formdata,setError,members
           setError("Please fill in the form")
           setTimeout(()=>setError(null),3000)
           return
-     } else if(members.length>MAXMEMBERS) {
-          setFormData({
-               username:"",
-               email:"",
-               access:"",
-               password:""
-          })
-          setMembersLengthError(true)
-     } else {
-          if(isEditingMember == false) {
-               setMembers([...members,{...formdata}])
-               setShouldShow(false)
-               //clean after we finish adding
-               setFormData({
-                    username:"",
-                    email:"",
-                    access:"",
-                    password:""
-               })
-          }  else {
+     } 
 
-               
-               setShouldShow(false)
-               //clean after we finish adding
-               setFormData({
-                    username:"",
-                    email:"",
-                    access:"",
-                    password:""
-               })
-               setIsEditingMember(false)
-          }
+     if(!emailRegex.test(formdata.email)){
+          setError("Please enter a valid email address")
+          setTimeout(()=>setError(null),3000)
+          return
      }
+     
+     if(isEditingMember) {
+          const updatedMembers = [...members]
+          updatedMembers[editingIndex] = formdata
+          setMembers(updatedMembers)
+     } else {
+          if(members.length>=MAXMEMBERS) {
+               setMembersLengthError(true)
+               return
+          } 
+          setMembers([...members,formdata])
+     }
+     
+
+     setFormData({
+          username:"",
+          email:"",
+          access:"",
+          password:""
+     })
+     setShouldShow(false)
+     setIsEditingMember(false)
+     
+  
 
      }
 

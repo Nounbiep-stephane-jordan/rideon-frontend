@@ -3,9 +3,11 @@
 
 import iconCopy from "../../../assets/copy_icon.svg";
 import { useState } from "react"
-import {motion,AnimatePresence} from "framer-motion"
+import {motion} from "framer-motion"
 import fleft from "../../../assets/fleft-orange.png"
 import fright from "../../../assets/fright-orange.png"
+ 
+
 
 const cardVariants = {
      front: {
@@ -74,17 +76,12 @@ const StepModalReady = ({isOpen,onClose}) => {
        };
 
      return (
-          <div>
-
-
-          <AnimatePresence>
-      
-              
-              <motion.div
+      <div>
+                      <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[999]"
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[99999999]"
               >
          
                 <motion.div
@@ -138,16 +135,15 @@ const StepModalReady = ({isOpen,onClose}) => {
                   </div>
                 </motion.div>
               </motion.div>
-              
-        
-          </AnimatePresence>
-        </div>
+      </div>
+ 
      )
 }
 
 
 const InstallationGuide = () => {
  
+     const guideCenter = "/guide-center.svg"
      const [isOpen, setIsOpen] = useState(false);
 
      const [isFlipped, setIsFlipped] = useState(false);
@@ -179,180 +175,189 @@ const InstallationGuide = () => {
 
 
      return (
-          <motion.div className="flex flex-col justify-bewtween items-center p-[20px]">
-
-          <div className="flex flex-row items-center justify-center ml-20">
-          <div className="flex-col flex">
-          <h1 className="self-start text-2xl font-semibold">Easy buy</h1>
-               <h3 className="self-start font-meduim text-sm mt-2 w-3/4 ">
-                    A project designed to facilitate the buying and selling of goods from all over the owrld
-                    A project designed to facilitate the buying and selling of goods from all over the owrld
-                    A project designed to facilitate the buying and selling of goods from all over the owrld
-                    A project designed to facilitate the buying and selling of goods from all over the owrld
-               </h3>
-          </div>
-
-               <div className="self-start w-50 fixed top-2 right-20">
-               <img alt="img" src="/guide-top.jpg"/>
-               </div>
-          </div>
-
-          <div className=" fixed top-0 right-1/2">
-          {copied&&<span className="text-green-500">Copied!</span>}
-          </div>
-
-          <div className="grid gap-4 grid-cols-2 items-center justify-between">
-
-
-          <div className="p-[15px] h-[280px] fixed top-45 left-60 mt-2 w-[300px] blue-shadow outline-2 outline-[#530DF6] bg-white overflow-x-scroll custom-scrollbar">
-               <h1 className="text-left font-medium">Prerequisite</h1>
-
-               <div className="flex flex-row justify-between items-center">
-              
-              <div className="flex flex-col justify-evenly items-start ">
-              {prerequisites.map((pair, index) => (
-           
-                 <div key={pair.id} className="flex flex-row justify-between items-centers mt-[3px]">
-                 <div  className="mt-[2px] flex flex-row justify-between items-centers">
-                      <p className="text-sm w-1/2 mr-2 p-1">Node</p>
-                      <p className="text-sm w-1/2 mr-2 p-1">18+</p>
-                    </div>
-                 </div>
-
-                  ))}    
-              </div>
-            
-
- 
-               </div>
-
-
-
-
-               <div className="mt-2">
-               <h1 className="text-left font-medium">Installation guides</h1>
-               <div className="flex flex-row items-center justify-between">
-               {Object.keys(installationGuidesOsText).map((os) => (
-                    <button
-                      key={os}
-                      className={`text-[15px] cursor-pointer`}
-                      onClick={() => setActiveOS(os)}
-                    >
-                      {os.charAt(0).toUpperCase() + os.slice(1)}
-                      {
-                        activeOS === os ? <div className="h-[2px] bg-[#FF8000]"></div> : ""
-                      }
-                    </button>
-                  ))}
-               </div>
-               </div>
-
- 
-                <p className="text-[12px] mt-[2px] bg-transparent mt-2 mb-5">
-                    To get started started wiht this project first follwo this youtube video to get the basics. dwon then go to the custom installation guide
-                </p>
-
-               <div onClick={() => setIsOpen(true)}  className="flex flex-row items-center justify-between">
-               <button className="text-xs text-white self-center bg-[#FF8000] px-5 py-2 cursor-pointer">Custom guide</button>
-              
-               </div>
-
-               {isOpen ? (
-                <StepModalReady key={"modal-pop-up"} isOpen={isOpen} onClose={() => setIsOpen(false)} />
-               ) : null}
- 
-
-              </div>
-              
-
-              {isOpen == false ?          <div className={`relative`}>
-         
-         <motion.div
-         className="absolute left-[30px] top-[22px]"
-         variants={cardVariants}
-         animate={isFlipped ? "back" : "front"}
-         
-         >
-           
-           <div className="p-[15px] h-[280px] w-[300px] outline-2 outline-[#530DF6] blue-shadow bg-white overflow-x-scroll custom-scrollbar">
-            
-            <h1 className="text-left font-medium cursor-pointer" onClick={() => !isFlipped && setIsFlipped(true)}>Project credentials</h1>
-            <div className="mt-[10px]">
-       {/* Credentials Content */}
-       {credentials.map((section, sectionIndex) => (
-         <div key={`${section?.id}-${sectionIndex}`} className="mb-4">
-           <div className="flex justify-between items-center">
-             <p className="font-medium text-sm">Database acess </p>
-           </div>
-           
-           <div className="">
-           {section?.pairs.map((pair, pairIndex) => (
-             <div key={`${pair.id}-${pairIndex}`} className="flex items-center justify-between gap-2 mb-2">
-               <p className="w-full text-sm">Name</p>
-               <p className="w-full text-sm">Postgress</p>
-               <span className="" onClick={() => handleCopyClicked("7582132563")}>
-                 <img alt="copy icon" src={iconCopy} className="w-8 cursor-pointer"/>
-                 </span>
-             </div>
-           ))}
-            </div>
-
-         </div>
-       ))}
-
-       </div>
-             
-           </div>
-         </motion.div>
-       
      
+                  <div className="flex flex-col justify-bewtween items-center p-[20px]">
 
-     {/* Back Card */}
-     <motion.div
-       className={`absolute ${isFlipped ? '':'left-[60px] top-[100px]'}`}
-       variants={backCardVariants}
-       animate={isFlipped ? "back" : "front"}
-       
-     >
-       <div className="p-[15px] h-[280px] w-[300px] blue-shadow bg-white outline-2 outline-[#530DF6]">
-       <h1 className="text-left font-medium cursor-pointer" onClick={() => isFlipped && setIsFlipped(false)}>Additional links</h1>
+<div className="flex flex-row items-center justify-center ml-20">
+<div className="flex-col flex">
+<h1 className="self-start text-2xl font-semibold">Easy buy</h1>
+     <h3 className="self-start font-meduim text-sm mt-2 w-3/4 ">
+          A project designed to facilitate the buying and selling of goods from all over the owrld
+          A project designed to facilitate the buying and selling of goods from all over the owrld
+          A project designed to facilitate the buying and selling of goods from all over the owrld
+          A project designed to facilitate the buying and selling of goods from all over the owrld
+     </h3>
+</div>
 
-       <div className="flex flex-row justify-between items-center mt-[2px]">
-           
-           <div className="flex flex-col justify-evenly items-start ">
-           {additionalLinks.map((pair) => (
-              
-              <div key={pair.id} className="flex flex-row justify-between items-centers mt-[2px]">
-              <div  className="mt-[2px] flex flex-row justify-between items-center">
-                   <p className="text-sm mr-2 p-1">John</p>
-                 <span className="" onClick={() => handleCopyClicked("7582132563")}>
-                 <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                 </span>
-                 </div>
+     <div className="self-start w-50 fixed top-4 right-30">
+     <img alt="img" src="/guide-top.jpg"/>
+     </div>
+</div>
 
+<div className=" fixed top-0 right-1/2">
+{copied&&<span className="text-green-500">Copied!</span>}
+</div>
+
+<div className="grid gap-4 grid-cols-2 items-center justify-between">
+
+
+<div className="p-[15px] h-[280px] fixed top-60 left-60 mt-2 w-[300px] blue-shadow outline-2 outline-[#530DF6] bg-white overflow-x-scroll custom-scrollbar">
+     <h1 className="text-left font-medium">Prerequisite</h1>
+
+     <div className="flex flex-row justify-between items-center">
+    
+    <div className="flex flex-col justify-evenly items-start ">
+    {prerequisites.map((pair, index) => (
  
-              </div>
-
-          
-               ))}    
-           </div>
-         
-
-
-            </div>
-
-       </div>
-     </motion.div>
-   </div>:null}
-      
+       <div key={pair.id} className="flex flex-row justify-between items-centers mt-[3px]">
+       <div  className="mt-[2px] flex flex-row justify-between items-centers">
+            <p className="text-sm w-1/2 mr-2 p-1">Node</p>
+            <p className="text-sm w-1/2 mr-2 p-1">18+</p>
           </div>
+       </div>
+
+        ))}    
+    </div>
+  
+
+
+     </div>
 
 
 
-               <div className="fixed w-90 bottom-10 z-[-5]">
-               <img alt="img" src="/guide-center.svg"/>
-               </div>
-          </motion.div>
+
+     <div className="mt-2">
+     <h1 className="text-left font-medium">Installation guides</h1>
+     <div className="flex flex-row items-center justify-between">
+     {Object.keys(installationGuidesOsText).map((os) => (
+          <button
+            key={os}
+            className={`text-[15px] cursor-pointer`}
+            onClick={() => setActiveOS(os)}
+          >
+            {os.charAt(0).toUpperCase() + os.slice(1)}
+            {
+              activeOS === os ? <div className="h-[2px] bg-[#FF8000]"></div> : ""
+            }
+          </button>
+        ))}
+     </div>
+     </div>
+
+
+      <p className="text-[12px] mt-[2px] bg-transparent mt-2 mb-5">
+          To get started started wiht this project first follwo this youtube video to get the basics. dwon then go to the custom installation guide
+      </p>
+
+     <div onClick={() => setIsOpen(true)}  className="flex flex-row items-center justify-between">
+     <button className="text-xs text-white self-center bg-[#FF8000] px-5 py-2 cursor-pointer">Custom guide</button>
+    
+     </div>
+
+
+
+    </div>
+    
+
+           <div className={`relative`}>
+
+<motion.div
+className="absolute left-[30px] top-20"
+variants={cardVariants}
+animate={isFlipped ? "back" : "front"}
+
+>
+ 
+ <div className="p-[15px] h-[280px] w-[300px] outline-2 outline-[#530DF6] blue-shadow bg-white overflow-x-scroll custom-scrollbar">
+  
+  <h1 className="text-left font-medium cursor-pointer" onClick={() => !isFlipped && setIsFlipped(true)}>Project credentials</h1>
+  <div className="mt-[10px]">
+
+{credentials.map((section, sectionIndex) => (
+<div key={`${section?.id}-${sectionIndex}`} className="mb-4">
+ <div className="flex justify-between items-center">
+   <p className="font-medium text-sm">Database acess </p>
+ </div>
+ 
+ <div className="">
+ {section?.pairs.map((pair, pairIndex) => (
+   <div key={`${pair.id}-${pairIndex}`} className="flex items-center justify-between gap-2 mb-2">
+     <p className="w-full text-sm">Name</p>
+     <p className="w-full text-sm">Postgress</p>
+     <span className="" onClick={() => handleCopyClicked("7582132563")}>
+       <img alt="copy icon" src={iconCopy} className="w-8 cursor-pointer"/>
+       </span>
+   </div>
+ ))}
+  </div>
+
+</div>
+))}
+
+</div>
+   
+ </div>
+</motion.div>
+
+
+
+<motion.div
+className={`absolute ${isFlipped ? '':'left-20 top-40'}`}
+variants={backCardVariants}
+animate={isFlipped ? "back" : "front"}
+
+>
+<div className="p-[15px] h-[280px] w-[300px] blue-shadow bg-white outline-2 outline-[#530DF6]">
+<h1 className="text-left font-medium cursor-pointer" onClick={() => isFlipped && setIsFlipped(false)}>Additional links</h1>
+
+<div className="flex flex-row justify-between items-center mt-[2px]">
+ 
+ <div className="flex flex-col justify-evenly items-start ">
+ {additionalLinks.map((pair) => (
+    
+    <div key={pair.id} className="flex flex-row justify-between items-centers mt-[2px]">
+    <div  className="mt-[2px] flex flex-row justify-between items-center">
+         <p className="text-sm mr-2 p-1">John</p>
+       <span className="" onClick={() => handleCopyClicked("7582132563")}>
+       <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
+       </span>
+       </div>
+
+
+    </div>
+
+
+     ))}    
+ </div>
+
+
+
+  </div>
+
+</div>
+</motion.div>
+</div>
+
+</div>
+
+
+
+     <div className="h-90 w-90 mt-20" style={{backgroundImage:`url(${guideCenter})`,backgroundSize:"contain",backgroundRepeat:"no-repeat"}}>
+   
+     </div>
+
+
+
+
+     {isOpen ? (
+      <StepModalReady key={"modal-pop-up"} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+     ) : null}
+
+
+</div>
+
+
+   
      )
 }
 

@@ -56,7 +56,7 @@ const WizardCard = ({img,text,heading,numberOfSteps,subcards,stepsId,ids}) => {
                img.src = step.img
           });
      }
-    },[numberOfSteps,subcards])
+    },[])
 
 
  

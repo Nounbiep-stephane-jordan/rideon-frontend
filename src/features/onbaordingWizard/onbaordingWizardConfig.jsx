@@ -1,14 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-import { useEffect, useRef, useState } from "react"
-import MeetTeamPhaseConfig from "./configuration/meetTeamPhase"
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
 import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"
-import InstallationGuideConfig from "./configuration/installationGuide"
-import CoddingStandardsConfig from "./configuration/coddingStandards"
-import FileVisualizationConfig from "./configuration/fileVisualizationConfig"
+
 import {AnimatePresence,motion} from "framer-motion"
 import { useGlobalVariables } from "../../context/global"
- 
+import {memo} from "react"
+import WizardFallBackLoader from "../../component/fallback/wizardFallbackLoader"
+
+//impliment lazy loading menaing you load components on demand not all at once making initails load faster
+const FileVisualizationConfig = lazy(()=> import("./configuration/fileVisualizationConfig"))
+const CoddingStandardsConfig = lazy(()=> import("./configuration/coddingStandards"))
+const InstallationGuideConfig = lazy(()=> import("./configuration/installationGuide"))
+const MeetTeamPhaseConfig = lazy(()=> import("./configuration/meetTeamPhase"))
 
 const OnboardingWizardConfig = ({stage}) => {
       const [activeStep,setActiveStep] = useState(stage)
@@ -16,12 +20,20 @@ const OnboardingWizardConfig = ({stage}) => {
       const previousStep = useRef(stage)
       const {setSelectedIcon} = useGlobalVariables()
     
-         let steps = [
-            {name:"Meet the Team",component:<MeetTeamPhaseConfig/>},
-            {name:"Installation guide",component:<InstallationGuideConfig/>},
-            {name:"File Visualization",component:<FileVisualizationConfig/>},
-            {name:"Codding Standards",component:<CoddingStandardsConfig/>},
+      //we memoize the components so they load faster
+      const MemoMeetTheTeam = memo(MeetTeamPhaseConfig)
+      const MemoInstallationGuideConfig = memo(InstallationGuideConfig)
+      const MemoFileVisualizationConfig = memo(FileVisualizationConfig)
+      const MemoCoddingStandardsConfig = memo(CoddingStandardsConfig)
+
+         let steps = useMemo(()=>
+          [
+            {name:"Meet the Team",component:<MemoMeetTheTeam/>},
+            {name:"Installation guide",component:<MemoInstallationGuideConfig/>},
+            {name:"File Visualization",component:<MemoFileVisualizationConfig/>},
+            {name:"Codding Standards",component:<MemoCoddingStandardsConfig/>},
         ]
+         ,[])
    
 
       const stepsId = [
@@ -48,18 +60,21 @@ const OnboardingWizardConfig = ({stage}) => {
             <motion.div
               key={activeStep}
               custom={direction}
-              initial={{x:direction * 100 + "%"}}
-              animate={{x:0}}
-              exit={{x:-direction * 100 + "%"}}
+              initial={{opacity:0,x:direction * 50}}
+              animate={{opacity:1,x:0}}
+              exit={{opacity:0,x:-direction * 50 }}
               transition={{
-                type:"spring",
-                stiffness:300,
-                damping:30,
+                type:"tween",
+                duration:0.3,
+                ease:[0.32,0.72,0,1],
               }}
-
+              
              
               >
+                {/*it will show this loading when the component is still mounting we can style it so it looks better */}
+              <Suspense fallback={<WizardFallBackLoader/>}>
               {steps[activeStep].component}
+              </Suspense>
               </motion.div>
             </AnimatePresence>
               <OnbaordingWizardNavigationSteps stepsId={stepsId}   numberOfSteps={steps.length} activeStep={activeStep} setActiveStep={setActiveStep}/>

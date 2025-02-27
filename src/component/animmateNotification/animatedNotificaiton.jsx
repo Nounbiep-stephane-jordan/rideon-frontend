@@ -31,12 +31,12 @@ const CustomNotification = ({message,setIsVisible}) => {
                className="fixed top-10 right-1/2"
                initial={{
                     opacity:0,
-                    backgroundColor:"none",
+                    borderColor:"none",
                     width:"0px"
                }}
                animate={{
                     opacity:1,
-                    backgroundColor:"#8EFF2C",
+                    borderColor:"#8EFF2C",
                     width:"30%" 
                }}
 
@@ -57,7 +57,7 @@ const CustomNotification = ({message,setIsVisible}) => {
                onHoverEnd={handleHoverEnd}
                
                >
-               <div className="text-white font-semibold text-center m-auto px-4 py-2 rounded-lg cursor-pointer bg-[#8EFF2C]">
+               <div className="font-semibold text-center m-auto px-4 py-2 rounded-lg cursor-pointer soid border-2 border-[#8EFF2C]">
                {message}
                </div>
                </motion.div>

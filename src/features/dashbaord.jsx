@@ -117,10 +117,9 @@ const MainDashboard = () => {
                     
                ))}
 
-               <div className='self-center w-40 m-auto'>
-               <img onClick={()=> fetchData()} className="cursor-pointer" src="/icons-plus.png"/>
-
-               </div>
+              
+               <img onClick={()=> fetchData()} className="cursor-pointer w-10 mb-10 self-center" src="/icons-plus.png"/>
+ 
                
 
                </div>

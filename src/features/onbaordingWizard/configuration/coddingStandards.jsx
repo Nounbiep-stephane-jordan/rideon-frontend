@@ -153,8 +153,8 @@ const saveDataInBackend = (githubPhaseConfigData,meetTheTeamConfigData,installat
           .then((res) =>{
             console.log(res,"good response")
             //only after sucessfully inserting you clean the wizard
-            // handleCleanWizardConfig()
-            // gotToDashBoard()
+            handleCleanWizardConfig()
+            gotToDashBoard()
 
           })
           .catch((err) => console.log(err,"in handle wizard clean config"))
