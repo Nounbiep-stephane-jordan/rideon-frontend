@@ -8,8 +8,6 @@ import LoginScreen from "../features/loginScreen"
 import DashboardAdminNewView from "../features/dashboardAdminNewView"
 
 import OnboardingWizard from "../features/onbaordingWizard/onboardingWizard"
-
-
 const AppRoutes = () => {
 
      
