@@ -8,12 +8,16 @@ import LoginScreen from "../features/loginScreen"
 import DashboardAdminNewView from "../features/dashboardAdminNewView"
 
 import OnboardingWizard from "../features/onbaordingWizard/onboardingWizard"
+import Spinner from "../component/spinner/spinner"
+import { useGlobalVariables } from "../context/global"
 const AppRoutes = () => {
 
+      const {isAppLoading,messageToDisplay} = useGlobalVariables()
      
      return (
           <Router>
                <Nav/>
+               {isAppLoading ? <Spinner text={messageToDisplay || "Loading"}/>:null}
                <Routes>
                     
                     <Route path="/login" element={<LoginScreen/>} />

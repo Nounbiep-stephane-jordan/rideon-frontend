@@ -20,7 +20,7 @@ const COLORS = [{color:'#FFFFFF',description:"Main entry points of the applicati
 
 
 const GithubPhase1 = () => {
-    const {githubPhaseConfigData,setGithubPhaseConfigData} = useGlobalVariables()
+    const {githubPhaseConfigData,setGithubPhaseConfigData,showLoader,hideLoader} = useGlobalVariables()
     const [owner, setOwner] = useState(githubPhaseConfigData.owner || testvalues.owner);
     const [repo, setRepo] = useState(githubPhaseConfigData.repo || testvalues.repo);
     const [token, setToken] = useState(githubPhaseConfigData.token || testvalues.token);
@@ -64,6 +64,7 @@ const GithubPhase1 = () => {
 
     // Fetch files from GitHub API
     const fetchRepoFiles = async (path = "") => {
+
         if (!owner ||  !repo ||  !token) {
             setError("Please fill in all fields.");
             return;
@@ -71,6 +72,7 @@ const GithubPhase1 = () => {
         setError("");
 
         try {
+            showLoader()
             const response = await fetch(
                 `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
                 {
@@ -89,8 +91,10 @@ const GithubPhase1 = () => {
                 ...prevTree,
                 [path]: data, // Store fetched content under its parent path
             }));
+            hideLoader()
         } catch (err) {
             setError(err.message);
+            hideLoader()
         }
     };
 
@@ -225,7 +229,7 @@ const GithubPhase1 = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center"
+                        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[999]"
                         >
                             <motion.div
                             initial={{ scale: 0.8 }}

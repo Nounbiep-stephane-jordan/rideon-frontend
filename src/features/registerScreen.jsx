@@ -6,7 +6,7 @@ import API from "../api/api"
 import wizardbtn from "../assets/wizard-btn.svg"
 
 const RegisterScreen = () => {
-     const {logIn} = useGlobalVariables()
+     const {logIn,showLoader,hideLoader} = useGlobalVariables()
      const navigate = useNavigate()
      const [activeSubsccription,setActiveSubscription] = useState("")
      const [data,setData] = useState({
@@ -25,12 +25,14 @@ const RegisterScreen = () => {
      },[])
 
 
-     const submitData = () => {
+     const submitData = async() => {
           if(data.email =="" || data.password == "" || data.industry == "" || data.name =="" ||data.subscriptionType == "") {
                setError("No empty inputs allowed. please fill in the form")
                return
           }
-          API.post('/register',{enterprise:data}).then((res) => {
+
+         showLoader()
+         await API.post('/register',{enterprise:data}).then((res) => {
                console.log("resposne after register",res)
                logIn(res.data.user)
                setSelectedIcon("home")
@@ -38,6 +40,7 @@ const RegisterScreen = () => {
           }).catch((err) => {
                console.log(err.response.data.error,err.message,"an erroroccured")
                setError(err?.response?.data?.error || err?.message)
+               hideLoader()
           })
      }
 

@@ -63,8 +63,20 @@ export const GlobalProvider = ({children}) => {
 
      const [installationGuidesConfigData,setInstallationGuidesConfigData] = useState(defaultGuide)
 
-     const [isEditingWizard,setIsEditingWizard] = useState(true)
+     const [isEditingWizard,setIsEditingWizard] = useState(false)
      const [editingWizardProjectId,setEditingWizardProjectId] = useState(null) //contains the id of hte project edited
+     
+
+     const [isAppLoading,setIsAppLoading] = useState(false)
+     const [messageToDisplay,setMessageToDisplay] = useState("")
+      
+     const hideLoader = () => {
+          setTimeout(()=> setIsAppLoading(false),2000)
+     }
+     
+     const showLoader = () => {
+          setIsAppLoading(true)
+     }
 
      //actaul wizard data
      const [wizardData,setWizardData] = useState({
@@ -129,8 +141,10 @@ export const GlobalProvider = ({children}) => {
           wizardData,setWizardData,
 
 
-          isEditingWizard,setIsEditingWizard, editingWizardProjectId,setEditingWizardProjectId
+          isEditingWizard,setIsEditingWizard, editingWizardProjectId,setEditingWizardProjectId,
 
+          showLoader,hideLoader,isAppLoading,
+          messageToDisplay,setMessageToDisplay
 
 
           }}> 

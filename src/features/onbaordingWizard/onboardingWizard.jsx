@@ -7,7 +7,7 @@ import { useGlobalVariables } from "../../context/global"
 
 import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"
 import Congratulations from "./screens/congratulation"
-import WizardFallBackLoader from "../../component/fallback/wizardFallbackLoader"
+import Spinner from "../../component/spinner/spinner"
 
 
 
@@ -61,11 +61,11 @@ const OnboardingWizard = ({stage}) => {
 
     return (
          <div className="">
+           <Suspense fallback={<Spinner text="Loading....subsequent loads wil be much faste"/>}> 
            <AnimatePresence mode="wait" initial={false} custom={direction}>
            <motion.div
               key={activeStep}
               custom={direction}
-              initial={{opacity:0,x:direction * 50}}
               animate={{opacity:1,x:0}}
               exit={{opacity:0,x:-direction * 50 }}
               transition={{
@@ -76,12 +76,13 @@ const OnboardingWizard = ({stage}) => {
               
             
              >
-             <Suspense fallback={<WizardFallBackLoader/>}>
+            
              {steps[activeStep].component}
-             </Suspense>
+              
              </motion.div>
            </AnimatePresence>
              <OnbaordingWizardNavigationSteps stepsId={stepsId}   numberOfSteps={steps.length} activeStep={activeStep} setActiveStep={setActiveStep}/>
+         </Suspense>
          </div>
     )
 }

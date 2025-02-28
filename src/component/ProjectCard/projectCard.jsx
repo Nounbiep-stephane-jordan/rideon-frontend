@@ -12,8 +12,8 @@ const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_full
   const navigate = useNavigate()
   const {setWizardData,setIsEditingWizard,setCoddingStandardsConfigData,setInstallationGuidesConfigData,setMeetTheTeamConfigData,setGithubPhaseConfigData,setEditingWizardProjectId} = useGlobalVariables()
  
-  const startWiward = (project_id) => {
-    API.post("/start-wizard",{project_id}).then((res) => {
+  const startWiward = async(project_id) => {
+   await API.post("/start-wizard",{project_id}).then((res) => {
       console.log(res.data)
       setWizardData(res.data.wizardData)
       navigate("/wizard")
@@ -24,9 +24,9 @@ const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_full
   }
 
 
-  const editWizard = (project_id) => {
+  const editWizard = async(project_id) => {
     console.log(project_id,"in start edit handler")
-    API.post("/edit-wizard",{project_id}).then((res) => {
+   await API.post("/edit-wizard",{project_id}).then((res) => {
       console.log(res.data)
       let {
         installationGuide,
@@ -67,6 +67,7 @@ const [isClicked,setIsclicked] = useState(false)
       <div className={`flex-col w-40 h-30`}>
         <div className="orange-shadow relative" onClick={() => {
           setIsclicked(false)
+          // setActiveProject()
           handleCardClick(p)
         }}>
         <img className="cursor-pointer" src="/card.jpg" alt="card-img"/>
