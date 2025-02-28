@@ -5,7 +5,7 @@ import OrangeExclamation from "../../assets/orange-exclamation.png"
 import { useState } from "react"
 import {useNavigate} from "react-router-dom"
 import {useGlobalVariables} from "../../context/global"
- 
+import cardImg from "../../assets/card.jpg"
 
 
 const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
@@ -70,7 +70,7 @@ const [isClicked,setIsclicked] = useState(false)
           // setActiveProject()
           handleCardClick(p)
         }}>
-        <img className="cursor-pointer" src="/card.jpg" alt="card-img"/>
+        <img className="cursor-pointer" src={cardImg} alt="card-img"/>
         {is_fully_configured ? null :<img alt="exclamation" src={OrangeExclamation} className="w-7 absolute top-[5px] right-[0px]"/>}
         </div>
       <div className="flex items-center place-content-start">

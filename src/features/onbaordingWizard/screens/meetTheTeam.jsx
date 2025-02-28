@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 import {motion} from "framer-motion"
 import { useGlobalVariables } from "../../../context/global";
 import WizardCardComplete from "../../../component/wizardCard/wizardCardComplete";
- 
+import projectgoal from "../../../assets/projectgoal.jpg"
+import projectimpact from "../../../assets/projectimpact.jpg"
+import stakeholder from "../../../assets/stakeholders.jpg"
+import problemsolving from "../../../assets/problemsolving.jpg"
 
 const MeetTeamPhase = () => {
      const {meetTheTeamConfigData,setMeetTheTeamConfigData} = useGlobalVariables() // get the wizaad data if it had it
@@ -26,9 +29,9 @@ const MeetTeamPhase = () => {
 
   
      const cards = [
-     {img:"/projectgoal.jpg",stepsId:[{index:"projectgoal1",barIndex:"projectgoal1bar"},{index:"projectgoal2",barIndex:"projectgoal2bar"}],text:"briefly describe the project goals...",heading:"Project goals",numberOfSteps:2,ids:["stepgoal1","stepgoal2"],subcard:[{img:"/projectgoal.jpg",text:"briefly describe the project goals...",heading:"Project goals",},{img:"/projectimpact.jpg",text:"briefly describe the project impact...",heading:"Project impact",}]},
-     {img:"/stakeholders.jpg",stepsId:[{index:"stakeholders1",barIndex:"stakeholders1bar"}],text:"briefly descibe the stake holders...",heading:"Stake holders",numberOfSteps:1,ids:["stepstake"]},
-     {img:"/problemsolving.jpg",stepsId:[{index:"problemsolving1",barIndex:"problemsolving1bar"}],text:"briefly describe what problem it solves...",heading:"What problem it solves",numberOfSteps:1,ids:["stepprob"]}
+     {img:projectgoal,stepsId:[{index:"projectgoal1",barIndex:"projectgoal1bar"},{index:"projectgoal2",barIndex:"projectgoal2bar"}],text:"briefly describe the project goals...",heading:"Project goals",numberOfSteps:2,ids:["stepgoal1","stepgoal2"],subcard:[{img:projectgoal,text:"briefly describe the project goals...",heading:"Project goals",},{img:projectimpact,text:"briefly describe the project impact...",heading:"Project impact",}]},
+     {img:stakeholder,stepsId:[{index:"stakeholders1",barIndex:"stakeholders1bar"}],text:"briefly descibe the stake holders...",heading:"Stake holders",numberOfSteps:1,ids:["stepstake"]},
+     {img:problemsolving,stepsId:[{index:"problemsolving1",barIndex:"problemsolving1bar"}],text:"briefly describe what problem it solves...",heading:"What problem it solves",numberOfSteps:1,ids:["stepprob"]}
     ]
      const [activeIndex,setActiveIndex] = useState(0)
      const getCardPosition = (index) => {

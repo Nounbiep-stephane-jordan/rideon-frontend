@@ -6,8 +6,8 @@ import { useState } from "react"
 import {motion} from "framer-motion"
 import fleft from "../../../assets/fleft-orange.png"
 import fright from "../../../assets/fright-orange.png"
- 
-
+import guidetop from "../../../assets/guide-top.jpg"
+import guideCenter from "../../../assets/guide-center.jpg"
 
 const cardVariants = {
      front: {
@@ -143,7 +143,7 @@ const StepModalReady = ({isOpen,onClose}) => {
 
 const InstallationGuide = () => {
  
-     const guideCenter = "/guide-center.svg"
+      
      const [isOpen, setIsOpen] = useState(false);
 
      const [isFlipped, setIsFlipped] = useState(false);
@@ -190,7 +190,7 @@ const InstallationGuide = () => {
 </div>
 
      <div className="self-start w-50 fixed top-4 right-30">
-     <img alt="img" src="/guide-top.jpg"/>
+     <img alt="img" src={guidetop}/>
      </div>
 </div>
 

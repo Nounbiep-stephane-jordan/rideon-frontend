@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { useGlobalVariables } from '../../../context/global';
 import API from '../../../api/api';
 import { useNavigate } from 'react-router-dom';
-
+import standardImg from "../../../assets/standard.jpg"
 
 const Step1 = ({standards,descriptions,setDescriptions,handleStandardChange}) => {
      return (
@@ -35,7 +35,7 @@ const Step1 = ({standards,descriptions,setDescriptions,handleStandardChange}) =>
          </div>
          
           <div className='w-80 self-start'>
-              <img className='' src={"/standard.jpg"} alt="standard"/>
+              <img className='' src={standardImg} alt="standard"/>
          </div>
     
          </div>

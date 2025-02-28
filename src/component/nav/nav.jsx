@@ -49,9 +49,10 @@ const IconSelected = ({ source, onClick }) => { // 2-selected nav bar icon
   );
 };
 
-const LogedUser = ({ source }) => { // 3-Authenticated user avatar
+const LogedUser = ({ source,navigate }) => { // 3-Authenticated user avatar
   return (
     <img
+    onClick={()=>navigate("/login")}
       src={source}
       alt="icon"
       className=" size-8 outline-white outline-4 rounded-full"
@@ -117,7 +118,7 @@ const Nav = () => { // 4-nav bar component
       </div>
 
       <div className="mr-4 absolute top-[-8px] right-0 focus:outline-none">
-        <LogedUser source={logedUser} />
+        <LogedUser navigate={navigate} source={logedUser} />
       </div>
     </div>
   );

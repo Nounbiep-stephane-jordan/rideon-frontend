@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { useGlobalVariables } from "../context/global"
 import API from "../api/api"
 import wizardbtn from "../assets/wizard-btn.svg"
+import illustrationRegister from "../assets/illustration-register.webp"
 
 const RegisterScreen = () => {
      const {logIn,showLoader,hideLoader} = useGlobalVariables()
@@ -108,7 +109,7 @@ const RegisterScreen = () => {
                <p className="text-sm cursor-pointer fixed bottom-10">Login instead <span className="underline" onClick={()=> navigate("/login")}>GO</span></p>
                </div>
 
-               <img alt="ilustration-register" className="w-80 self-start fixed" src="./illustration-register.jpg" />
+               <img alt="ilustration-register" className="w-80 self-start fixed" src={illustrationRegister} />
           </div>
      )
 }

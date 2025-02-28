@@ -40,7 +40,7 @@ const LoginScreen = () => {
                <img alt="circle up" className="w-50 fixed top-0 self-end" src={circleUp}/>
                <div className="top-30 absolute flex flex-col justify-center">
                {error && <p className="text-lg text-red-800">{error}</p>}
-               <h2 className="text-2xl font-semibold mb-2 text-center">Wellcome back!</h2>
+               <h2 className="text-2xl font-semibold mb-2 text-center">Welcome back!</h2>
                <div className="flex flex-col jsutify-between items-center">
                 
                <div className="relative w-[300px] ">
