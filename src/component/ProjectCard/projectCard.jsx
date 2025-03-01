@@ -67,7 +67,6 @@ const [isClicked,setIsclicked] = useState(false)
       <div className={`flex-col w-40 h-30`}>
         <div className="orange-shadow relative" onClick={() => {
           setIsclicked(false)
-          // setActiveProject()
           handleCardClick(p)
         }}>
         <img className="cursor-pointer" src={cardImg} alt="card-img"/>

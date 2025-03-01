@@ -1,10 +1,10 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
+
 import { lazy, memo, Suspense, useEffect, useMemo, useRef, useState } from "react"
 import {AnimatePresence,motion} from "framer-motion"
 import { useGlobalVariables } from "../../context/global"
-
+import { useLocation, useNavigate } from 'react-router-dom';
 import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"
 import Congratulations from "./screens/congratulation"
 import Spinner from "../../component/spinner/spinner"
@@ -18,6 +18,7 @@ const InstallationGuide = lazy(()=> import("./screens/installationGuide"))
 const MeetTheTeam = lazy(()=> import("./screens/meetTheTeam"))
 
 const OnboardingWizard = ({stage}) => {
+  
      const [activeStep,setActiveStep] = useState(stage)
      const [direction,setDirection] = useState(1) // 1=forward -1 =backward
      const previousStep = useRef(stage)
@@ -58,6 +59,12 @@ const OnboardingWizard = ({stage}) => {
      useEffect(()=>{
        setSelectedIcon("onboardingWizard")
   },[])
+
+
+ 
+ 
+
+ 
 
     return (
          <div className="">

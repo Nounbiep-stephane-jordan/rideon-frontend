@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
 import {createContext, useContext, useEffect, useState } from "react";
 
@@ -51,6 +50,8 @@ const defaultCod = {
  }
 
 
+
+
 export const GlobalProvider = ({children}) => {
      const [selectedIcon, setSelectedIcon] = useState("home"); //for nav bar
      const [user,setUser] = useState(null)
@@ -77,6 +78,9 @@ export const GlobalProvider = ({children}) => {
      const showLoader = () => {
           setIsAppLoading(true)
      }
+
+
+  
 
      //actaul wizard data
      const [wizardData,setWizardData] = useState({
