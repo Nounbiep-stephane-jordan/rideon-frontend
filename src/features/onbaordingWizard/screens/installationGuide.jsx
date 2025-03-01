@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
 /* eslint-disable no-unused-vars */
 
 import iconCopy from "../../../assets/copy_icon.svg";
@@ -8,6 +8,7 @@ import fleft from "../../../assets/fleft-orange.png"
 import fright from "../../../assets/fright-orange.png"
 import guidetop from "../../../assets/guide-top.jpg"
 import guideCenter from "../../../assets/guide-center.jpg"
+import { useGlobalVariables } from "../../../context/global";
 
 const cardVariants = {
      front: {
@@ -52,12 +53,13 @@ const cardVariants = {
 
 const StepModalReady = ({isOpen,onClose}) => {
 
+     const {wizardData} = useGlobalVariables()
      const [currentStep, setCurrentStep] = useState(0);
-     const [steps, setSteps] = useState([{name:"John",description:"test",image:"/loged_user.svg"}]);
+     const [steps, setSteps] = useState( wizardData?.installationGuide?.steps || [{name:"John",description:"test",image:"/loged_user.svg"}]);
      const [newStep, setNewStep] = useState({
-       name: '',
-       description: '',
-       image: null,
+       name: wizardData?.installationGuide?.steps[0]?.name,
+       description: wizardData?.installationGuide?.steps[0]?.description,
+       image:  wizardData?.installationGuide?.steps[0]?.image,
      });
 
 
@@ -92,8 +94,8 @@ const StepModalReady = ({isOpen,onClose}) => {
                 >
                    <h1 className='text-left font-semibold'>Steps</h1>
                   <div className="space-y-4">
-                    <p className="w-full">Test</p>
-                    <p className="w-full">It is pretty easy to figure out. just like on the image first you need to do this and then taht and then this..</p>
+                    <p className="w-full">{newStep.name}</p>
+                    <p className="w-full">{newStep.description}</p>
                     
                     <div className="relative">
                       <label
@@ -145,22 +147,19 @@ const InstallationGuide = () => {
  
       
      const [isOpen, setIsOpen] = useState(false);
+    const {wizardData} = useGlobalVariables()
+    const [textData,setTextData] = useState( wizardData?.installationGuide?.textData)
+     
+
+    
 
      const [isFlipped, setIsFlipped] = useState(false);
-     const [additionalLinks,setAdditionalLinks] = useState( [{id:"add1",value:""}])
+     const [additionalLinks,setAdditionalLinks] = useState(wizardData?.installationGuide?.additionalLinks)
      const [activeOS,setActiveOS] = useState("windows")
-     const [installationGuidesOsText,setInstallationGuidesOsText] = useState( {
-      windows:"",
-      ios:"",
-      linux:""
- })
-     const [credentials,setCredentials] = useState([{
-      id:"unique1",
-      title:"",
-      pairs:[{id:1,key:"",value:""}]
- }])
+     const [installationGuidesOsText,setInstallationGuidesOsText] = useState(wizardData?.installationGuide?.installationGuidesOsText )
+     const [credentials,setCredentials] = useState(wizardData?.installationGuide?.credentials)
 
- const [prerequisites,setPrerequisites] = useState([{id:"unique2",key:"",value:""}])
+ const [prerequisites,setPrerequisites] = useState(wizardData?.installationGuide?.prerequisites)
 
  const [copied,setCopied] = useState(false)
  const handleCopyClicked = async(value) => {
@@ -178,14 +177,11 @@ const InstallationGuide = () => {
      
                   <div className="flex flex-col justify-bewtween items-center p-[20px]">
 
-<div className="flex flex-row items-center justify-center ml-20">
+<div className="flex flex-row items-start justify-start">
 <div className="flex-col flex">
-<h1 className="self-start text-2xl font-semibold">Easy buy</h1>
-     <h3 className="self-start font-meduim text-sm mt-2 w-3/4 ">
-          A project designed to facilitate the buying and selling of goods from all over the owrld
-          A project designed to facilitate the buying and selling of goods from all over the owrld
-          A project designed to facilitate the buying and selling of goods from all over the owrld
-          A project designed to facilitate the buying and selling of goods from all over the owrld
+<h1 className="self-start text-2xl font-semibold">{textData?.projectName}</h1>
+     <h3 className={`self-start font-meduim text-sm mt-2 w-3/4 text-left`}>
+          {textData?.projectDescription}
      </h3>
 </div>
 
@@ -207,16 +203,19 @@ const InstallationGuide = () => {
      <div className="flex flex-row justify-between items-center">
     
     <div className="flex flex-col justify-evenly items-start ">
-    {prerequisites.map((pair, index) => (
+    {prerequisites.map((pair) => {
+      
+      return (
+  
+        <div key={pair.id} className="flex flex-row justify-between items-centers mt-[3px]">
+        <div  className="mt-[2px] flex flex-row justify-between items-centers">
+             <p className="text-sm w-1/2 mr-2 p-1">{pair.key}</p>
+             <p className="text-sm w-1/2 mr-2 p-1">{pair.value}</p>
+           </div>
+        </div>
  
-       <div key={pair.id} className="flex flex-row justify-between items-centers mt-[3px]">
-       <div  className="mt-[2px] flex flex-row justify-between items-centers">
-            <p className="text-sm w-1/2 mr-2 p-1">Node</p>
-            <p className="text-sm w-1/2 mr-2 p-1">18+</p>
-          </div>
-       </div>
-
-        ))}    
+         )
+    })}    
     </div>
   
 
@@ -246,7 +245,7 @@ const InstallationGuide = () => {
 
 
       <p className="text-[12px] mt-[2px] bg-transparent mt-2 mb-5">
-          To get started started wiht this project first follwo this youtube video to get the basics. dwon then go to the custom installation guide
+      {installationGuidesOsText[activeOS]}
       </p>
 
      <div onClick={() => setIsOpen(true)}  className="flex flex-row items-center justify-between">
@@ -282,8 +281,8 @@ animate={isFlipped ? "back" : "front"}
  <div className="">
  {section?.pairs.map((pair, pairIndex) => (
    <div key={`${pair.id}-${pairIndex}`} className="flex items-center justify-between gap-2 mb-2">
-     <p className="w-full text-sm">Name</p>
-     <p className="w-full text-sm">Postgress</p>
+     <p className="w-full text-sm">{pair?.key}</p>
+     <p className="w-full text-sm">{pair?.value}</p>
      <span className="" onClick={() => handleCopyClicked("7582132563")}>
        <img alt="copy icon" src={iconCopy} className="w-8 cursor-pointer"/>
        </span>
@@ -302,7 +301,7 @@ animate={isFlipped ? "back" : "front"}
 
 
 <motion.div
-className={`absolute ${isFlipped ? '':'left-20 top-40'}`}
+className={`absolute ${isFlipped ? 'top-15':'left-20 top-40'}`}
 variants={backCardVariants}
 animate={isFlipped ? "back" : "front"}
 
@@ -317,7 +316,7 @@ animate={isFlipped ? "back" : "front"}
     
     <div key={pair.id} className="flex flex-row justify-between items-centers mt-[2px]">
     <div  className="mt-[2px] flex flex-row justify-between items-center">
-         <p className="text-sm mr-2 p-1">John</p>
+         <p className="text-sm mr-2 p-1">{pair.value}</p>
        <span className="" onClick={() => handleCopyClicked("7582132563")}>
        <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
        </span>

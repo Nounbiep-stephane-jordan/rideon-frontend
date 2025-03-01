@@ -10,9 +10,9 @@ import {MAX_CONTENT_LENGTH_FILE} from "../../../utils/constants"
  
 
 const testvalues = {
-    token:"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",
-    repo:"rideon-frontend",
-    owner:"Nounbiep-stephane-jordan"
+    token:"",
+    repo:"",
+    owner:""
 }
 
 const COLORS = [{id:"color-1",color:'#FFFFFF',description:"Main entry points of the application",classes:`bg-[#FFFFFF] w-[15px] h-[15px] rounded-full shadow mr-5 cursor-pointer`},
@@ -30,11 +30,11 @@ const isImageFile = (filename) => {
 }
 
 const FileVisualization = () => {
-    const {githubPhaseConfigData,setGithubPhaseConfigData,showLoader,hideLoader} = useGlobalVariables()
-    const [owner, setOwner] = useState(githubPhaseConfigData.owner || testvalues.owner);
-    const [repo, setRepo] = useState(githubPhaseConfigData.repo || testvalues.repo);
-    const [token, setToken] = useState(githubPhaseConfigData.token || testvalues.token);
-    const [fileTree, setFileTree] = useState(githubPhaseConfigData.fileTree||{});
+    const {wizardData,showLoader,hideLoader} = useGlobalVariables()
+    const [owner, setOwner] = useState(wizardData?.githubPhase?.owner || testvalues.owner);
+    const [repo, setRepo] = useState(wizardData?.githubPhase?.repo || testvalues.repo);
+    const [token, setToken] = useState(wizardData?.githubPhase?.token || testvalues.token);
+    const [fileTree, setFileTree] = useState(wizardData?.githubPhase?.fileTree||{});
     const [error, setError] = useState("");
     const [selectedFile,setSelectedFile] = useState(false)
     const [showLittlebox,setShowLittleBox] = useState(false)
@@ -42,8 +42,8 @@ const FileVisualization = () => {
 
     const [imageurl,setImageUrl] = useState(null)
     const [message,setMessage] = useState("")
-    const [fileAnnotations,setFileAnnotations] = useState(githubPhaseConfigData.fileAnnotations ||{})
-    const [hoveredFile,setHoveredFile] = useState( githubPhaseConfigData.hoveredFile || null)
+    const [fileAnnotations,setFileAnnotations] = useState(wizardData?.githubPhase?.fileAnnotations ||{})
+    const [hoveredFile,setHoveredFile] = useState( wizardData?.githubPhase?.hoveredFile || null)
 
     
     useEffect(()=> {
@@ -185,9 +185,9 @@ const FileVisualization = () => {
                         handleFileClick(file)
                       }}> {file.name}
                             {hoveredFile?.path === file.path && fileAnnotations[file.path] &&(
-                            <div className="fixed w-80 right-1/2 top-1/2 z-50">
+                            <div className="fixed w-120 h-1/2 right-1/2 top-50 z-50">
                                 <div className="bg-black/50 shadow-lg p-5 rounded-sm">
-                                        <h1 className="text-2xl capitalize text-white text-[10px] text-left">{fileAnnotations[file?.path]?.notes}</h1>
+                                        <h1 className="text-[20px] capitalize text-white text-[10px] text-left">{fileAnnotations[file?.path]?.notes}</h1>
                                         <div className="flex flex-row bg-gray mt-2">
                                             {fileAnnotations[file?.path]?.colors?.map(color =>(
                                                 <div style={{backgroundColor:color}} key={color} className="w-4 h-4 rounded-full mr-2"></div>

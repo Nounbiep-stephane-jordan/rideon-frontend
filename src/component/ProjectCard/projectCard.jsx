@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+
  
 import API from "../../api/api"
 import OrangeExclamation from "../../assets/orange-exclamation.png"
@@ -15,7 +15,7 @@ const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_full
   const startWiward = async(project_id) => {
    await API.post("/start-wizard",{project_id}).then((res) => {
       console.log(res.data)
-      setWizardData(res.data.wizardData)
+      setWizardData(res.data)
       navigate("/wizard")
     }).catch(err => {
       console.log(err,"in start wizard")
@@ -25,9 +25,9 @@ const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_full
 
 
   const editWizard = async(project_id) => {
-    console.log(project_id,"in start edit handler")
+   
    await API.post("/edit-wizard",{project_id}).then((res) => {
-      console.log(res.data)
+       
       let {
         installationGuide,
         coddingStandards,
@@ -57,7 +57,7 @@ const options = [
   {key:"Faq",handler:()=> {}},
   {key:"Delete",handler:()=> {
     setShowDeleteModal(true) 
-    setActiveProject()
+   
   }},
 ]
 const [isClicked,setIsclicked] = useState(false)
@@ -67,6 +67,7 @@ const [isClicked,setIsclicked] = useState(false)
       <div className={`flex-col w-40 h-30`}>
         <div className="orange-shadow relative" onClick={() => {
           setIsclicked(false)
+          setActiveProject()
           handleCardClick(p)
         }}>
         <img className="cursor-pointer" src={cardImg} alt="card-img"/>

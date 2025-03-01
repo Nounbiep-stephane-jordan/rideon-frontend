@@ -36,7 +36,7 @@ const defaultCod = {
  const defaultMeet = {
      members:[],
      text:"Enter the welcome message...",
-     stepContents:{}
+     stepContents:{stepstake:"",stepgoal1:"",stepgoal2:"",stepprob:""}
 
  }
 
@@ -84,11 +84,11 @@ export const GlobalProvider = ({children}) => {
 
      //actaul wizard data
      const [wizardData,setWizardData] = useState({
-          coddingStandardsData:defaultCod,
-          meetTheTeamData:defaultMeet,
-          githubPhaseData:defaultGit,
-          installationGuidesData:defaultGuide
-     })
+          installationGuide:defaultGuide,
+          coddingStandards:defaultCod,
+          meetTheTeam:defaultMeet,
+          githubPhase:defaultGit
+        })
 
  
  

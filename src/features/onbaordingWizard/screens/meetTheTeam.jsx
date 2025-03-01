@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
  
 import { useEffect, useState } from "react";
@@ -10,14 +11,14 @@ import stakeholder from "../../../assets/stakeholders.jpg"
 import problemsolving from "../../../assets/problemsolving.jpg"
 
 const MeetTeamPhase = () => {
-     const {meetTheTeamConfigData,setMeetTheTeamConfigData} = useGlobalVariables() // get the wizaad data if it had it
+     const {wizardData} = useGlobalVariables() // get the wizaad data if it had it
 
-   
+ 
      const defaultText = "Enter the wellcome message..."
-     const [text,setText] = useState(defaultText)
+     const [text,setText] = useState(wizardData?.meetTheTeam?.text||defaultText)
 
 
-     const [members,setMembers] = useState([{
+     const [members,setMembers] = useState(wizardData?.meetTheTeam?.members || [{
           username:"Jordan",
           email:"j@email.com",
           access:"admin",
@@ -29,9 +30,9 @@ const MeetTeamPhase = () => {
 
   
      const cards = [
-     {img:projectgoal,stepsId:[{index:"projectgoal1",barIndex:"projectgoal1bar"},{index:"projectgoal2",barIndex:"projectgoal2bar"}],text:"briefly describe the project goals...",heading:"Project goals",numberOfSteps:2,ids:["stepgoal1","stepgoal2"],subcard:[{img:projectgoal,text:"briefly describe the project goals...",heading:"Project goals",},{img:projectimpact,text:"briefly describe the project impact...",heading:"Project impact",}]},
-     {img:stakeholder,stepsId:[{index:"stakeholders1",barIndex:"stakeholders1bar"}],text:"briefly descibe the stake holders...",heading:"Stake holders",numberOfSteps:1,ids:["stepstake"]},
-     {img:problemsolving,stepsId:[{index:"problemsolving1",barIndex:"problemsolving1bar"}],text:"briefly describe what problem it solves...",heading:"What problem it solves",numberOfSteps:1,ids:["stepprob"]}
+     {img:projectgoal,stepsId:[{index:"projectgoal1",barIndex:"projectgoal1bar"},{index:"projectgoal2",barIndex:"projectgoal2bar"}],text:"briefly describe the project goals...",heading:"Project goals",numberOfSteps:2,ids:["stepgoal1","stepgoal2"],subcard:[{img:projectgoal,text:wizardData?.meetTheTeam?.stepContents?.stepgoal1,heading:"Project goals",},{img:projectimpact,text:wizardData?.meetTheTeam?.stepContents?.stepgoal2,heading:"Project impact",}]},
+     {img:stakeholder,stepsId:[{index:"stakeholders1",barIndex:"stakeholders1bar"}],text:wizardData?.meetTheTeam?.stepContents?.stepstake,heading:"Stake holders",numberOfSteps:1,ids:["stepstake"]},
+     {img:problemsolving,stepsId:[{index:"problemsolving1",barIndex:"problemsolving1bar"}],text: wizardData?.meetTheTeam?.stepContents?.stepprob ,heading:"What problem it solves",numberOfSteps:1,ids:["stepprob"]}
     ]
      const [activeIndex,setActiveIndex] = useState(0)
      const getCardPosition = (index) => {
@@ -39,16 +40,7 @@ const MeetTeamPhase = () => {
           if(index === (activeIndex+1)%3) return "right"
           return "left"
      }
-
-     const [formdata,setFormData] = useState({
-          username:"",
-          email:"",
-          access:"",
-          password:"",
-          image:""
-     })
-     
-
+ 
  
 
   
@@ -60,7 +52,7 @@ const MeetTeamPhase = () => {
           <div className="flex flex-auto items-start flex-col place-items-center p-[20px]">
             
  
-               <h1 className="text-2xl bg-transparent w-[900px] mb-5">Welcome from the Team</h1>
+               <h1 className="text-2xl font-semibold bg-transparent w-[900px] mb-5">{text}</h1>
                 
               
                <div className="text-left">

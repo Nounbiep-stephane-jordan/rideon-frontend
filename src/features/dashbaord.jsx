@@ -93,19 +93,17 @@ const MainDashboard = () => {
 
 
 const fetchCredentials = async() => {
-     showLoader()
-
+   
      const {pid} = activeProject
      await API.post(`/project-credentials`,{pid})
      .then((res) => {
           // let credentialsData = res.data?.projects
           console.log("Cedentials in description",res.data?.projects)
           console.log("Active project data", activeProject)
-          hideLoader()
-
+          
      }).catch(err => {
           console.log(err,err?.status)
-          hideLoader()
+           
 
      })
 }
@@ -131,7 +129,7 @@ const fetchCredentials = async() => {
                <div className="flex flex-row justify-between mb-5">
                
                <div className="flex flex-col">
-               <div className="flex flex-initial justify-between mr-5 p-2 w-[500px] h-[180px] custom-scroll-x relative">
+               <div className="flex flex-initial justify-between mr-5 p-2 w-[550px] h-[180px] custom-scroll-x relative">
           
              
                {projectsList.map((project) => (
