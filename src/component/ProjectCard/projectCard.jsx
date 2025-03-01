@@ -43,6 +43,7 @@ const [isClicked,setIsclicked] = useState(false)
         <div className="orange-shadow relative" onClick={() => {
           setIsclicked(false)
           handleCardClick(p)
+          setActiveProject()
         }}>
         <img className="cursor-pointer" src="/card.jpg" alt="card-img"/>
         {is_fully_configured ? null :<img alt="exclamation" src={OrangeExclamation} className="w-7 absolute top-[5px] right-[0px]"/>}
