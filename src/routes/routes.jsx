@@ -1,3 +1,4 @@
+ 
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
 import Nav from "../component/nav/nav"
 import RegisterScreen from "../features/registerScreen"
@@ -20,6 +21,7 @@ const AppRoutes = () => {
                {isAppLoading ? <Spinner text={messageToDisplay || "Loading"}/>:null}
                <Routes>
                     
+ 
                     <Route path="/login" element={<LoginScreen/>} />
                     <Route path="/register" element={<RegisterScreen/>} />
                     <Route path="/new" element={<DashboardAdminNewView/>} />
@@ -30,10 +32,9 @@ const AppRoutes = () => {
                     <Route path="/wizard" element={<OnboardingWizard stage={0}/>} />
                     <Route path="/wizard-config-1" element={<OnboardingWizardConfig stage={0}/>} />
                     </Route>
-
-               </Routes>
-          </Router>
-     )
-}
+      </Routes>
+    </Router>
+  );
+};
 
 export default AppRoutes;

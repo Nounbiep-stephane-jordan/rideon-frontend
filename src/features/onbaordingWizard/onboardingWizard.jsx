@@ -1,5 +1,5 @@
-
 /* eslint-disable react-hooks/exhaustive-deps */
+ 
 
 import { lazy, memo, Suspense, useEffect, useMemo, useRef, useState } from "react"
 import {AnimatePresence,motion} from "framer-motion"
@@ -9,9 +9,12 @@ import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"
 import Congratulations from "./screens/congratulation"
 import Spinner from "../../component/spinner/spinner"
 
+ 
+import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps";
+import Congratulations from "./screens/congratulation";
+import WizardFallBackLoader from "../../component/fallback/wizardFallbackLoader";
 
-
-//impliment lazy loading menaing you load components on demand not all at once making initails load faster
+ 
 const FileVisualization = lazy(()=> import("./screens/fileVisualisation"))
 const CoddingStandards = lazy(()=> import("./screens/coddingStandards"))
 const InstallationGuide = lazy(()=> import("./screens/installationGuide"))
@@ -24,42 +27,45 @@ const OnboardingWizard = ({stage}) => {
      const previousStep = useRef(stage)
      const {setSelectedIcon} = useGlobalVariables()
    
+ 
 
-           //we memoize the components so they load faster
-           const MemoMeetTheTeam = memo(MeetTheTeam)
-           const MemoInstallationGuide = memo(InstallationGuide)
-           const MemoFileVisualization = memo(FileVisualization)
-           const MemoCoddingStandards = memo(CoddingStandards)
-           const MemoCongratulations = memo(Congratulations)
-     
-        let steps = useMemo(()=> [
-          {name:"Meet the Team",component:<MemoMeetTheTeam/>},
-          {name:"Installation guide",component:<MemoInstallationGuide/>},
-          {name:"File Visualization",component:<MemoFileVisualization/>},
-          {name:"Codding Standards",component:<MemoCoddingStandards/>},
-          {name:"Congratulations",component:<MemoCongratulations/>},
-      ],[])
-  
+  //we memoize the components so they load faster
+  const MemoMeetTheTeam = memo(MeetTheTeam);
+  const MemoInstallationGuide = memo(InstallationGuide);
+  const MemoFileVisualization = memo(FileVisualization);
+  const MemoCoddingStandards = memo(CoddingStandards);
+  const MemoCongratulations = memo(Congratulations);
 
-     const stepsId = [
-         {index:"meet team",barIndex:"meat teambar1"},
-         {index:"file viz",barIndex:"file vizbar1"},
-         {index:"instal guid",barIndex:"instal guidbar1"},
-         {index:"cod stan",barIndex:"cod stanbar1"},
-         {index:"congrat",barIndex:"cod congrat1"},
-     ]
+  let steps = useMemo(
+    () => [
+      { name: "Meet the Team", component: <MemoMeetTheTeam /> },
+      { name: "Installation guide", component: <MemoInstallationGuide /> },
+      { name: "File Visualization", component: <MemoFileVisualization /> },
+      { name: "Codding Standards", component: <MemoCoddingStandards /> },
+      { name: "Congratulations", component: <MemoCongratulations /> },
+    ],
+    []
+  );
 
-     //update direction when steps changes
-     useEffect(() => {
-       setDirection(activeStep>previousStep.current?1:-1)
-       previousStep.current = activeStep
-      
-     },[activeStep])
+  const stepsId = [
+    { index: "meet team", barIndex: "meat teambar1" },
+    { index: "file viz", barIndex: "file vizbar1" },
+    { index: "instal guid", barIndex: "instal guidbar1" },
+    { index: "cod stan", barIndex: "cod stanbar1" },
+    { index: "congrat", barIndex: "cod congrat1" },
+  ];
 
-     useEffect(()=>{
-       setSelectedIcon("onboardingWizard")
-  },[])
+  //update direction when steps changes
+  useEffect(() => {
+    setDirection(activeStep > previousStep.current ? 1 : -1);
+    previousStep.current = activeStep;
+  }, [activeStep]);
 
+ 
+  useEffect(() => {
+    setSelectedIcon("onboardingWizard");
+  }, []);
+ 
 
  
  
@@ -93,6 +99,8 @@ const OnboardingWizard = ({stage}) => {
          </div>
     )
 }
+ 
 
+  
 
-export default OnboardingWizard
+export default OnboardingWizard;

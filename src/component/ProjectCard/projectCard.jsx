@@ -69,6 +69,7 @@ const [isClicked,setIsclicked] = useState(false)
           setIsclicked(false)
           setActiveProject()
           handleCardClick(p)
+          setActiveProject()
         }}>
         <img className="cursor-pointer" src={cardImg} alt="card-img"/>
         {is_fully_configured ? null :<img alt="exclamation" src={OrangeExclamation} className="w-7 absolute top-[5px] right-[0px]"/>}
