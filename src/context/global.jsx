@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/rules-of-hooks */
 import {createContext, useContext, useEffect, useState } from "react";
 
@@ -51,6 +50,8 @@ const defaultCod = {
  }
 
 
+
+
 export const GlobalProvider = ({children}) => {
      const [selectedIcon, setSelectedIcon] = useState("home"); //for nav bar
      const [user,setUser] = useState(null)
@@ -63,6 +64,23 @@ export const GlobalProvider = ({children}) => {
 
      const [installationGuidesConfigData,setInstallationGuidesConfigData] = useState(defaultGuide)
 
+     const [isEditingWizard,setIsEditingWizard] = useState(false)
+     const [editingWizardProjectId,setEditingWizardProjectId] = useState(null) //contains the id of hte project edited
+     
+
+     const [isAppLoading,setIsAppLoading] = useState(false)
+     const [messageToDisplay,setMessageToDisplay] = useState("")
+      
+     const hideLoader = () => {
+          setTimeout(()=> setIsAppLoading(false),2000)
+     }
+     
+     const showLoader = () => {
+          setIsAppLoading(true)
+     }
+
+
+  
 
      //actaul wizard data
      const [wizardData,setWizardData] = useState({
@@ -71,6 +89,8 @@ export const GlobalProvider = ({children}) => {
           githubPhaseData:defaultGit,
           installationGuidesData:defaultGuide
      })
+
+ 
  
 
  
@@ -122,8 +142,13 @@ export const GlobalProvider = ({children}) => {
           handleCleanWizardConfig,
 
           //actaul data
-          wizardData,setWizardData
+          wizardData,setWizardData,
 
+
+          isEditingWizard,setIsEditingWizard, editingWizardProjectId,setEditingWizardProjectId,
+
+          showLoader,hideLoader,isAppLoading,
+          messageToDisplay,setMessageToDisplay
 
 
           }}> 

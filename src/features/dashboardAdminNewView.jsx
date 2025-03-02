@@ -6,6 +6,7 @@ import cardillustration1 from "../assets/img/adminNewDashboardIllustration1.svg"
 import cardillustration2 from "../assets/img/adminNewDashboardIllustration2.svg";
 import cardillustration3 from "../assets/img/adminNewDashboardIllustration3.svg";
 import API from "../api/api.js";
+import { useGlobalVariables } from "../context/global.jsx";
 
 const initialCards = [
   {
@@ -61,6 +62,7 @@ const CardBlock = ({
 
 const DashboardAdminNewView = () => {
   const [cards, setCards] = useState(initialCards);
+  const {showLoader,hideLoader} = useGlobalVariables()
   
 const handleCardClick = (clickedId) => {
     if (cards[1].id === clickedId) return; // Do nothing if center is clicked
@@ -75,16 +77,21 @@ const handleCardClick = (clickedId) => {
   };
 
   useEffect(()=> {
+
     //when user reaches here meaning hewas new. we need to tell teh backend now that he isnt new anymore for net time he is directed to the dashboard
     async function fetchData(){
+      showLoader()
       let user = JSON.parse(localStorage.getItem("user"))
       console.log("in here",user)
       await API.post("/user-status",{user}).then((res) => {
         console.log(res,"in admin new dhasboard")
         user.is_new = res.data.user.is_new
         localStorage.setItem("user",JSON.stringify(user))
+        hideLoader()
+
       }).catch((err) => {
         console.log(err,"aneeroro occured")
+        hideLoader()
       })
     }
 

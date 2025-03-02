@@ -6,7 +6,7 @@ import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"
 import {AnimatePresence,motion} from "framer-motion"
 import { useGlobalVariables } from "../../context/global"
 import {memo} from "react"
-import WizardFallBackLoader from "../../component/fallback/wizardFallbackLoader"
+import Spinner from "../../component/spinner/spinner"
 
 //impliment lazy loading menaing you load components on demand not all at once making initails load faster
 const FileVisualizationConfig = lazy(()=> import("./configuration/fileVisualizationConfig"))
@@ -18,7 +18,7 @@ const OnboardingWizardConfig = ({stage}) => {
       const [activeStep,setActiveStep] = useState(stage)
       const [direction,setDirection] = useState(1) // 1=forward -1 =backward
       const previousStep = useRef(stage)
-      const {setSelectedIcon} = useGlobalVariables()
+      const {setSelectedIcon,hideLoader} = useGlobalVariables()
     
       //we memoize the components so they load faster
       const MemoMeetTheTeam = memo(MeetTeamPhaseConfig)
@@ -51,16 +51,18 @@ const OnboardingWizardConfig = ({stage}) => {
       },[activeStep])
 
       useEffect(()=>{
+        hideLoader()
         setSelectedIcon("onboardingWizard")
    },[])
 
      return (
           <div className="">
+            {/*it will show this loading when the component is still mounting we can style it so it looks better */}
+            <Suspense fallback={<Spinner text="Loading....subsequent loads wil be much faste"/>}>
             <AnimatePresence mode="wait" initial={false} custom={direction}>
             <motion.div
               key={activeStep}
               custom={direction}
-              initial={{opacity:0,x:direction * 50}}
               animate={{opacity:1,x:0}}
               exit={{opacity:0,x:-direction * 50 }}
               transition={{
@@ -71,13 +73,13 @@ const OnboardingWizardConfig = ({stage}) => {
               
              
               >
-                {/*it will show this loading when the component is still mounting we can style it so it looks better */}
-              <Suspense fallback={<WizardFallBackLoader/>}>
+           
               {steps[activeStep].component}
-              </Suspense>
+              
               </motion.div>
             </AnimatePresence>
               <OnbaordingWizardNavigationSteps stepsId={stepsId}   numberOfSteps={steps.length} activeStep={activeStep} setActiveStep={setActiveStep}/>
+            </Suspense>
           </div>
      )
 }

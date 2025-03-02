@@ -40,9 +40,8 @@ const IconSelected = ({ source, onClick }) => { // 2-selected nav bar icon
     <motion.div
       className="bg-white grid place-items-center w-8 h-8 ml-1 mr-3 relative top-[-10px] rounded-full cursor-pointer focus:outline-none"
       onClick={onClick}
-      layout
-      initial={{ scale: 0.8 }}
-      animate={{ scale: 1 }}
+      initial={false}
+      animate={{ scale: 1}}
       transition={{ type: "smooth", stiffness: 250, damping: 15 }}
     >
       <motion.img className="size-4" src={source} alt="icon" />
@@ -50,9 +49,10 @@ const IconSelected = ({ source, onClick }) => { // 2-selected nav bar icon
   );
 };
 
-const LogedUser = ({ source }) => { // 3-Authenticated user avatar
+const LogedUser = ({ source,navigate }) => { // 3-Authenticated user avatar
   return (
     <img
+    onClick={()=>navigate("/login")}
       src={source}
       alt="icon"
       className=" size-8 outline-white outline-4 rounded-full"
@@ -69,7 +69,7 @@ const Nav = () => { // 4-nav bar component
   return (
     // managing various states based on the selected icon variable name
     <div
-      className="mt-5 relative bg-[#530DF6] rounded-r-sm flex justify-between h-[35px] w-[230px] shadow-md focus:outline-none"
+      className="mt-5 relative bg-[#530DF6] rounded-r-sm flex justify-between h-[35px] w-[230px] shadow-md focus:outline-none overflow-visible"
       tabIndex={-1}
     >
       <div className="flex flex-row justify-between ml-3 focus:outline-none">
@@ -118,7 +118,7 @@ const Nav = () => { // 4-nav bar component
       </div>
 
       <div className="mr-4 absolute top-[-8px] right-0 focus:outline-none">
-        <LogedUser source={logedUser} />
+        <LogedUser navigate={navigate} source={logedUser} />
       </div>
     </div>
   );
