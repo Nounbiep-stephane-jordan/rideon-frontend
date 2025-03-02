@@ -92,21 +92,18 @@ const MainDashboard = () => {
 
 
 
+const [activeProjectData,setActiveProjectData] = useState({credentials:[],userProgress:""})
 const fetchCredentials = async() => {
-
+      
      const {id} = activeProject
-     await API.post(`/project-credentials`,{id})
-
-     showLoader()
-
-     .then((res) => {
-          // let credentialsData = res.data?.projects
-          console.log("Cedentials in description",res.data?.projects)
-          console.log("Active project data", activeProject)
+     await API.post(`/project-credentials`,{id}).then((res) => {
+          console.log(res.data.credentials)
+          let data =  res.data?.credentials
+          setActiveProjectData({...activeProjectData,credentials:data})
           
      }).catch(err => {
           console.log(err,err?.status)
-           
+         
 
      })
 }
@@ -184,79 +181,26 @@ const fetchCredentials = async() => {
                     <div className="absolute inset-0 pointer-events-none border-4 border-transparent bg-gradient-to-b-from-transparent to-white"></div>
 
                     <div className="h-full px-4 pb-10 overflow-y-scroll custom-scrollbar">
-                    <div className="flex flex-col justify-between mt-[10px]">
-                         <h3 className="font-normal text-left">Database access</h3>
+                    {activeProjectData.credentials.map((section) => (
+                    <div key={section.id} className="flex flex-col justify-between mt-[10px]">
+                         <h3 className="font-normal text-left">{section.title}</h3>
                          <div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Name</span>
-                              <span className="text-xs text-[#606060]">My database</span>
-                              <span onClick={() => handleCopyClicked("My database")}>
+                         {section?.pairs.map((pair) => (
+                         <div key={pair.key+pair.value} className="flex flex-row justify-between">
+                              <span className="text-xs">{pair?.key}</span>
+                              <span className="text-xs text-[#606060]">{pair?.value}</span>
+                              <span onClick={() => handleCopyClicked(pair?.value)}>
                                    <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
                               </span>
                          </div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Password</span>
-                              <span className="text-xs text-[#606060]">7582132563</span>
-                              <span className="" onClick={() => handleCopyClicked("7582132563")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         </div>
-                    </div>
+                         ))}
 
-                    <div className="flex flex-col justify-between mt-[10px]">
-                         <h3 className="font-normal text-left">Database access</h3>
-                         <div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Name</span>
-                              <span className="text-xs text-[#606060]">My database</span>
-                              <span onClick={() => handleCopyClicked("My database")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Password</span>
-                              <span className="text-xs text-[#606060]">7582132563</span>
-                              <span className="" onClick={() => handleCopyClicked("7582132563")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
                          </div>
                     </div>
+                    ))}
+ 
 
-                    <div className="flex flex-col justify-between mt-[10px]">
-                         <h3 className="font-normal text-left">Test users</h3>
-                         <div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Name</span>
-                              <span className="text-xs text-[#606060]">Jordan</span>
-                              <span onClick={() => handleCopyClicked("Jordan")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Password</span>
-                              <span className="text-xs text-[#606060]">Okay2025</span>
-                              <span className="" onClick={() => handleCopyClicked("Okay2025")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Name</span>
-                              <span className="text-xs text-[#606060]">test</span>
-                              <span className="" onClick={() => handleCopyClicked("test")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Password</span>
-                              <span className="text-xs text-[#606060]">Okay2025</span>
-                              <span className="" onClick={() => handleCopyClicked("Okay2025")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         </div>
-                    </div>
+                    
                     </div>
 
                     </div>

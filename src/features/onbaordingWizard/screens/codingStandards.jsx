@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import standardimg from "../../../assets/standard.jpg"
 
 const MAXVIEWS = 3;
 const standards = [
@@ -51,11 +52,11 @@ const Step1 = ({ good, bad }) => {
         </div>
 
         <div className="w-full max-w-[170px] float-left">
-          <img className="" src={"/standard.jpg"} alt="standard" />
+          <img className="" src={standardimg} alt="standard" />
         </div>
       </div>
 
-      <div className="space-y-2 flex items-center flex-row justify-evenly p-2 relative  w-[630px] overflow-scroll custom-scrollbar">
+      <div className="space-y-2 flex items-center flex-row justify-evenly p-2 relative  w-[630px] custom-scroll-x">
         {standards.map((standard, index) => (
           <motion.div
             key={standard.id}
@@ -197,7 +198,7 @@ const CompanyStandards = () => {
   const [selectedView, setSelectedView] = useState(1);
 
   return (
-    <div className="mt-[50px] flex flex-col items-center justify-between shadow-xl w-[700px] h-[455px] rounded-[15px] p-5">
+    <div className="mt-[50px] flex flex-col items-center justify-between outline-black/10 outline-2 shadow-lg w-[700px] h-[455px] rounded-[15px] p-5">
       {/* Content takes full available space */}
       <div className="flex-grow flex items-center justify-center w-full">
         {selectedView === 1 ? (
@@ -229,7 +230,7 @@ const CompanyStandards = () => {
 
 const Standards = () => {
   return (
-    <div className="flex items-center justify-center h-screen ">
+    <div className="flex items-center justify-center">
       <CompanyStandards />
     </div>
   );

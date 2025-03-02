@@ -10,13 +10,11 @@ import Congratulations from "./screens/congratulation"
 import Spinner from "../../component/spinner/spinner"
 
  
-import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps";
-import Congratulations from "./screens/congratulation";
-import WizardFallBackLoader from "../../component/fallback/wizardFallbackLoader";
+
 
  
 const FileVisualization = lazy(()=> import("./screens/fileVisualisation"))
-const CoddingStandards = lazy(()=> import("./screens/coddingStandards"))
+const CoddingStandards = lazy(()=> import("./screens/codingStandards"))
 const InstallationGuide = lazy(()=> import("./screens/installationGuide"))
 const MeetTheTeam = lazy(()=> import("./screens/meetTheTeam"))
 
