@@ -85,7 +85,7 @@ const handleFocus = () => {
 }
 
      return (
-          <div className="w-[250px] h-[250px] grid grid-cols-1 grid-rows-auto gap-1 custom-wizard-config-shadow p-5 bg-white">
+          <div className="w-[250px] h-[250px] grid grid-cols-1 grid-rows-auto gap-1  p-5 rounded border-[2px] border-[#D9D9D9] bg-white">
                <h1 className="text-sm text-left items-start cursor-pointer h-[20px] place-items-start">{currrentContent.heading}</h1>
                {error ? <p className="text-red-700">{error}</p>: null}
                {numberOfSteps>1?(

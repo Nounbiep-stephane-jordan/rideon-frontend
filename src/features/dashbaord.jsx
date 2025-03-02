@@ -93,10 +93,12 @@ const MainDashboard = () => {
 
 
 const fetchCredentials = async() => {
+
+     const {id} = activeProject
+     await API.post(`/project-credentials`,{id})
+
      showLoader()
 
-     const {pid} = activeProject
-     await API.post(`/project-credentials`,{pid})
      .then((res) => {
           // let credentialsData = res.data?.projects
           console.log("Cedentials in description",res.data?.projects)
