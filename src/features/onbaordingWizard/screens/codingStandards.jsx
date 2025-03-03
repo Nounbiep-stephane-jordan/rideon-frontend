@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import standardimg from "../../../assets/standard.webp"
 import { useGlobalVariables } from "../../../context/global";
+import { WizardProgressContext } from "../../../context/wizardProgressContext";
 
 const MAXVIEWS = 3;
 const standards = [
@@ -201,7 +202,8 @@ const CardSelector = ({ isClicked, onClick }) => {
 
 const CompanyStandards = () => {
   const [selectedView, setSelectedView] = useState(1);
- 
+         const {interactionsTrackerCod,setInteractionsTrackerCod} = useContext(WizardProgressContext)
+     
   return (
     <div className="mt-[50px] flex flex-col items-center justify-between outline-black/10 outline-2 shadow-lg w-[700px] h-[455px] rounded-[15px] p-5">
       {/* Content takes full available space */}
@@ -222,7 +224,14 @@ const CompanyStandards = () => {
             <motion.div key={index}>
               <CardSelector
                 isClicked={selectedView === index + 1}
-                onClick={() => setSelectedView(index + 1)}
+                onClick={() => {
+                  setSelectedView(index +1)
+                  if(interactionsTrackerCod.clicks <= 3) {
+                    setInteractionsTrackerCod((prev)=>({
+                         ...prev,[`step${index+1}Click`]:1,clicks:interactionsTrackerCod.clicks+1
+                    }))
+               }
+                }}
               />
             </motion.div>
           );

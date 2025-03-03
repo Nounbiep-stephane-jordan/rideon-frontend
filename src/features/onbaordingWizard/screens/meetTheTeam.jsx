@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
  
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {motion} from "framer-motion"
 import { useGlobalVariables } from "../../../context/global";
 import WizardCardComplete from "../../../component/wizardCard/wizardCardComplete";
@@ -9,10 +9,11 @@ import projectgoal from "../../../assets/projectgoal.webp"
 import projectimpact from "../../../assets/projectimpact.webp"
 import stakeholder from "../../../assets/stakeholders.webp"
 import problemsolving from "../../../assets/problemsolving.webp"
+import { WizardProgressContext } from "../../../context/wizardProgressContext";
 
 const MeetTeamPhase = () => {
      const {wizardData} = useGlobalVariables() // get the wizaad data if it had it
-
+     const {interactionsTrackerMeet,setInteractionsTrackerMeet} = useContext(WizardProgressContext)
  
      const defaultText = "Enter the wellcome message..."
      const [text,setText] = useState(wizardData?.meetTheTeam?.text||defaultText)
@@ -42,7 +43,7 @@ const MeetTeamPhase = () => {
      }
  
  
-
+ 
   
    
 
@@ -98,7 +99,14 @@ const MeetTeamPhase = () => {
                                    damping:20
                               }}
 
-                              onClick={()=>setActiveIndex(index)}
+                              onClick={()=>{
+                                   if(interactionsTrackerMeet.clicks <= 3) {
+                                        setInteractionsTrackerMeet((prev)=>({
+                                             ...prev,clicks:interactionsTrackerMeet.clicks+1
+                                        }))
+                                   }
+                                   setActiveIndex(index)
+                              }}
                               >
                                    <WizardCardComplete ids={card.ids} key={card.text} stepsId={card.stepsId} numberOfSteps={card.numberOfSteps}  img={card.img} heading={card.heading} text={card.text} subcards={card.subcard}/>
                               </motion.div>

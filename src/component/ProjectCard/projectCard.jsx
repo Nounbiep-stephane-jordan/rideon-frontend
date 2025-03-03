@@ -15,7 +15,7 @@ const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_full
   const startWiward = async(project_id) => {
    await API.post("/start-wizard",{project_id}).then((res) => {
       console.log(res.data)
-      setWizardData(res.data)
+      setWizardData({...res.data,project_id})
       navigate("/wizard")
     }).catch(err => {
       console.log(err,"in start wizard")

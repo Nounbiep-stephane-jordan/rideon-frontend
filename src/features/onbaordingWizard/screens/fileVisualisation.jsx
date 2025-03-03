@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AnimatePresence,motion } from "framer-motion";
 import Littleplus from "../../../assets/little-plus.svg"
 import { useGlobalVariables } from "../../../context/global";
@@ -7,6 +7,7 @@ import BlueBox from "../../../component/blueBox/blueBox";
 import fileviz from "../../../assets/file-viz.webp"
 import API from "../../../api/api"
 import {MAX_CONTENT_LENGTH_FILE} from "../../../utils/constants"
+import { WizardProgressContext } from "../../../context/wizardProgressContext";
  
 
 const testvalues = {
@@ -30,6 +31,8 @@ const isImageFile = (filename) => {
 }
 
 const FileVisualization = () => {
+        const {interactionsTrackerGit,setInteractionsTrackerGit} = useContext(WizardProgressContext)
+    
     const {wizardData,showLoader,hideLoader} = useGlobalVariables()
     const [owner, setOwner] = useState(wizardData?.githubPhase?.owner || testvalues.owner);
     const [repo, setRepo] = useState(wizardData?.githubPhase?.repo || testvalues.repo);
@@ -94,6 +97,11 @@ const FileVisualization = () => {
 
     //for colors and descriptions
     const handleFileClick = async(file) => {
+        if(interactionsTrackerGit.clicks <= 3) {
+            setInteractionsTrackerGit((prev)=>({
+                 ...prev,fileClick:1,clicks:interactionsTrackerGit.clicks+1
+            }))
+       }
       setSelectedFile(file)
       await fetchFileContent(file)
     }
@@ -138,6 +146,11 @@ const FileVisualization = () => {
 
     // Handle clicking a folder
     const handleFolderClick = (path) => {
+        if(interactionsTrackerGit.clicks <= 3) {
+            setInteractionsTrackerGit((prev)=>({
+                 ...prev,folderClick:1,clicks:interactionsTrackerGit.clicks+1
+            }))
+       }
         if (fileTree[path]) {
             // If already loaded, remove (collapse)
             setFileTree((prevTree) => {
@@ -230,7 +243,14 @@ const FileVisualization = () => {
 
                <div  className="cursor-pointer w-50 rounded-sm absolute bg-white bottom-5 right-5 p-5 shadow-lg"> 
                {COLORS.map((c) => (
-                    <div onClick={()=> setShowLittleBox(true)} key={c.description}  className=" z-[50]">
+                    <div onClick={()=> {
+                        setShowLittleBox(true)
+                        if(interactionsTrackerGit.clicks <= 3) {
+                            setInteractionsTrackerGit((prev)=>({
+                                 ...prev,smallBoxClick:1,clicks:interactionsTrackerGit.clicks+1
+                            }))
+                       }
+                    }} key={c.description}  className=" z-[50]">
                     <div className="flex items-center mb-1">
                          <div className={`h-2 shadow-lg w-2 rounded-full bg-[${c.color}] mr-2`}></div>
                         <p className="text-[5px] text-left">{c.description}</p>

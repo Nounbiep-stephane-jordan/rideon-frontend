@@ -183,7 +183,7 @@ const fetchCredentials = async() => {
                     <div className="absolute inset-0 pointer-events-none border-4 border-transparent bg-gradient-to-b-from-transparent to-white"></div>
 
                     <div className="h-full px-4 pb-10 overflow-y-scroll custom-scrollbar">
-                    {activeProjectData.credentials?.length <= 0 ? <div className="flex flex-col items-center">
+                    {activeProjectData.credentials?.length <= 0 ? <div className="flex flex-col items-center justify-center">
                          <img src={emptyCredentials} className="w-40 self-center" alt="cred"/>
                          <button onClick={() => navigate("/wizard-config-1")} className=" cursor-pointer self-center py-[5px] px-[15px] rounded font-bold outline-2 outline-[#8EFF2C]">Start</button>
                     </div> : activeProjectData.credentials.map((section) => (

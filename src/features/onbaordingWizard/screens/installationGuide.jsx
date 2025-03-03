@@ -2,13 +2,14 @@
 /* eslint-disable no-unused-vars */
 
 import iconCopy from "../../../assets/copy_icon.svg";
-import { useState } from "react"
+import { useContext, useState } from "react"
 import {motion} from "framer-motion"
 import fleft from "../../../assets/fleft-orange.webp"
 import fright from "../../../assets/fright-orange.webp"
 import guidetop from "../../../assets/guide-top.webp"
 import guideCenter from "../../../assets/guide-center.webp"
 import { useGlobalVariables } from "../../../context/global";
+import { WizardProgressContext } from "../../../context/wizardProgressContext";
 
 const cardVariants = {
      front: {
@@ -53,6 +54,7 @@ const cardVariants = {
 
 const StepModalReady = ({isOpen,onClose}) => {
 
+    
      const {wizardData} = useGlobalVariables()
      const [currentStep, setCurrentStep] = useState(0);
      const [steps, setSteps] = useState( wizardData?.installationGuide?.steps || [{name:"John",description:"test",image:"/loged_user.svg"}]);
@@ -149,7 +151,7 @@ const InstallationGuide = () => {
      const [isOpen, setIsOpen] = useState(false);
     const {wizardData} = useGlobalVariables()
     const [textData,setTextData] = useState( wizardData?.installationGuide?.textData)
-     
+    const {interactionsTrackerInstall,setInteractionsTrackerInstall} = useContext(WizardProgressContext)
 
     
 
@@ -248,7 +250,13 @@ const InstallationGuide = () => {
       {installationGuidesOsText[activeOS]}
       </p>
 
-     <div onClick={() => setIsOpen(true)}  className="flex flex-row items-center justify-between">
+     <div onClick={() => {
+      if(interactionsTrackerInstall.clicks <= 2) {
+        setInteractionsTrackerInstall((prev) => ({...prev,customGuideClick:1,clicks:interactionsTrackerInstall.clicks+1}))
+      }
+     
+      setIsOpen(true)
+     }}  className="flex flex-row items-center justify-between">
      <button className="text-xs text-white self-center bg-[#FF8000] px-5 py-2 cursor-pointer">Custom guide</button>
     
      </div>
@@ -307,7 +315,12 @@ animate={isFlipped ? "back" : "front"}
 
 >
 <div className="p-[15px] h-[280px] w-[300px] blue-shadow bg-white outline-2 outline-[#530DF6]">
-<h1 className="text-left font-medium cursor-pointer" onClick={() => isFlipped && setIsFlipped(false)}>Additional links</h1>
+<h1 className="text-left font-medium cursor-pointer" onClick={() => {
+  if(interactionsTrackerInstall.clicks <= 2) {
+    setInteractionsTrackerInstall((prev) => ({...prev,backCardClick:1,clicks:interactionsTrackerInstall.clicks+1}))
+    }
+  isFlipped && setIsFlipped(false)
+}}>Additional links</h1>
 
 <div className="flex flex-row justify-between items-center mt-[2px]">
  

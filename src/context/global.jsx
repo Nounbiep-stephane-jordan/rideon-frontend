@@ -66,7 +66,7 @@ export const GlobalProvider = ({children}) => {
 
      const [isEditingWizard,setIsEditingWizard] = useState(false)
      const [editingWizardProjectId,setEditingWizardProjectId] = useState(null) //contains the id of hte project edited
-     
+ 
 
      const [isAppLoading,setIsAppLoading] = useState(false)
      const [messageToDisplay,setMessageToDisplay] = useState("")
@@ -87,7 +87,8 @@ export const GlobalProvider = ({children}) => {
           installationGuide:defaultGuide,
           coddingStandards:defaultCod,
           meetTheTeam:defaultMeet,
-          githubPhase:defaultGit
+          githubPhase:defaultGit,
+          projectId:null
         })
 
  
