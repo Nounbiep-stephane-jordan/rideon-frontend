@@ -1,8 +1,8 @@
 
 import { useNavigate } from "react-router-dom"
-import congratulation from "../../../assets/congratulation.jpg"
-import leftcongrat from "../../../assets/right-congrat.jpg"
-import rightcongrat from "../../../assets/right-congrat.jpg"
+import congratulation from "../../../assets/congratulation.webp"
+import leftcongrat from "../../../assets/right-congrat.webp"
+import rightcongrat from "../../../assets/right-congrat.webp"
 
 const Congratulations = () => {
      const navigate = useNavigate()

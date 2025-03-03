@@ -1,11 +1,11 @@
 
  
 import API from "../../api/api"
-import OrangeExclamation from "../../assets/orange-exclamation.png"
+import OrangeExclamation from "../../assets/orange-exclamation.webp"
 import { useState } from "react"
 import {useNavigate} from "react-router-dom"
 import {useGlobalVariables} from "../../context/global"
-import cardImg from "../../assets/card.jpg"
+import cardImg from "../../assets/card.webp"
 
 
 const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {

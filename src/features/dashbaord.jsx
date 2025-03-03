@@ -9,6 +9,8 @@ import { useGlobalVariables } from "../context/global";
 import API from "../api/api";
 import {PROJECT_LIMIT} from "../utils/constants"
 import CustomNotification from "../component/animmateNotification/animatedNotificaiton";
+import emptyCredentials from "../assets/empty-credentials.webp"
+
 
 const MainDashboard = () => {
      const [projectsList,setProjectList] = useState([ 
@@ -181,7 +183,10 @@ const fetchCredentials = async() => {
                     <div className="absolute inset-0 pointer-events-none border-4 border-transparent bg-gradient-to-b-from-transparent to-white"></div>
 
                     <div className="h-full px-4 pb-10 overflow-y-scroll custom-scrollbar">
-                    {activeProjectData.credentials.map((section) => (
+                    {activeProjectData.credentials?.length <= 0 ? <div className="flex flex-col items-center">
+                         <img src={emptyCredentials} className="w-40 self-center" alt="cred"/>
+                         <button onClick={() => navigate("/wizard-config-1")} className=" cursor-pointer self-center py-[5px] px-[15px] rounded font-bold outline-2 outline-[#8EFF2C]">Start</button>
+                    </div> : activeProjectData.credentials.map((section) => (
                     <div key={section.id} className="flex flex-col justify-between mt-[10px]">
                          <h3 className="font-normal text-left">{section.title}</h3>
                          <div>

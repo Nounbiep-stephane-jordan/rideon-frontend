@@ -4,10 +4,10 @@
 import iconCopy from "../../../assets/copy_icon.svg";
 import { useState } from "react"
 import {motion} from "framer-motion"
-import fleft from "../../../assets/fleft-orange.png"
-import fright from "../../../assets/fright-orange.png"
-import guidetop from "../../../assets/guide-top.jpg"
-import guideCenter from "../../../assets/guide-center.jpg"
+import fleft from "../../../assets/fleft-orange.webp"
+import fright from "../../../assets/fright-orange.webp"
+import guidetop from "../../../assets/guide-top.webp"
+import guideCenter from "../../../assets/guide-center.webp"
 import { useGlobalVariables } from "../../../context/global";
 
 const cardVariants = {

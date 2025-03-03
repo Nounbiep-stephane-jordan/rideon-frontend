@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import {motion} from "framer-motion"
 import { useGlobalVariables } from "../../../context/global";
 import WizardCardComplete from "../../../component/wizardCard/wizardCardComplete";
-import projectgoal from "../../../assets/projectgoal.jpg"
-import projectimpact from "../../../assets/projectimpact.jpg"
-import stakeholder from "../../../assets/stakeholders.jpg"
-import problemsolving from "../../../assets/problemsolving.jpg"
+import projectgoal from "../../../assets/projectgoal.webp"
+import projectimpact from "../../../assets/projectimpact.webp"
+import stakeholder from "../../../assets/stakeholders.webp"
+import problemsolving from "../../../assets/problemsolving.webp"
 
 const MeetTeamPhase = () => {
      const {wizardData} = useGlobalVariables() // get the wizaad data if it had it

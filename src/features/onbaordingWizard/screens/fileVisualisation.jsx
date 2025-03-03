@@ -4,7 +4,7 @@ import { AnimatePresence,motion } from "framer-motion";
 import Littleplus from "../../../assets/little-plus.svg"
 import { useGlobalVariables } from "../../../context/global";
 import BlueBox from "../../../component/blueBox/blueBox";
-import fileviz from "../../../assets/file-viz.jpg"
+import fileviz from "../../../assets/file-viz.webp"
 import API from "../../../api/api"
 import {MAX_CONTENT_LENGTH_FILE} from "../../../utils/constants"
  

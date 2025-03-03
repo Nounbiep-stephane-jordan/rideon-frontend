@@ -5,7 +5,7 @@ import "../style.css"
 import { AnimatePresence,motion } from "framer-motion";
 import Littleplus from "../../../assets/little-plus.svg"
 import { useGlobalVariables } from "../../../context/global";
-import errorJpg from "../../../assets/error.jpg"
+import errorJpg from "../../../assets/error.webp"
 
 
 const testvalues = {
