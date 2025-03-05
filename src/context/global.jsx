@@ -70,6 +70,8 @@ export const GlobalProvider = ({children}) => {
 
      const [isAppLoading,setIsAppLoading] = useState(false)
      const [messageToDisplay,setMessageToDisplay] = useState("")
+
+     const [wizardStartStage,setWizardStartStage] = useState(0)
       
      const hideLoader = () => {
           setTimeout(()=> setIsAppLoading(false),2000)
@@ -88,7 +90,8 @@ export const GlobalProvider = ({children}) => {
           coddingStandards:defaultCod,
           meetTheTeam:defaultMeet,
           githubPhase:defaultGit,
-          projectId:null
+          projectId:null,
+          projectName:""
         })
 
  
@@ -149,7 +152,9 @@ export const GlobalProvider = ({children}) => {
           isEditingWizard,setIsEditingWizard, editingWizardProjectId,setEditingWizardProjectId,
 
           showLoader,hideLoader,isAppLoading,
-          messageToDisplay,setMessageToDisplay
+          messageToDisplay,setMessageToDisplay,
+
+          wizardStartStage,setWizardStartStage
 
 
           }}> 

@@ -15,9 +15,12 @@ const Congratulations = () => {
           interactionsTrackerGit,
           interactionsTrackerMeet,wizardProgressSaved,setWizardProgressSaved} = useContext(WizardProgressContext)
      const {wizardData} = useGlobalVariables()
+ 
      const saveWizardProgress = async() => {
           let user = JSON.parse(localStorage.getItem("user"))
+           
           const data  = {
+               user_name:user.user_name,
                user_id:user.id,
                project_id:wizardData?.project_id,
                interactionsTrackerInstall,
@@ -26,11 +29,17 @@ const Congratulations = () => {
                interactionsTrackerMeet
           }
 
+          
+
+          
           if(wizardData?.project_id && wizardProgressSaved == false) {
                await API.post("/save-wizard-progress",{...data}).then((res)=> {
-                    console.log("in save wizard progress",res.data)
+                    
+                    setWizardProgressSaved(true)
                     navigate("/")
-                    setWizardProgressSaved(false)
+                    
+
+                    
                }).catch(err => {
                     console.log(err)
                })
@@ -41,7 +50,7 @@ const Congratulations = () => {
      return (
           <div className="flex items-center flex-col justify-center m-auto mt-10">
                <h1 className="text-2xl font-bold mb-5">Congratulations</h1>
-               <p className="w-1/2 text-[20px] font-meduim capitalize">you have succefully onboarded on the prject  Easybuy. you are ready to get productie and rrideon</p>
+               <p className="w-1/2 text-[20px] font-meduim capitalize">you have succefully onboarded on the project <span className="text-[#530DF6]">{wizardData?.projectName}</span>. you are ready to get productive and rideon</p>
                <div className="items-center relative">
                
                <div className="flex flex-row justify-between items-center">

@@ -199,7 +199,7 @@ const FileVisualization = () => {
                       }}> {file.name}
                             {hoveredFile?.path === file.path && fileAnnotations[file.path] &&(
                             <div className="fixed w-120 h-1/2 right-1/2 top-50 z-50">
-                                <div className="bg-black/50 shadow-lg p-5 rounded-sm">
+                                <div className="bg-[#530DF6] opacity-80 shadow-lg p-5 rounded-sm">
                                         <h1 className="text-[20px] capitalize text-white text-[10px] text-left">{fileAnnotations[file?.path]?.notes}</h1>
                                         <div className="flex flex-row bg-gray mt-2">
                                             {fileAnnotations[file?.path]?.colors?.map(color =>(
@@ -301,10 +301,14 @@ const FileVisualization = () => {
 
 
            <div className={`bg-[#F5F5F5] w-1/2 relative bg-white shadow-lg border-[2px] border-[#D9D9D9] z-[5]`}>
-
+            
                <div className="file-list h-[380px] overflow-x-scroll custom-scrollbar">
+ 
                 {selectedFile?.name && fileContent !== null ? <div className="p-5">
-                    <h2 className="font-semibold text-2xl text-left">{selectedFile.name}</h2>
+                    <div className="flex flex-col flex-grow px-5">
+                <h2 className="font-semibold text-2xl text-left mb-2">{selectedFile.name}</h2>
+                <div className="bg-[#530DF6] h-2 w-full"></div>
+                </div>
                     <pre className="">
                         <code>{fileContent}</code>
                     </pre>

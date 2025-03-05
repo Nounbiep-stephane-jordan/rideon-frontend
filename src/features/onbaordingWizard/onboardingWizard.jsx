@@ -20,24 +20,26 @@ const CoddingStandards = lazy(()=> import("./screens/codingStandards"))
 const InstallationGuide = lazy(()=> import("./screens/installationGuide"))
 const MeetTheTeam = lazy(()=> import("./screens/meetTheTeam"))
 
-const OnboardingWizard = ({stage}) => {
+const OnboardingWizard = ( ) => {
   
-     const [activeStep,setActiveStep] = useState(stage)
+  const {setSelectedIcon,wizardStartStage:stage} = useGlobalVariables()
+  const {wizardProgressSaved,setWizardProgressSaved} = useContext(WizardProgressContext)
+ 
+  const [activeStep,setActiveStep] = useState(stage)
      const [direction,setDirection] = useState(1) // 1=forward -1 =backward
      const previousStep = useRef(stage)
-     const {setSelectedIcon} = useGlobalVariables()
-    const {wizardProgressSaved,setWizardProgressSaved} = useContext(WizardProgressContext)
+     
+   
     const [showSaveModal,setShowSaveModal] = useState(false)
     const navigate = useNavigate()
-     const blocker = useBlocker(({ currentLocation, nextLocation }) => 
-      wizardProgressSaved == false && currentLocation.pathname !== nextLocation.pathname
+     const blocker = useBlocker(({ currentLocation, nextLocation }) => activeStep!==4 &&wizardProgressSaved == false && currentLocation.pathname !== nextLocation.pathname
     );
 
 
   // Handle window/tab close or refresh
   useEffect(() => {
     const handleBeforeUnload = (e) => {
-      if (wizardProgressSaved) {
+      if (wizardProgressSaved === false) {
         e.preventDefault();
         e.returnValue = ''; // Required for Chrome
       }
@@ -63,6 +65,7 @@ const {wizardData} = useGlobalVariables()
 const saveWizardProgress = async() => {
     let user = JSON.parse(localStorage.getItem("user"))
     const data  = {
+         user_name:user.user_name,
          user_id:user.id,
          project_id:wizardData?.project_id,
          interactionsTrackerInstall,
@@ -75,7 +78,7 @@ const saveWizardProgress = async() => {
          await API.post("/save-wizard-progress",{...data}).then((res)=> {
               console.log("in save wizard progress",res.data)
               navigate("/")
-              setWizardProgressSaved(false)
+              setWizardProgressSaved(true)
          }).catch(err => {
               console.log(err)
          })
@@ -160,11 +163,11 @@ const saveWizardProgress = async() => {
 
                 {/* Confirmation Modal */}
       {showSaveModal && (
-        <div className="modal-overlay flex flex-col items-center fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-[99999999]">
-          <div className="modal">
+        <div className=" flex flex-col items-center fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-[99999999]">
+          <div className="">
             <h3>You have unsaved changes!</h3>
             <p className="mb-5">Do you want to save your wizard progress changes before leaving?</p>
-            <div className="modal-actions flex flex-row items-center justify-between">
+            <div className=" flex flex-row items-center justify-between">
               <button onClick={handleSave} className="cursor-pointer bg-green-500 text-white px-8 py-2 font-semibold">Save and Leave</button>
               <button onClick={handleLeaveWithoutSaving} className="cursor-pointer bg-red-500 px-8 py-2 text-white font-semibold mr-5 ml-5">Leave Without Saving</button>
               <button onClick={handleCancel} className="cursor-pointer bg-orange-500 text-white font-semibold px-8 py-2">Cancel</button>

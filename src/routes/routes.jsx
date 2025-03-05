@@ -8,6 +8,7 @@ import DashboardAdminNewView from "../features/dashboardAdminNewView";
 import OnboardingWizard from "../features/onbaordingWizard/onboardingWizard";
 import Spinner from "../component/spinner/spinner";
 import { useGlobalVariables } from "../context/global";
+import DependencyMap from "../features/fileVisualisation/dependencyMap";
 
 const router = createBrowserRouter([
   {
@@ -15,8 +16,9 @@ const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       { path: "/", element: <MainDashboard /> },
-      { path: "/wizard", element: <OnboardingWizard stage={0} /> },
+      { path: "/wizard", element: <OnboardingWizard  /> },
       { path: "/wizard-config-1", element: <OnboardingWizardConfig stage={0} /> },
+      { path: "/dependency-map", element: <DependencyMap   /> },
     ],
   },
   { path: "/login", element: <LoginScreen /> },

@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
 import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"
 

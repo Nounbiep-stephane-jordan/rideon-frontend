@@ -5,7 +5,7 @@
 
 
 // 1. Create a Wizard Progress Context
-import { createContext,useContext,useState } from 'react';
+import { createContext,useState } from 'react';
  
 
 export const WizardProgressContext = createContext();

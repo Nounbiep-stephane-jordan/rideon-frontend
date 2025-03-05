@@ -291,7 +291,7 @@ animate={isFlipped ? "back" : "front"}
    <div key={`${pair.id}-${pairIndex}`} className="flex items-center justify-between gap-2 mb-2">
      <p className="w-full text-sm">{pair?.key}</p>
      <p className="w-full text-sm">{pair?.value}</p>
-     <span className="" onClick={() => handleCopyClicked("7582132563")}>
+     <span className="" onClick={() => handleCopyClicked(pair.value)}>
        <img alt="copy icon" src={iconCopy} className="w-8 cursor-pointer"/>
        </span>
    </div>
@@ -330,7 +330,7 @@ animate={isFlipped ? "back" : "front"}
     <div key={pair.id} className="flex flex-row justify-between items-centers mt-[2px]">
     <div  className="mt-[2px] flex flex-row justify-between items-center">
          <p className="text-sm mr-2 p-1">{pair.value}</p>
-       <span className="" onClick={() => handleCopyClicked("7582132563")}>
+       <span className="" onClick={() => handleCopyClicked(pair.value)}>
        <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
        </span>
        </div>

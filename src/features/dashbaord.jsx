@@ -15,12 +15,9 @@ import emptyCredentials from "../assets/empty-credentials.webp"
 const MainDashboard = () => {
      const [projectsList,setProjectList] = useState([ 
           {id:"p;",name:"dec"},
-          {id:"x;",name:"dec"},
-          {id:"xx;",name:"dec"},
-          {id:"xxx;",name:"dec"},
-          {id:"p;;",name:"dec"}])
+])
      // const [credentials, setCredentials] = useState()
-
+     const [activeProjectData,setActiveProjectData] = useState({credentials:[],userProgress:[]})
      const [activeProject,setActiveProject] = useState({})
      const [showDeleteModal,setShowDeleteModal] = useState(false)
 
@@ -42,7 +39,6 @@ const MainDashboard = () => {
           setShowDeleteModal(false)
           showLoader()
          await API.post("/delete-project",{project_id}).then((res) => {
-               console.log(res)
                //eliminate hte deleted project from the list
                let newList = projectsList.filter((p)=> p.id != project_id)
                setProjectList(newList)
@@ -84,7 +80,7 @@ const MainDashboard = () => {
          setOffSet(offset + res.data?.projects.length);
          hideLoader()
 
-         console.log(offset, projectsList, "lets see", res.data?.projects);
+    
        }) .catch((err) => {
          console.log(err, err?.status);
          hideLoader()
@@ -94,14 +90,14 @@ const MainDashboard = () => {
 
 
 
-const [activeProjectData,setActiveProjectData] = useState({credentials:[],userProgress:""})
-const fetchCredentials = async() => {
-      
+
+const fetchActiveProjectData = async() => {
+     
      const {id} = activeProject
-     await API.post(`/project-credentials`,{id}).then((res) => {
-          console.log(res.data.credentials)
-          let data =  res.data?.credentials
-          setActiveProjectData({...activeProjectData,credentials:data})
+     await API.post(`/project-credentials`,{id,user_id:user.id, project_id:activeProject.id, role:user.role}).then((res) => {
+          console.log(res.data,"booooooo")
+          // let data =  res.data
+          setActiveProjectData({...activeProjectData,credentials:res.data?.credentials,userProgress:res.data.progress})
           
      }).catch(err => {
           console.log(err,err?.status)
@@ -119,7 +115,7 @@ const fetchCredentials = async() => {
      },[])
      
     useEffect(() => {
-     fetchCredentials();
+     fetchActiveProjectData();
 }, [activeProject])
 
       
@@ -172,7 +168,7 @@ const fetchCredentials = async() => {
                }
 
                <div className="mt-5">
-               <ProgressTracker/>
+               <ProgressTracker progress={activeProjectData?.userProgress}/>
                </div>
 
                </div>
