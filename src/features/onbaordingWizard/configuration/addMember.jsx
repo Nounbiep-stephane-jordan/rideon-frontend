@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-
+ 
 import { useState } from "react";
 import "../style.css"
 import { MAXMEMBERS } from "../../../utils/constants";
@@ -65,7 +64,7 @@ const AddMember = ({editingIndex,isEditingMember,setIsEditingMember,formdata,set
      }
 
      return (
-          <div className="h-90 w-80 shadow p-5">
+          <div className="w-80 shadow p-5">
           <div className="flex flex-col items-start place-items-start  ">
                <div className="flex flex-col items-start mb-2"> 
                     <span className="">User Name </span>
