@@ -104,7 +104,9 @@ const Nav = () => { // 4-nav bar component
         ) : (
           <Icon
             source={fileVisualisation}
-            onClick={() => setSelectedIcon("fileVisualisation")}
+            onClick={() => {setSelectedIcon("fileVisualisation") 
+              navigate("/file-visualisation")}}
+            
           />
         )}
         {selectedIcon === "faq" ? (

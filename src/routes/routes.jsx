@@ -7,10 +7,12 @@ import OnboardingWizardConfig from "../features/onbaordingWizard/onbaordingWizar
 import LoginScreen from "../features/loginScreen";
 import DashboardAdminNewView from "../features/dashboardAdminNewView";
 import OnboardingWizard from "../features/onbaordingWizard/onboardingWizard";
+import FileVisualisationPhase1 from "../features/filevisualisation/fileVisualisationPhase1";
 const AppRoutes = () => {
   return (
     <Router>
       <Nav />
+      
       <Routes> 
                     <Route path="/login" element={<LoginScreen/>} />
                     <Route path="/register" element={<RegisterScreen/>} />
@@ -21,6 +23,7 @@ const AppRoutes = () => {
                     <Route path="/" element={<MainDashboard/>} />
                     <Route path="/wizard" element={<OnboardingWizard stage={0}/>} />
                     <Route path="/wizard-config-1" element={<OnboardingWizardConfig stage={0}/>} />
+                    <Route path="/file-visualisation" element={<FileVisualisationPhase1/>}/>
                     </Route>
       </Routes>
     </Router>

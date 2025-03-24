@@ -10,6 +10,7 @@ import API from "../api/api";
 import {PROJECT_LIMIT} from "../utils/constants"
 import CustomNotification from "../component/animmateNotification/animatedNotificaiton";
 
+
 const MainDashboard = () => {
      const [projectsList,setProjectList] = useState([ 
           {id:"p;",name:"dec"},
@@ -21,7 +22,8 @@ const MainDashboard = () => {
 
      const [activeProject,setActiveProject] = useState({})
      const [showDeleteModal,setShowDeleteModal] = useState(false)
-
+     const [activeCredentials, setActiveCredentials] = useState({})
+    const {githubData,setGithubData} = useGlobalVariables()
 
      const [message,setMessage] = useState(false)
      const [isVisible,setIsVisible]= useState(false)
@@ -84,11 +86,31 @@ const MainDashboard = () => {
 
 const fetchCredentials = async() => {
      const {id} = activeProject
+     console.log("Active Poject",activeProject);
      await API.post(`/project-credentials`,{id})
      .then((res) => {
-          // let credentialsData = res.data?.projects
-          console.log("Cedentials in description",res.data?.projects)
-          console.log("Active project data", activeProject)
+       let generalData = res.data?.projects
+       const rawDescription = generalData[0]?.description;
+       const rawGitHistory = generalData[1]?.description;
+       const git = JSON.parse(rawGitHistory)
+       setGithubData(git)
+       // Get the description string
+
+        console.log("General data in desription ", generalData);
+     //     console.log("Description destructured ", rawDescription);
+          console.log("Git History: ", githubData);
+       if (rawDescription) {
+         const parsedData = JSON.parse(rawDescription); // Parse JSON string
+         const credentials = parsedData["credentials"] ;
+         setActiveCredentials(credentials)
+          // Extract credentials
+         console.log("Credentials data in description", activeCredentials[0]);
+       } else {
+         console.log("No description found");
+       }
+
+     
+       console.log("Active project data", activeProject);
      }).catch(err => {
 console.log(err,err?.status)})
 }
@@ -178,60 +200,6 @@ console.log(err,err?.status)})
                               <span className="text-xs">Password</span>
                               <span className="text-xs text-[#606060]">7582132563</span>
                               <span className="" onClick={() => handleCopyClicked("7582132563")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         </div>
-                    </div>
-
-                    <div className="flex flex-col justify-between mt-[10px]">
-                         <h3 className="font-normal text-left">Database access</h3>
-                         <div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Name</span>
-                              <span className="text-xs text-[#606060]">My database</span>
-                              <span onClick={() => handleCopyClicked("My database")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Password</span>
-                              <span className="text-xs text-[#606060]">7582132563</span>
-                              <span className="" onClick={() => handleCopyClicked("7582132563")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         </div>
-                    </div>
-
-                    <div className="flex flex-col justify-between mt-[10px]">
-                         <h3 className="font-normal text-left">Test users</h3>
-                         <div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Name</span>
-                              <span className="text-xs text-[#606060]">Jordan</span>
-                              <span onClick={() => handleCopyClicked("Jordan")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Password</span>
-                              <span className="text-xs text-[#606060]">Okay2025</span>
-                              <span className="" onClick={() => handleCopyClicked("Okay2025")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Name</span>
-                              <span className="text-xs text-[#606060]">test</span>
-                              <span className="" onClick={() => handleCopyClicked("test")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Password</span>
-                              <span className="text-xs text-[#606060]">Okay2025</span>
-                              <span className="" onClick={() => handleCopyClicked("Okay2025")}>
                                    <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
                               </span>
                          </div>
