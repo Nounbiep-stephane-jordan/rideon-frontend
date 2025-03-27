@@ -3,11 +3,14 @@
 import { useEffect, useState } from "react";
 import AddMember from "./addMember";
 import {motion} from "framer-motion"
-import "./style.css"
+import "../style.css"
 import WizardCard from "../../../component/wizardCard/wizardCard";
 import { MaxLength, MAXMEMBERS } from "../../../utils/constants";
 import { useGlobalVariables } from "../../../context/global";
- 
+import projectgoal from "../../../assets/projectgoal.jpg"
+import projectimpact from "../../../assets/projectimpact.jpg"
+import stakeholder from "../../../assets/stakeholders.jpg"
+import problemsolving from "../../../assets/problemsolving.jpg"
 
 const MeetTeamPhaseConfig = () => {
      const {meetTheTeamConfigData,setMeetTheTeamConfigData} = useGlobalVariables() // get the wizaad data if it had it
@@ -18,7 +21,12 @@ const MeetTeamPhaseConfig = () => {
      const [text,setText] = useState(meetTheTeamConfigData.text|| defaultText)
      const [error,setError] = useState(null)
      const [memberLengthError,setMembersLengthError] = useState(null)
-     const [members,setMembers] = useState(meetTheTeamConfigData.members||[])
+     const [members,setMembers] = useState(meetTheTeamConfigData.members||[{
+          username:"",
+          email:"",
+          access:"",
+          password:""
+     }])
      const [isEditingMember,setIsEditingMember] = useState(false)
      const [editingIndex,setEditingIndex] = useState(-1)
 
@@ -32,9 +40,9 @@ const MeetTeamPhaseConfig = () => {
    },[text,members])
 
      const cards = [
-     {img:"/projectgoal.jpg",stepsId:[{index:"projectgoal1",barIndex:"projectgoal1bar"},{index:"projectgoal2",barIndex:"projectgoal2bar"}],text:"briefly describe the project goals...",heading:"Project goals",numberOfSteps:2,ids:["stepgoal1","stepgoal2"],subcard:[{img:"/projectgoal.jpg",text:"briefly describe the project goals...",heading:"Project goals",},{img:"/projectimpact.jpg",text:"briefly describe the project impact...",heading:"Project impact",}]},
-     {img:"/stakeholders.jpg",stepsId:[{index:"stakeholders1",barIndex:"stakeholders1bar"}],text:"briefly descibe the stake holders...",heading:"Stake holders",numberOfSteps:1,ids:["stepstake"]},
-     {img:"/problemsolving.jpg",stepsId:[{index:"problemsolving1",barIndex:"problemsolving1bar"}],text:"briefly describe what problem it solves...",heading:"What problem it solves",numberOfSteps:1,ids:["stepprob"]}
+     {img:projectgoal,stepsId:[{index:"projectgoal1",barIndex:"projectgoal1bar"},{index:"projectgoal2",barIndex:"projectgoal2bar"}],text:"briefly describe the project goals...",heading:"Project goals",numberOfSteps:2,ids:["stepgoal1","stepgoal2"],subcard:[{img:projectgoal,text:"briefly describe the project goals...",heading:"Project goals",},{img:projectimpact,text:"briefly describe the project impact...",heading:"Project impact",}]},
+     {img:stakeholder,stepsId:[{index:"stakeholders1",barIndex:"stakeholders1bar"}],text:"briefly descibe the stake holders...",heading:"Stake holders",numberOfSteps:1,ids:["stepstake"]},
+     {img:problemsolving,stepsId:[{index:"problemsolving1",barIndex:"problemsolving1bar"}],text:"briefly describe what problem it solves...",heading:"What problem it solves",numberOfSteps:1,ids:["stepprob"]}
     ]
      const [activeIndex,setActiveIndex] = useState(0)
      const getCardPosition = (index) => {

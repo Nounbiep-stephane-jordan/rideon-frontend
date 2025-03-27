@@ -31,7 +31,7 @@ const MainDashboard = () => {
 
      const [focusedIndex,setFocusedIndex] = useState(null)
      const navigate = useNavigate()
-     const {setSelectedIcon} = useGlobalVariables()
+     const {setSelectedIcon,hideLoader,showLoader} = useGlobalVariables()
      let user = JSON.parse(localStorage.getItem("user"))
 
      const handleCardClick = (index) => {
@@ -40,6 +40,7 @@ const MainDashboard = () => {
 
      const deleteProject = async(project_id) => {
           setShowDeleteModal(false)
+          showLoader()
          await API.post("/delete-project",{project_id}).then((res) => {
                console.log(res)
                //eliminate hte deleted project from the list
@@ -47,8 +48,11 @@ const MainDashboard = () => {
                setProjectList(newList)
                setMessage(res.data.message)
                setIsVisible(true)
+               hideLoader()
           }).catch((err) => {
                console.log(err)
+               hideLoader()
+
           })
      }
 
@@ -69,25 +73,35 @@ const MainDashboard = () => {
  
     const [offset,setOffSet] = useState(0)
     const fetchData = async() => {
+     showLoader()
+
      let user = JSON.parse(localStorage.getItem("user"))
      await API.post(`/user-projects`, { user, offset, limit: PROJECT_LIMIT })
        .then((res) => {
          let newdata = res.data?.projects;
          if (res.data?.projects.length > 0)
-           setProjectList([...projectsList, ...newdata]);
+         setProjectList([...projectsList, ...newdata]);
          setOffSet(offset + res.data?.projects.length);
+         hideLoader()
+
          console.log(offset, projectsList, "lets see", res.data?.projects);
        }) .catch((err) => {
          console.log(err, err?.status);
+         hideLoader()
+
        });
 }
 
 
 
 const fetchCredentials = async() => {
+
      const {id} = activeProject
      console.log("Active Poject",activeProject);
      await API.post(`/project-credentials`,{id})
+
+     showLoader()
+
      .then((res) => {
        let generalData = res.data?.projects
        const rawDescription = generalData[0]?.description;
@@ -112,7 +126,10 @@ const fetchCredentials = async() => {
      
        console.log("Active project data", activeProject);
      }).catch(err => {
-console.log(err,err?.status)})
+          console.log(err,err?.status)
+          hideLoader()
+
+     })
 }
 
      useEffect(() => {
@@ -121,10 +138,11 @@ console.log(err,err?.status)})
 
      useEffect(()=> {
           fetchData()
-
      },[])
+     
     useEffect(() => {
-     fetchCredentials();}, [activeProject])
+     fetchCredentials();
+}, [activeProject])
 
       
      return (
@@ -167,8 +185,9 @@ console.log(err,err?.status)})
                {
                 user?.role == "admin" && (
                     <button onClick={() => {
-                         setSelectedIcon("onboardingWizard")
                          navigate("/wizard-config-1")
+                         setSelectedIcon("onboardingWizard")
+                         
                     }} className="cursor-pointer rounded-l-full w-[100px] text-sm blue-shadow mt-5 p-[5px] text-center text-white bg-[#530DF6] hover:opacity-80 transition duration-300">Ride on</button>
                     
                 )

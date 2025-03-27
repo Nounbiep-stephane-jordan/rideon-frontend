@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { useGlobalVariables } from '../../../context/global';
 import API from '../../../api/api';
 import { useNavigate } from 'react-router-dom';
-
+import standardImg from "../../../assets/standard.jpg"
 
 const Step1 = ({standards,descriptions,setDescriptions,handleStandardChange}) => {
      return (
@@ -35,7 +35,7 @@ const Step1 = ({standards,descriptions,setDescriptions,handleStandardChange}) =>
          </div>
          
           <div className='w-80 self-start'>
-              <img className='' src={"/standard.jpg"} alt="standard"/>
+              <img className='' src={standardImg} alt="standard"/>
          </div>
     
          </div>
@@ -132,36 +132,10 @@ const Step1 = ({standards,descriptions,setDescriptions,handleStandardChange}) =>
   }
 
 
-const saveDataInBackend = (githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,coddingStandardsConfigData,handleCleanWizardConfig,gotToDashBoard) => {
-  let user = JSON.parse(localStorage.getItem("user"))  
-  //save to backend
-    const projectData = {
-      title: installationGuidesConfigData.textData.projectName,
-      description: installationGuidesConfigData.textData.projectDescription,
-      enterprise_id:user.enterpriseId,
 
-
-
-      installationGuide:installationGuidesConfigData,
-      codingStandards: coddingStandardsConfigData,
-      meetTheTeam: meetTheTeamConfigData,
-      githubWorkflow: githubPhaseConfigData,
-
-    };
-
-             API.post('/wizard-config-save',{userId:user.id,projectData})
-          .then((res) =>{
-            console.log(res,"good response")
-            //only after sucessfully inserting you clean the wizard
-            handleCleanWizardConfig()
-            gotToDashBoard()
-
-          })
-          .catch((err) => console.log(err,"in handle wizard clean config"))
-}
 
 const CoddingStandardsConfig = () => {
-  const {coddingStandardsConfigData,setCoddingStandardsConfigData,handleCleanWizardConfig,githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData} = useGlobalVariables()
+  const {coddingStandardsConfigData,setCoddingStandardsConfigData,handleCleanWizardConfig,githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,isEditingWizard,setIsEditingWizard,editingWizardProjectId,showLoader,hideLoader} = useGlobalVariables()
   const navigate = useNavigate()
   const [active, setActive] = useState({
      value:"step1",
@@ -191,6 +165,42 @@ const CoddingStandardsConfig = () => {
      return  newStandards.filter(standard => standard.trim() !== '');
     });
   }, []);
+
+
+
+  const saveDataInBackend = async() => {
+    showLoader()
+     let user = JSON.parse(localStorage.getItem("user"))  
+     //save to backend
+       const projectData = {
+         title: installationGuidesConfigData.textData.projectName,
+         description: installationGuidesConfigData.textData.projectDescription,
+         enterprise_id:user.enterpriseId,
+   
+   
+   
+         installationGuide:installationGuidesConfigData,
+         codingStandards: coddingStandardsConfigData,
+         meetTheTeam: meetTheTeamConfigData,
+         githubWorkflow: githubPhaseConfigData,
+   
+       };
+   
+       let route = isEditingWizard ? "/wizard-save-edit" : "/wizard-config-save"
+               await API.post(route,{userId:user.id,projectData,project_id:editingWizardProjectId})
+             .then((res) =>{
+               console.log(res,"good response")
+               //only after sucessfully inserting you clean the wizard
+               handleCleanWizardConfig()
+               navigate("/")
+               setIsEditingWizard(false)
+               hideLoader()
+             })
+             .catch((err) => {
+              console.log(err)
+               hideLoader()
+             })
+   }
 
 
 
@@ -247,8 +257,8 @@ return (
      </div>
 
      <button onClick={() => {
-     saveDataInBackend(githubPhaseConfigData,meetTheTeamConfigData,installationGuidesConfigData,coddingStandardsConfigData,handleCleanWizardConfig,() => navigate("/"))
-     }} className='blue-bg text-white 2xl p-[10px] cursor-pointer rounded-tr-lg rounded-br-lg'>Finish</button>
+     saveDataInBackend()
+     }} className='blue-bg text-white 2xl p-[10px] cursor-pointer rounded-tr-lg rounded-br-lg'>{isEditingWizard ? "Update":"Finish"}</button>
     </div>
   );
 };

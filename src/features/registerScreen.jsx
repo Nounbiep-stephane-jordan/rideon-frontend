@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom"
 import { useGlobalVariables } from "../context/global"
 import API from "../api/api"
 import wizardbtn from "../assets/wizard-btn.svg"
+import illustrationRegister from "../assets/illustration-register.webp"
 
 const RegisterScreen = () => {
-     const {logIn} = useGlobalVariables()
+     const {logIn,showLoader,hideLoader} = useGlobalVariables()
      const navigate = useNavigate()
      const [activeSubsccription,setActiveSubscription] = useState("")
      const [data,setData] = useState({
@@ -25,12 +26,14 @@ const RegisterScreen = () => {
      },[])
 
 
-     const submitData = () => {
+     const submitData = async() => {
           if(data.email =="" || data.password == "" || data.industry == "" || data.name =="" ||data.subscriptionType == "") {
                setError("No empty inputs allowed. please fill in the form")
                return
           }
-          API.post('/register',{enterprise:data}).then((res) => {
+
+         showLoader()
+         await API.post('/register',{enterprise:data}).then((res) => {
                console.log("resposne after register",res)
                logIn(res.data.user)
                setSelectedIcon("home")
@@ -38,6 +41,7 @@ const RegisterScreen = () => {
           }).catch((err) => {
                console.log(err.response.data.error,err.message,"an erroroccured")
                setError(err?.response?.data?.error || err?.message)
+               hideLoader()
           })
      }
 
@@ -105,7 +109,7 @@ const RegisterScreen = () => {
                <p className="text-sm cursor-pointer fixed bottom-10">Login instead <span className="underline" onClick={()=> navigate("/login")}>GO</span></p>
                </div>
 
-               <img alt="ilustration-register" className="w-80 self-start fixed" src="./illustration-register.jpg" />
+               <img alt="ilustration-register" className="w-80 self-start fixed" src={illustrationRegister} />
           </div>
      )
 }

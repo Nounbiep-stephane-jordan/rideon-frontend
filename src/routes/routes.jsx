@@ -1,3 +1,16 @@
+ 
+import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
+import Nav from "../component/nav/nav"
+import RegisterScreen from "../features/registerScreen"
+import ProtectedRoute from "./protectedRoute"
+import MainDashboard from "../features/dashbaord"
+import OnboardingWizardConfig from "../features/onbaordingWizard/onbaordingWizardConfig"
+import LoginScreen from "../features/loginScreen"
+import DashboardAdminNewView from "../features/dashboardAdminNewView"
+
+import OnboardingWizard from "../features/onbaordingWizard/onboardingWizard"
+import Spinner from "../component/spinner/spinner"
+import { useGlobalVariables } from "../context/global"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Nav from "../component/nav/nav";
 import RegisterScreen from "../features/registerScreen";
@@ -9,6 +22,16 @@ import DashboardAdminNewView from "../features/dashboardAdminNewView";
 import OnboardingWizard from "../features/onbaordingWizard/onboardingWizard";
 import FileVisualisationPhase1 from "../features/filevisualisation/fileVisualisationPhase1";
 const AppRoutes = () => {
+
+      const {isAppLoading,messageToDisplay} = useGlobalVariables()
+     
+     return (
+          <Router>
+               <Nav/>
+               {isAppLoading ? <Spinner text={messageToDisplay || "Loading"}/>:null}
+               <Routes>
+                    
+ 
   return (
     <Router>
       <Nav />

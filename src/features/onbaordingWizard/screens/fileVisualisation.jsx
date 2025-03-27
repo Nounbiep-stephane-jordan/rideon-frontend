@@ -10,7 +10,7 @@ import {MAX_CONTENT_LENGTH_FILE} from "../../../utils/constants"
  
 
 const testvalues = {
-    token:"",
+    token:"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",
     repo:"rideon-frontend",
     owner:"Nounbiep-stephane-jordan"
 }
@@ -30,7 +30,7 @@ const isImageFile = (filename) => {
 }
 
 const FileVisualization = () => {
-    const {githubPhaseConfigData,setGithubPhaseConfigData} = useGlobalVariables()
+    const {githubPhaseConfigData,setGithubPhaseConfigData,showLoader,hideLoader} = useGlobalVariables()
     const [owner, setOwner] = useState(githubPhaseConfigData.owner || testvalues.owner);
     const [repo, setRepo] = useState(githubPhaseConfigData.repo || testvalues.repo);
     const [token, setToken] = useState(githubPhaseConfigData.token || testvalues.token);
@@ -64,6 +64,7 @@ const FileVisualization = () => {
 
                 return
             } else {
+            showLoader()
             const response = await API.post("/file-content",{repo,owner,path:file.path,token,download_url:file.download_url})
             if(!response.data) throw new Error("Failed to fetch file content")
             let text = ""
@@ -79,12 +80,15 @@ const FileVisualization = () => {
             }
             setImageUrl(null)
             setFileContent(text)
+            hideLoader()
+
             return
         }
 
         } catch(err) {
             console.log(err)
             setError(err.message)
+            hideLoader()
         }
     }
 
@@ -106,6 +110,7 @@ const FileVisualization = () => {
         setError("");
 
         try {
+            showLoader()
             const response = await fetch(
                 `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
                 {
@@ -124,8 +129,10 @@ const FileVisualization = () => {
                 ...prevTree,
                 [path]: data, // Store fetched content under its parent path
             }));
+            hideLoader()
         } catch (err) {
             setError(err.message);
+            hideLoader()
         }
     };
 
@@ -170,8 +177,11 @@ const FileVisualization = () => {
                         onMouseLeave={()=> setHoveredFile(null)}
                         onClick={(e) => {
                         e.stopPropagation()
-                        setFileContent(null)
-                        setImageUrl(null)
+                        if(file.type === "dir") {
+                            setImageUrl(null)
+                            setFileContent(null)
+                        }
+
                         handleFileClick(file)
                       }}> {file.name}
                             {hoveredFile?.path === file.path && fileAnnotations[file.path] &&(
