@@ -31,12 +31,7 @@ const AppRoutes = () => {
                {isAppLoading ? <Spinner text={messageToDisplay || "Loading"}/>:null}
                <Routes>
                     
- 
-  return (
-    <Router>
-      <Nav />
-      
-      <Routes> 
+  
                     <Route path="/login" element={<LoginScreen/>} />
                     <Route path="/register" element={<RegisterScreen/>} />
                     <Route path="/new" element={<DashboardAdminNewView/>} />
@@ -49,8 +44,7 @@ const AppRoutes = () => {
                     <Route path="/file-visualisation" element={<FileVisualisationPhase1/>}/>
                     </Route>
       </Routes>
-    </Router>
-  );
+    </Router>)
 };
 
 export default AppRoutes;
