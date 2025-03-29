@@ -12,6 +12,7 @@ import CustomNotification from "../component/animmateNotification/animatedNotifi
 import emptyCredentials from "../assets/empty-credentials.webp"
 
 
+
 const MainDashboard = () => {
      const [projectsList,setProjectList] = useState([ 
           {id:"p;",name:"dec"},
@@ -20,7 +21,8 @@ const MainDashboard = () => {
      const [activeProjectData,setActiveProjectData] = useState({credentials:[],userProgress:[]})
      const [activeProject,setActiveProject] = useState({})
      const [showDeleteModal,setShowDeleteModal] = useState(false)
-
+     const [activeCredentials, setActiveCredentials] = useState({})
+    const {githubData,setGithubData} = useGlobalVariables()
 
      const [message,setMessage] = useState(false)
      const [isVisible,setIsVisible]= useState(false)
@@ -94,11 +96,41 @@ const MainDashboard = () => {
 const fetchActiveProjectData = async() => {
      
      const {id} = activeProject
+ 
+//      console.log("Active Poject",activeProject);
+//      await API.post(`/project-credentials`,{id})
+
+//      showLoader()
+
+//      .then((res) => {
+//        let generalData = res.data?.projects
+//        const rawDescription = generalData[0]?.description;
+//        const rawGitHistory = generalData[1]?.description;
+//        const git = JSON.parse(rawGitHistory)
+//        setGithubData(git)
+//        // Get the description string
+
+//         console.log("General data in desription ", generalData);
+//      //     console.log("Description destructured ", rawDescription);
+//           console.log("Git History: ", githubData);
+//        if (rawDescription) {
+//          const parsedData = JSON.parse(rawDescription); // Parse JSON string
+//          const credentials = parsedData["credentials"] ;
+//          setActiveCredentials(credentials)
+//           // Extract credentials
+//          console.log("Credentials data in description", activeCredentials[0]);
+//        } else {
+//          console.log("No description found");
+//        }
+
+     
+//        console.log("Active project data", activeProject);
+ 
      await API.post(`/project-credentials`,{id,user_id:user.id, project_id:activeProject.id, role:user.role}).then((res) => {
           console.log(res.data,"booooooo")
           // let data =  res.data
           setActiveProjectData({...activeProjectData,credentials:res.data?.credentials,userProgress:res.data.progress})
-          
+ 
      }).catch(err => {
           console.log(err,err?.status)
          
@@ -194,6 +226,7 @@ const fetchActiveProjectData = async() => {
                                    <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
                               </span>
                          </div>
+ 
                          ))}
 
                          </div>
@@ -202,6 +235,7 @@ const fetchActiveProjectData = async() => {
  
 
                     
+ 
                     </div>
 
                     </div>

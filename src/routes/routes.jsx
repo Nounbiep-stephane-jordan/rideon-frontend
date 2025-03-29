@@ -10,6 +10,8 @@ import Spinner from "../component/spinner/spinner";
 import { useGlobalVariables } from "../context/global";
 import DependencyMap from "../features/fileVisualisation/dependencyMap";
 
+ 
+ 
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,6 +20,7 @@ const router = createBrowserRouter([
       { path: "/", element: <MainDashboard /> },
       { path: "/wizard", element: <OnboardingWizard  /> },
       { path: "/wizard-config-1", element: <OnboardingWizardConfig stage={0} /> },
+      { path="/file-visualisation", element: <FileVisualisationPha />},
       { path: "/dependency-map", element: <DependencyMap   /> },
     ],
   },
@@ -25,16 +28,18 @@ const router = createBrowserRouter([
   { path: "/register", element: <RegisterScreen /> },
   { path: "/new", element: <DashboardAdminNewView /> },
 ]);
-
+ 
 const AppRoutes = () => {
   const { isAppLoading, messageToDisplay } = useGlobalVariables();
 
+ 
   return (
     <>
       {isAppLoading ? <Spinner text={messageToDisplay || "Loading"} /> : null}
       <RouterProvider router={router} />
     </>
   );
+ 
 };
 
 export default AppRoutes;

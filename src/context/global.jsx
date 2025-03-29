@@ -47,6 +47,11 @@ const defaultCod = {
      fileAnotations:{},
      fileTree:{},
      hoveredFile:null
+ }  
+
+ const commitState = {
+     message:"",
+     selected: undefined
  }
 
 
@@ -61,6 +66,9 @@ export const GlobalProvider = ({children}) => {
       const [meetTheTeamConfigData,setMeetTheTeamConfigData] = useState(defaultMeet)
 
       const [githubPhaseConfigData,setGithubPhaseConfigData] = useState(defaultGit)
+
+      const [githubData, setGithubData] = useState(defaultGit)
+      const [commitStatus, setCommitStatus] = useState(commitState)
 
      const [installationGuidesConfigData,setInstallationGuidesConfigData] = useState(defaultGuide)
 
@@ -143,6 +151,7 @@ export const GlobalProvider = ({children}) => {
           githubPhaseConfigData,setGithubPhaseConfigData,
           meetTheTeamConfigData,setMeetTheTeamConfigData,
           installationGuidesConfigData,setInstallationGuidesConfigData,
+          githubData,setGithubData,commitStatus,setCommitStatus,
           handleCleanWizardConfig,
 
           //actaul data
