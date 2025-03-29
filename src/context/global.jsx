@@ -80,6 +80,8 @@ export const GlobalProvider = ({children}) => {
      const [messageToDisplay,setMessageToDisplay] = useState("")
 
      const [wizardStartStage,setWizardStartStage] = useState(0)
+
+     const [newQuestionArrived,setNewQuestionArrived] = useState(false)
       
      const hideLoader = () => {
           setTimeout(()=> setIsAppLoading(false),2000)
@@ -102,6 +104,8 @@ export const GlobalProvider = ({children}) => {
           projectName:""
         })
 
+
+     const [activeProject,setActiveProject] = useState({})
  
  
 
@@ -163,9 +167,11 @@ export const GlobalProvider = ({children}) => {
           showLoader,hideLoader,isAppLoading,
           messageToDisplay,setMessageToDisplay,
 
-          wizardStartStage,setWizardStartStage
+          wizardStartStage,setWizardStartStage,
 
 
+          newQuestionArrived,setNewQuestionArrived,
+          activeProject,setActiveProject,
           }}> 
                {children}
           </GlobalVariablesContext.Provider>

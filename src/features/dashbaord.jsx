@@ -19,10 +19,10 @@ const MainDashboard = () => {
 ])
      // const [credentials, setCredentials] = useState()
      const [activeProjectData,setActiveProjectData] = useState({credentials:[],userProgress:[]})
-     const [activeProject,setActiveProject] = useState({})
+    
      const [showDeleteModal,setShowDeleteModal] = useState(false)
      const [activeCredentials, setActiveCredentials] = useState({})
-    const {githubData,setGithubData} = useGlobalVariables()
+    const {githubData,setGithubData,activeProject,setActiveProject} = useGlobalVariables()
 
      const [message,setMessage] = useState(false)
      const [isVisible,setIsVisible]= useState(false)
@@ -137,11 +137,7 @@ const fetchActiveProjectData = async() => {
 
      })
 }
-
-     useEffect(() => {
-          setSelectedIcon("home");
-     }, []);
-
+ 
      useEffect(()=> {
           fetchData()
      },[])
@@ -159,7 +155,7 @@ const fetchActiveProjectData = async() => {
                <div className="flex flex-row justify-between mb-5">
                
                <div className="flex flex-col">
-               <div className="flex flex-initial justify-between mr-5 p-2 w-[550px] h-[180px] custom-scroll-x relative">
+               <div className="z-[-5] flex flex-initial justify-between mr-5 p-2 w-[550px] h-[180px] custom-scroll-x relative">
           
              
                {projectsList.map((project) => (
@@ -176,7 +172,7 @@ const fetchActiveProjectData = async() => {
                     transition={{type:"spring",stiffness:300,damping:20}}
                     
                     >
-                    <ProjectCard setActiveProject={() =>setActiveProject({...project})} project_id={project.id} setShowDeleteModal={setShowDeleteModal}  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
+                    <ProjectCard resetActiveProject={() => setActiveProject({})} setActiveProject={() =>setActiveProject({...project})} project_id={project.id} setShowDeleteModal={setShowDeleteModal}  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
                     </motion.div>
                     
                ))}

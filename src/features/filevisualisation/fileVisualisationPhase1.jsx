@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import API from "./../../api/api";
 import { useGlobalVariables } from "../../context/global";
-import { div, p, span } from "framer-motion/client";
+
 
 const COLORS = [
   {

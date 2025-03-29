@@ -12,7 +12,7 @@ import ops from "../../assets/oops.webp"
     {keyword:"API",question:"Where is the of the user controller",answer:"The api are located in the user route folder but has recently been moved to the protected route folder."}
    ]
 
-   const [noresult,setNoresult] = useState("")
+   const [noresult,setNoresult] = useState(false)
    
    return (<div  className="p-5">
      <h2 className="text-2xl ">Frequently asked questions </h2>
@@ -32,10 +32,10 @@ import ops from "../../assets/oops.webp"
 
      </div>
 
-     {/* <div className="flex items-center justify-center">
+     { noresult == true ? <div className="flex items-center justify-center">
      <img src={ops} className="h-[500px]"/>
      <button className="absolute cursor-pointer self-center bottom-10  w-[120px] rounded-sm h-[50px] rounded font-bold text-white bg-[#8EFF2C]">Ask</button>
-     </div> */}
+     </div> :
 
      <div  className="outline-2 outline-[#530DF6] mt-5 w-full h-[400px] cursor-pointer">
    
@@ -46,7 +46,7 @@ import ops from "../../assets/oops.webp"
           <p className="ml-5 mt-5">{an.answer}</p>
         </div>
       })}
-     </div>
+     </div>}
     
 
 </div>)

@@ -2,14 +2,14 @@
  
 import API from "../../api/api"
 import OrangeExclamation from "../../assets/orange-exclamation.webp"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import {useNavigate} from "react-router-dom"
 import {useGlobalVariables} from "../../context/global"
 import cardImg from "../../assets/card.webp"
 import { WizardProgressContext } from "../../context/wizardProgressContext"
 
 
-const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
+const ProjectCard = ({resetActiveProject,setActiveProject,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
   const navigate = useNavigate()
   const {setWizardData,setIsEditingWizard,setCoddingStandardsConfigData,setInstallationGuidesConfigData,setMeetTheTeamConfigData,setGithubPhaseConfigData,setEditingWizardProjectId,setWizardStartStage} = useGlobalVariables()
  const {setWizardProgressSaved} = useContext(WizardProgressContext)
@@ -68,7 +68,11 @@ const options = user.role == "admin" ? [
 ]
 
 const [isClicked,setIsclicked] = useState(false)
-
+useEffect(()=> {
+  if(isSelected == false) {
+    resetActiveProject()
+  }
+},[])
 
   return <>
       <div className={`flex-col w-40 h-30`}>
