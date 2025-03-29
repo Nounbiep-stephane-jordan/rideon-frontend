@@ -110,7 +110,11 @@ const Nav = () => { // 4-nav bar component
         {selectedIcon === "faq" ? (
           <IconSelected
             source={faqSelected}
-            onClick={() => setSelectedIcon("faq")}
+            onClick={() =>{ 
+              navigate("/faq")
+              setSelectedIcon("faq")
+              
+            }}
           />
         ) : (
           <Icon source={faq} onClick={() => setSelectedIcon("faq")} />

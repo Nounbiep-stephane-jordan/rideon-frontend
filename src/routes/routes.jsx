@@ -9,6 +9,7 @@ import OnboardingWizard from "../features/onbaordingWizard/onboardingWizard";
 import Spinner from "../component/spinner/spinner";
 import { useGlobalVariables } from "../context/global";
 import DependencyMap from "../features/fileVisualisation/dependencyMap";
+import Faq from "../features/faq/faqScreen"
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { path: "/wizard", element: <OnboardingWizard  /> },
       { path: "/wizard-config-1", element: <OnboardingWizardConfig stage={0} /> },
       { path: "/dependency-map", element: <DependencyMap   /> },
+      { path: "/faq", element: <Faq/> },
     ],
   },
   { path: "/login", element: <LoginScreen /> },

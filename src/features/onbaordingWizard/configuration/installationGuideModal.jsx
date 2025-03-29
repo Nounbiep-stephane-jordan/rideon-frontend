@@ -7,12 +7,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import fleft from "../../../assets/fleft-orange.webp"
 import fright from "../../../assets/fright-orange.webp"
 import { useGlobalVariables } from '../../../context/global';
+import API from '../../../api/api';
 
 const StepModal = ({onClose}) => {
       const {installationGuidesConfigData,setInstallationGuidesConfigData} = useGlobalVariables() // get the wizaad data if it had it
  
 
 
+  const [files,setFiles] = useState(null)
   const [currentStep, setCurrentStep] = useState(0);
   const [steps, setSteps] = useState( installationGuidesConfigData.steps || []);
   const [newStep, setNewStep] = useState({
@@ -32,24 +34,36 @@ const StepModal = ({onClose}) => {
 
 
 
-  const handleAddStep = () => {
+  const handleAddStep = async() => {
     if (steps.length >= 6) return;
-    
- 
-    if (newStep.description || newStep.image) {
-     let newtobeaddedstep = { ...newStep, id: Date.now() }
+
+    if (newStep.description || newStep.image || newStep.name) {
+      let newtobeaddedstep = { ...newStep, id: Date.now() }
+      
+      let exist =  steps.some((step) => step.image === newtobeaddedstep.image)
+      if(exist) setNewStep({ name: '', description: '', image: null });
+      else {
+        let user = await JSON.parse(localStorage.getItem("user"))
+        await API.post("/upload",{images:files,username:user?.user_name},{
+           headers:{"Content-Type":"multipart/form-data"}
+         }).then((res) => {
+           console.log(res)
+           setSteps([...steps, { ...newStep, id: Date.now() }]);
+         }).catch((err) => {
+           console.log(err)
+         })
+      }
+     }
      
-     let exist =    steps.some((step) => step.image === newtobeaddedstep.image)
-     if(exist) setNewStep({ name: '', description: '', image: null });
-     else setSteps([...steps, { ...newStep, id: Date.now() }]);
-    }
-    
-    setNewStep({ name: '', description: '', image: null });
+     setNewStep({ name: '', description: '', image: null });
+ 
+
   };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      setFiles(file)
       const reader = new FileReader();
       reader.onloadend = () => {
         setNewStep({ ...newStep, image: reader.result });
