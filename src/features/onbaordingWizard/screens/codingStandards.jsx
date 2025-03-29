@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import standardimg from "../../../assets/standard.webp"
+import { useGlobalVariables } from "../../../context/global";
+import { WizardProgressContext } from "../../../context/wizardProgressContext";
 
 const MAXVIEWS = 3;
 const standards = [
@@ -33,6 +36,9 @@ const standards = [
 ];
 
 const Step1 = ({ good, bad }) => {
+  
+
+  const {wizardData} = useGlobalVariables()
   return (
     <motion.div
       view="step3"
@@ -42,30 +48,31 @@ const Step1 = ({ good, bad }) => {
       transition={{ duration: 0.3 }}
       className="flex flex-col w-full max-w-[650px] h-full max-h-[350px] "
     >
-      <div className="flex flex-row items-center gap-25 h-[130px]">
+      <div className="flex flex-row items-center justify-between gap-25 h-[130px]">
         <div>
           <h3 className="text-2xl font-semibold mb-2">Codding standards</h3>
           <div className="">
-            <p>Here are some illustrations of our coding practices</p>
+            <p>{wizardData?.coddingStandards?.descriptions}</p>
           </div>
         </div>
 
         <div className="w-full max-w-[170px] float-left">
-          <img className="" src={"/standard.jpg"} alt="standard" />
+          <img className="" src={standardimg} alt="standard" />
         </div>
       </div>
 
-      <div className="space-y-2 flex items-center flex-row justify-evenly p-2 relative  w-[630px] overflow-scroll custom-scrollbar">
-        {standards.map((standard, index) => (
+      <div className="space-y-2 flex items-center flex-row justify-evenly p-2 relative  w-[630px] custom-scroll-x">
+        {wizardData?.coddingStandards?.standards?.map((standard) => (
           <motion.div
-            key={standard.id}
+            key={standard}
             good={standard}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="mb-2 mr-5"
           >
             <div className=" pl-[7px] pr-[7px] grid grid-cols-1 w-[285px] h-[180px] rounded-[15px] border-[2px] border-[#D9D9D9] items-center ">
-              <div className="flex flex-row">
+              <p>{standard}</p>
+              {/* <div className="flex flex-row">
                 <p className="text-[13px] overflow-hidden terx-ellipsis">
                   # Calculate total price def
                   calculate_total_price(price,tax): return price + tax
@@ -83,7 +90,7 @@ const Step1 = ({ good, bad }) => {
                   return price + tax
                 </p>
                 <img src="/wrongIcon.svg" alt="icon" className="size-[20px]" />
-              </div>
+              </div> */}
             </div>
           </motion.div>
         ))}
@@ -93,6 +100,7 @@ const Step1 = ({ good, bad }) => {
 };
 
 const Step2 = () => {
+  const {wizardData} = useGlobalVariables()
   return (
     <motion.div
       view="step3"
@@ -112,7 +120,7 @@ const Step2 = () => {
         <div className="">
           <h2 className="mt-5">Bad Commits</h2>
           <div className=" flex flex-row  p-3 shadow-sm w-[250px] h-[150px] border-[#D9D9D9]  rounded">
-            <p>let today = “day” Updates of today</p>
+            <p>{wizardData?.coddingStandards.step2Data.left}</p>
             <img src="/wrongIcon.svg" alt="icon" className="size-[20px]" />
           </div>
         </div>
@@ -120,7 +128,7 @@ const Step2 = () => {
         <div className="">
           <h2 className="mt-5">Good Commits</h2>
           <div className=" flex flex-row  p-3 shadow-sm w-[250px] h-[150px] border-[#D9D9D9]  rounded">
-            <p>let today = “day” Created a variable today </p>
+            <p>{wizardData?.coddingStandards.step2Data.right}</p>
             <img src="/correctIcon.svg" alt="icon" className="size-[20px]" />
           </div>
         </div>
@@ -130,6 +138,8 @@ const Step2 = () => {
 };
 
 const Step3 = () => {
+  const {wizardData} = useGlobalVariables()
+ 
   return (
     <motion.div
       view="step3"
@@ -143,20 +153,17 @@ const Step3 = () => {
         {
           index: 0,
           heading: "Review process",
-          description:
-            "code revview usaly takes a day and is done by a senior developer wiht whom you are working. make sure to respect the codding standards of the project",
+          description: wizardData.coddingStandards.step3Data[0]
         },
         {
           index: 1,
           heading: "Communication rules",
-          description:
-            "communiacaiton in this project is primarily done through the emails and mircosoft teams. MAke sure to create your accounts. communication through any other means is prohibited and will severlay be santioned. ",
+          description: wizardData.coddingStandards.step3Data[1]
         },
         {
           index: 2,
           heading: "Support channels",
-          description:
-            "In case you couldn finde any usefu contacts or need more sepcfic answer you can contact. the mangers through this ...eamil. mange@gmail.com",
+          description: wizardData.coddingStandards.step3Data[2]
         },
       ].map((val) => (
         <div
@@ -173,7 +180,7 @@ const Step3 = () => {
   );
 };
 
-// eslint-disable-next-line react/prop-types
+ 
 const CardSelector = ({ isClicked, onClick }) => {
   return (
     <div>
@@ -195,17 +202,18 @@ const CardSelector = ({ isClicked, onClick }) => {
 
 const CompanyStandards = () => {
   const [selectedView, setSelectedView] = useState(1);
-
+         const {interactionsTrackerCod,setInteractionsTrackerCod} = useContext(WizardProgressContext)
+     
   return (
-    <div className="mt-[50px] flex flex-col items-center justify-between shadow-xl w-[700px] h-[455px] rounded-[15px] p-5">
+    <div className="mt-[50px] flex flex-col items-center justify-between outline-black/10 outline-2 shadow-lg w-[700px] h-[455px] rounded-[15px] p-5">
       {/* Content takes full available space */}
-      <div className="flex-grow flex items-center justify-center w-full">
+      <div className="flex-grow flex items-center justify-start w-full">
         {selectedView === 1 ? (
-          <Step1 />
+          <Step1  />
         ) : selectedView === 2 ? (
-          <Step2 />
+          <Step2  />
         ) : (
-          <Step3 />
+          <Step3   />
         )}
       </div>
 
@@ -216,7 +224,14 @@ const CompanyStandards = () => {
             <motion.div key={index}>
               <CardSelector
                 isClicked={selectedView === index + 1}
-                onClick={() => setSelectedView(index + 1)}
+                onClick={() => {
+                  setSelectedView(index +1)
+                  if(interactionsTrackerCod.clicks <= 3) {
+                    setInteractionsTrackerCod((prev)=>({
+                         ...prev,[`step${index+1}Click`]:1,clicks:interactionsTrackerCod.clicks+1
+                    }))
+               }
+                }}
               />
             </motion.div>
           );
@@ -229,7 +244,7 @@ const CompanyStandards = () => {
 
 const Standards = () => {
   return (
-    <div className="flex items-center justify-center h-screen ">
+    <div className="flex items-center justify-center">
       <CompanyStandards />
     </div>
   );

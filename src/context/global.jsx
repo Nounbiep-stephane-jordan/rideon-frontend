@@ -36,7 +36,7 @@ const defaultCod = {
  const defaultMeet = {
      members:[],
      text:"Enter the welcome message...",
-     stepContents:{}
+     stepContents:{stepstake:"",stepgoal1:"",stepgoal2:"",stepprob:""}
 
  }
 
@@ -58,112 +58,131 @@ const defaultCod = {
 
 
 export const GlobalProvider = ({children}) => {
-     const [selectedIcon, setSelectedIcon] = useState("home"); //for nav bar
-     const [user,setUser] = useState(null)
+  const [selectedIcon, setSelectedIcon] = useState("home"); //for nav bar
+  const [user, setUser] = useState(null);
 
-     const [coddingStandardsConfigData,setCoddingStandardsConfigData] = useState(defaultCod)
+  const [coddingStandardsConfigData, setCoddingStandardsConfigData] =
+    useState(defaultCod);
 
-      const [meetTheTeamConfigData,setMeetTheTeamConfigData] = useState(defaultMeet)
+  const [meetTheTeamConfigData, setMeetTheTeamConfigData] =
+    useState(defaultMeet);
 
-      const [githubPhaseConfigData,setGithubPhaseConfigData] = useState(defaultGit)
+  const [githubPhaseConfigData, setGithubPhaseConfigData] =
+    useState(defaultGit);
 
-      const [githubData, setGithubData] = useState(defaultGit)
-      const [commitStatus, setCommitStatus] = useState(commitState)
+  const [githubData, setGithubData] = useState(defaultGit);
+  const [commitStatus, setCommitStatus] = useState(commitState);
 
-     const [installationGuidesConfigData,setInstallationGuidesConfigData] = useState(defaultGuide)
+  const [installationGuidesConfigData, setInstallationGuidesConfigData] =
+    useState(defaultGuide);
 
-     const [isEditingWizard,setIsEditingWizard] = useState(false)
-     const [editingWizardProjectId,setEditingWizardProjectId] = useState(null) //contains the id of hte project edited
-     
-     const [activeProject,setActiveProject] = useState({}) // Contains data of the selected project in dashboard
-     const [isAppLoading,setIsAppLoading] = useState(false)
-     const [messageToDisplay,setMessageToDisplay] = useState("")
-      
-     const hideLoader = () => {
-          setTimeout(()=> setIsAppLoading(false),2000)
-     }
-     
-     const showLoader = () => {
-          setIsAppLoading(true)
-     }
+  const [isEditingWizard, setIsEditingWizard] = useState(false);
+  const [editingWizardProjectId, setEditingWizardProjectId] = useState(null); //contains the id of hte project edited
+  const [activeProject, setActiveProject] = useState({}); // Contains data of the selected project in dashboard
 
+  const [isAppLoading, setIsAppLoading] = useState(false);
+  const [messageToDisplay, setMessageToDisplay] = useState("");
 
-  
+  const [wizardStartStage, setWizardStartStage] = useState(0);
 
-     //actaul wizard data
-     const [wizardData,setWizardData] = useState({
-          coddingStandardsData:defaultCod,
-          meetTheTeamData:defaultMeet,
-          githubPhaseData:defaultGit,
-          installationGuidesData:defaultGuide
-     })
+  const hideLoader = () => {
+    setTimeout(() => setIsAppLoading(false), 2000);
+  };
 
- 
- 
+  const showLoader = () => {
+    setIsAppLoading(true);
+  };
 
- 
- 
+  //actaul wizard data
+  const [wizardData, setWizardData] = useState({
+    installationGuide: defaultGuide,
+    coddingStandards: defaultCod,
+    meetTheTeam: defaultMeet,
+    githubPhase: defaultGit,
+    projectId: null,
+    projectName: "",
+  });
 
+  const handleCleanWizardConfig = () => {
+    //clean the wizard
+    setCoddingStandardsConfigData(defaultCod);
+    setGithubPhaseConfigData(defaultGit);
+    setInstallationGuidesConfigData(defaultGuide);
+    setMeetTheTeamConfigData(defaultMeet);
+  };
 
-      const handleCleanWizardConfig = () => {
-          //clean the wizard
-          setCoddingStandardsConfigData(defaultCod)
-          setGithubPhaseConfigData(defaultGit)
-          setInstallationGuidesConfigData(defaultGuide)
-          setMeetTheTeamConfigData(defaultMeet)
-      }
+  //for auth
 
+  useEffect(() => {
+    //verify if already logggedin
+    const loggedin = getUser();
+    if (loggedin) {
+      setUser(loggedin);
+    }
+  }, []);
 
-      //for auth
+  const logIn = async (user) => {
+    localStorage.setItem("user", JSON.stringify(user));
+    setUser(user);
+  };
 
-      useEffect(()=>{
-          //verify if already logggedin
-          const loggedin = getUser()
-          if(loggedin){
-               setUser(loggedin)
-          }
-      },[])
+  const getUser = async () => {
+    return JSON.parse(localStorage.getItem("user"));
+  };
 
-      const logIn = async(user) => {
-          localStorage.setItem("user",JSON.stringify(user))
-          setUser(user)
-      }
+  const logOut = async () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
 
-      const getUser = async() => {
-          return JSON.parse(localStorage.getItem("user"))
-      }
+  return (
+    <GlobalVariablesContext.Provider
+      value={{
+        user,
+        setUser,
+        logIn,
+        logOut,
+        getUser,
+        selectedIcon,
+        setSelectedIcon,
+        coddingStandardsConfigData,
+        setCoddingStandardsConfigData,
+        githubPhaseConfigData,
+        setGithubPhaseConfigData,
+        meetTheTeamConfigData,
+        setMeetTheTeamConfigData,
+        installationGuidesConfigData,
+        setInstallationGuidesConfigData,
+        githubData,
+        setGithubData,
+        commitStatus,
+        setCommitStatus,
+        handleCleanWizardConfig,
+        activeProject,
+        setActiveProject,
 
-     const logOut = async() => {
-          localStorage.removeItem("user")
-          setUser(null)
-     }
+        //actaul data
+        wizardData,
+        setWizardData,
 
+        isEditingWizard,
+        setIsEditingWizard,
+        editingWizardProjectId,
+        setEditingWizardProjectId,
 
-     return (
-          <GlobalVariablesContext.Provider value={{
-          user,setUser,logIn,logOut,getUser,
-          selectedIcon,setSelectedIcon,
-          coddingStandardsConfigData,setCoddingStandardsConfigData,
-          githubPhaseConfigData,setGithubPhaseConfigData,
-          meetTheTeamConfigData,setMeetTheTeamConfigData,
-          installationGuidesConfigData,setInstallationGuidesConfigData,
-          githubData,setGithubData,commitStatus,setCommitStatus,
-          handleCleanWizardConfig,activeProject,setActiveProject,
+        showLoader,
+        hideLoader,
+        isAppLoading,
+        messageToDisplay,
+        setMessageToDisplay,
 
-          //actaul data
-          wizardData,setWizardData,
-
-
-          isEditingWizard,setIsEditingWizard, editingWizardProjectId,setEditingWizardProjectId,
-
-          showLoader,hideLoader,isAppLoading,
-          messageToDisplay,setMessageToDisplay
-
-
-          }}> 
-               {children}
-          </GlobalVariablesContext.Provider>
-     )
+        wizardStartStage,
+        setWizardStartStage,
+      }}
+    >
+      {children}
+    </GlobalVariablesContext.Provider>
+  );
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

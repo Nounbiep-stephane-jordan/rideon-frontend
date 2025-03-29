@@ -4,7 +4,7 @@ import { useGlobalVariables } from "../context/global"
 import circleUp from "../assets/circle-up.svg"
 import circleDown from "../assets/circle-down.svg"
 import wizardbtn from "../assets/wizard-btn.svg"
-import illustration from "../assets/computer_Ride_on.jpg"
+import illustration from "../assets/computer_Ride_on.webp"
 import API from "../api/api"
 import {useNavigate} from "react-router-dom"
  

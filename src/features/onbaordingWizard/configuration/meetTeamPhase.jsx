@@ -7,10 +7,10 @@ import "../style.css"
 import WizardCard from "../../../component/wizardCard/wizardCard";
 import { MaxLength, MAXMEMBERS } from "../../../utils/constants";
 import { useGlobalVariables } from "../../../context/global";
-import projectgoal from "../../../assets/projectgoal.jpg"
-import projectimpact from "../../../assets/projectimpact.jpg"
-import stakeholder from "../../../assets/stakeholders.jpg"
-import problemsolving from "../../../assets/problemsolving.jpg"
+import projectgoal from "../../../assets/projectgoal.webp"
+import projectimpact from "../../../assets/projectimpact.webp"
+import stakeholder from "../../../assets/stakeholders.webp"
+import problemsolving from "../../../assets/problemsolving.webp"
 
 const MeetTeamPhaseConfig = () => {
      const {meetTheTeamConfigData,setMeetTheTeamConfigData} = useGlobalVariables() // get the wizaad data if it had it

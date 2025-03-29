@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { MaxLength, MAXSMALL } from "../../../utils/constants";
 import StepModal from "./installationGuideModal";
