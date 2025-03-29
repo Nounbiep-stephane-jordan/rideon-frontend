@@ -1,33 +1,119 @@
 /* eslint-disable react-hooks/exhaustive-deps */
  
 
-import { lazy, memo, Suspense, useEffect, useMemo, useRef, useState } from "react"
+import { lazy, memo, Suspense, useContext, useEffect, useMemo, useRef, useState } from "react"
 import {AnimatePresence,motion} from "framer-motion"
 import { useGlobalVariables } from "../../context/global"
-import { useLocation, useNavigate } from 'react-router-dom';
+import {  useBlocker, useNavigate } from 'react-router-dom';
 import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"
 import Congratulations from "./screens/congratulation"
 import Spinner from "../../component/spinner/spinner"
+import { WizardProgressContext } from "../../context/wizardProgressContext";
+import API from "../../api/api";
 
  
-import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps";
-import Congratulations from "./screens/congratulation";
-import WizardFallBackLoader from "../../component/fallback/wizardFallbackLoader";
+
 
  
 const FileVisualization = lazy(()=> import("./screens/fileVisualisation"))
-const CoddingStandards = lazy(()=> import("./screens/coddingStandards"))
+const CoddingStandards = lazy(()=> import("./screens/codingStandards"))
 const InstallationGuide = lazy(()=> import("./screens/installationGuide"))
 const MeetTheTeam = lazy(()=> import("./screens/meetTheTeam"))
 
-const OnboardingWizard = ({stage}) => {
+const OnboardingWizard = ( ) => {
   
-     const [activeStep,setActiveStep] = useState(stage)
+  const {setSelectedIcon,wizardStartStage:stage} = useGlobalVariables()
+  const {wizardProgressSaved,setWizardProgressSaved} = useContext(WizardProgressContext)
+ 
+  const [activeStep,setActiveStep] = useState(stage)
      const [direction,setDirection] = useState(1) // 1=forward -1 =backward
      const previousStep = useRef(stage)
-     const {setSelectedIcon} = useGlobalVariables()
+     
    
- 
+    const [showSaveModal,setShowSaveModal] = useState(false)
+    const navigate = useNavigate()
+     const blocker = useBlocker(({ currentLocation, nextLocation }) => activeStep!==4 &&wizardProgressSaved == false && currentLocation.pathname !== nextLocation.pathname
+    );
+
+
+  // Handle window/tab close or refresh
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (wizardProgressSaved === false) {
+        e.preventDefault();
+        e.returnValue = ''; // Required for Chrome
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [wizardProgressSaved]);
+
+  // Show modal when navigation is blocked
+  useEffect(() => {
+    if (blocker.state === 'blocked') {
+      setShowSaveModal(true);
+    }
+  }, [blocker.state]);
+
+
+  const {      interactionsTrackerInstall,
+    interactionsTrackerCod,
+    interactionsTrackerGit,
+    interactionsTrackerMeet} = useContext(WizardProgressContext)
+const {wizardData} = useGlobalVariables()
+const saveWizardProgress = async() => {
+    let user = JSON.parse(localStorage.getItem("user"))
+    const data  = {
+         user_name:user.user_name,
+         user_id:user.id,
+         project_id:wizardData?.project_id,
+         interactionsTrackerInstall,
+         interactionsTrackerCod,
+         interactionsTrackerGit,
+         interactionsTrackerMeet
+    }
+
+    if(wizardData?.project_id && wizardProgressSaved == false) {
+         await API.post("/save-wizard-progress",{...data}).then((res)=> {
+              console.log("in save wizard progress",res.data)
+              navigate("/")
+              setWizardProgressSaved(true)
+         }).catch(err => {
+              console.log(err)
+         })
+    }
+  
+}
+
+  const handleSave = async () => {
+    try {
+      // Perform your save operation here
+      await saveWizardProgress();
+      setShowSaveModal(false);
+      if (blocker.state === 'blocked') {
+        blocker.proceed(); // Proceed with the blocked navigation
+      }
+    } catch (error) {
+      console.error('Save failed:', error);
+    }
+  };
+
+  const handleLeaveWithoutSaving = () => {
+    setWizardProgressSaved(false);
+    setShowSaveModal(false);
+    if (blocker.state === 'blocked') {
+      blocker.proceed();
+    }
+  };
+
+  const handleCancel = () => {
+    setShowSaveModal(false);
+    setSelectedIcon("onboardingWizard");
+
+    blocker.reset(); // Cancel the navigation
+  };
+
 
   //we memoize the components so they load faster
   const MemoMeetTheTeam = memo(MeetTheTeam);
@@ -74,6 +160,22 @@ const OnboardingWizard = ({stage}) => {
 
     return (
          <div className="">
+
+                {/* Confirmation Modal */}
+      {showSaveModal && (
+        <div className=" flex flex-col items-center fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-[99999999]">
+          <div className="">
+            <h3>You have unsaved changes!</h3>
+            <p className="mb-5">Do you want to save your wizard progress changes before leaving?</p>
+            <div className=" flex flex-row items-center justify-between">
+              <button onClick={handleSave} className="cursor-pointer bg-green-500 text-white px-8 py-2 font-semibold">Save and Leave</button>
+              <button onClick={handleLeaveWithoutSaving} className="cursor-pointer bg-red-500 px-8 py-2 text-white font-semibold mr-5 ml-5">Leave Without Saving</button>
+              <button onClick={handleCancel} className="cursor-pointer bg-orange-500 text-white font-semibold px-8 py-2">Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
            <Suspense fallback={<Spinner text="Loading....subsequent loads wil be much faste"/>}> 
            <AnimatePresence mode="wait" initial={false} custom={direction}>
            <motion.div

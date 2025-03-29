@@ -5,6 +5,8 @@ import "../style.css"
 import { AnimatePresence,motion } from "framer-motion";
 import Littleplus from "../../../assets/little-plus.svg"
 import { useGlobalVariables } from "../../../context/global";
+import errorJpg from "../../../assets/error.webp"
+
 
 const testvalues = {
     token:"",
@@ -238,7 +240,7 @@ const GithubPhase1 = () => {
                             className="bg-white rounded-xl p-6 w-full max-w-sm rounded-sm shadow-[0_4px_4px_rgba(250,24,24,100)]"
                             >
                             <div onClick={() => setError(null)} className="">
-                        <img alt="error-image" className="" src="/error.jpg" />
+                        <img alt="error-image" className="" src={errorJpg} />
                         <p className="text-left mb-5">{error}</p>
                        </div>
                             </motion.div>

@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
+
 
 import { useEffect, useState } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
-import fleft from "../../../assets/fleft-orange.png"
-import fright from "../../../assets/fright-orange.png"
+import fleft from "../../../assets/fleft-orange.webp"
+import fright from "../../../assets/fright-orange.webp"
 import { useGlobalVariables } from '../../../context/global';
 
 const StepModal = ({onClose}) => {

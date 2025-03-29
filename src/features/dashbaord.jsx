@@ -9,17 +9,16 @@ import { useGlobalVariables } from "../context/global";
 import API from "../api/api";
 import {PROJECT_LIMIT} from "../utils/constants"
 import CustomNotification from "../component/animmateNotification/animatedNotificaiton";
+import emptyCredentials from "../assets/empty-credentials.webp"
+
 
 
 const MainDashboard = () => {
      const [projectsList,setProjectList] = useState([ 
           {id:"p;",name:"dec"},
-          {id:"x;",name:"dec"},
-          {id:"xx;",name:"dec"},
-          {id:"xxx;",name:"dec"},
-          {id:"p;;",name:"dec"}])
+])
      // const [credentials, setCredentials] = useState()
-
+     const [activeProjectData,setActiveProjectData] = useState({credentials:[],userProgress:[]})
      const [activeProject,setActiveProject] = useState({})
      const [showDeleteModal,setShowDeleteModal] = useState(false)
      const [activeCredentials, setActiveCredentials] = useState({})
@@ -42,7 +41,6 @@ const MainDashboard = () => {
           setShowDeleteModal(false)
           showLoader()
          await API.post("/delete-project",{project_id}).then((res) => {
-               console.log(res)
                //eliminate hte deleted project from the list
                let newList = projectsList.filter((p)=> p.id != project_id)
                setProjectList(newList)
@@ -84,7 +82,7 @@ const MainDashboard = () => {
          setOffSet(offset + res.data?.projects.length);
          hideLoader()
 
-         console.log(offset, projectsList, "lets see", res.data?.projects);
+    
        }) .catch((err) => {
          console.log(err, err?.status);
          hideLoader()
@@ -94,40 +92,48 @@ const MainDashboard = () => {
 
 
 
-const fetchCredentials = async() => {
 
+const fetchActiveProjectData = async() => {
+     
      const {id} = activeProject
-     console.log("Active Poject",activeProject);
-     await API.post(`/project-credentials`,{id})
+ 
+//      console.log("Active Poject",activeProject);
+//      await API.post(`/project-credentials`,{id})
 
-     showLoader()
+//      showLoader()
 
-     .then((res) => {
-       let generalData = res.data?.projects
-       const rawDescription = generalData[0]?.description;
-       const rawGitHistory = generalData[1]?.description;
-       const git = JSON.parse(rawGitHistory)
-       setGithubData(git)
-       // Get the description string
+//      .then((res) => {
+//        let generalData = res.data?.projects
+//        const rawDescription = generalData[0]?.description;
+//        const rawGitHistory = generalData[1]?.description;
+//        const git = JSON.parse(rawGitHistory)
+//        setGithubData(git)
+//        // Get the description string
 
-        console.log("General data in desription ", generalData);
-     //     console.log("Description destructured ", rawDescription);
-          console.log("Git History: ", githubData);
-       if (rawDescription) {
-         const parsedData = JSON.parse(rawDescription); // Parse JSON string
-         const credentials = parsedData["credentials"] ;
-         setActiveCredentials(credentials)
-          // Extract credentials
-         console.log("Credentials data in description", activeCredentials[0]);
-       } else {
-         console.log("No description found");
-       }
+//         console.log("General data in desription ", generalData);
+//      //     console.log("Description destructured ", rawDescription);
+//           console.log("Git History: ", githubData);
+//        if (rawDescription) {
+//          const parsedData = JSON.parse(rawDescription); // Parse JSON string
+//          const credentials = parsedData["credentials"] ;
+//          setActiveCredentials(credentials)
+//           // Extract credentials
+//          console.log("Credentials data in description", activeCredentials[0]);
+//        } else {
+//          console.log("No description found");
+//        }
 
      
-       console.log("Active project data", activeProject);
+//        console.log("Active project data", activeProject);
+ 
+     await API.post(`/project-credentials`,{id,user_id:user.id, project_id:activeProject.id, role:user.role}).then((res) => {
+          console.log(res.data,"booooooo")
+          // let data =  res.data
+          setActiveProjectData({...activeProjectData,credentials:res.data?.credentials,userProgress:res.data.progress})
+ 
      }).catch(err => {
           console.log(err,err?.status)
-          hideLoader()
+         
 
      })
 }
@@ -141,7 +147,7 @@ const fetchCredentials = async() => {
      },[])
      
     useEffect(() => {
-     fetchCredentials();
+     fetchActiveProjectData();
 }, [activeProject])
 
       
@@ -153,7 +159,7 @@ const fetchCredentials = async() => {
                <div className="flex flex-row justify-between mb-5">
                
                <div className="flex flex-col">
-               <div className="flex flex-initial justify-between mr-5 p-2 w-[500px] h-[180px] custom-scroll-x relative">
+               <div className="flex flex-initial justify-between mr-5 p-2 w-[550px] h-[180px] custom-scroll-x relative">
           
              
                {projectsList.map((project) => (
@@ -194,7 +200,7 @@ const fetchCredentials = async() => {
                }
 
                <div className="mt-5">
-               <ProgressTracker/>
+               <ProgressTracker progress={activeProjectData?.userProgress}/>
                </div>
 
                </div>
@@ -205,25 +211,31 @@ const fetchCredentials = async() => {
                     <div className="absolute inset-0 pointer-events-none border-4 border-transparent bg-gradient-to-b-from-transparent to-white"></div>
 
                     <div className="h-full px-4 pb-10 overflow-y-scroll custom-scrollbar">
-                    <div className="flex flex-col justify-between mt-[10px]">
-                         <h3 className="font-normal text-left">Database access</h3>
+                    {activeProjectData.credentials?.length <= 0 ? <div className="flex flex-col items-center justify-center">
+                         <img src={emptyCredentials} className="w-40 self-center" alt="cred"/>
+                         <button onClick={() => navigate("/wizard-config-1")} className=" cursor-pointer self-center py-[5px] px-[15px] rounded font-bold outline-2 outline-[#8EFF2C]">Start</button>
+                    </div> : activeProjectData.credentials.map((section) => (
+                    <div key={section.id} className="flex flex-col justify-between mt-[10px]">
+                         <h3 className="font-normal text-left">{section.title}</h3>
                          <div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Name</span>
-                              <span className="text-xs text-[#606060]">My database</span>
-                              <span onClick={() => handleCopyClicked("My database")}>
+                         {section?.pairs.map((pair) => (
+                         <div key={pair.key+pair.value} className="flex flex-row justify-between">
+                              <span className="text-xs">{pair?.key}</span>
+                              <span className="text-xs text-[#606060]">{pair?.value}</span>
+                              <span onClick={() => handleCopyClicked(pair?.value)}>
                                    <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
                               </span>
                          </div>
-                         <div className="flex flex-row justify-between">
-                              <span className="text-xs">Password</span>
-                              <span className="text-xs text-[#606060]">7582132563</span>
-                              <span className="" onClick={() => handleCopyClicked("7582132563")}>
-                                   <img alt="copy icon" src={iconCopy} className="size-4 cursor-pointer"/>
-                              </span>
-                         </div>
+ 
+                         ))}
+
                          </div>
                     </div>
+                    ))}
+ 
+
+                    
+ 
                     </div>
 
                     </div>

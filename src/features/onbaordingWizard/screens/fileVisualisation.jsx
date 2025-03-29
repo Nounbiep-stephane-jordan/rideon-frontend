@@ -1,18 +1,19 @@
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AnimatePresence,motion } from "framer-motion";
 import Littleplus from "../../../assets/little-plus.svg"
 import { useGlobalVariables } from "../../../context/global";
 import BlueBox from "../../../component/blueBox/blueBox";
-import fileviz from "../../../assets/file-viz.jpg"
+import fileviz from "../../../assets/file-viz.webp"
 import API from "../../../api/api"
 import {MAX_CONTENT_LENGTH_FILE} from "../../../utils/constants"
+import { WizardProgressContext } from "../../../context/wizardProgressContext";
  
 
 const testvalues = {
-    token:"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",
-    repo:"rideon-frontend",
-    owner:"Nounbiep-stephane-jordan"
+    token:"",
+    repo:"",
+    owner:""
 }
 
 const COLORS = [{id:"color-1",color:'#FFFFFF',description:"Main entry points of the application",classes:`bg-[#FFFFFF] w-[15px] h-[15px] rounded-full shadow mr-5 cursor-pointer`},
@@ -30,11 +31,13 @@ const isImageFile = (filename) => {
 }
 
 const FileVisualization = () => {
-    const {githubPhaseConfigData,setGithubPhaseConfigData,showLoader,hideLoader} = useGlobalVariables()
-    const [owner, setOwner] = useState(githubPhaseConfigData.owner || testvalues.owner);
-    const [repo, setRepo] = useState(githubPhaseConfigData.repo || testvalues.repo);
-    const [token, setToken] = useState(githubPhaseConfigData.token || testvalues.token);
-    const [fileTree, setFileTree] = useState(githubPhaseConfigData.fileTree||{});
+        const {interactionsTrackerGit,setInteractionsTrackerGit} = useContext(WizardProgressContext)
+    
+    const {wizardData,showLoader,hideLoader} = useGlobalVariables()
+    const [owner, setOwner] = useState(wizardData?.githubPhase?.owner || testvalues.owner);
+    const [repo, setRepo] = useState(wizardData?.githubPhase?.repo || testvalues.repo);
+    const [token, setToken] = useState(wizardData?.githubPhase?.token || testvalues.token);
+    const [fileTree, setFileTree] = useState(wizardData?.githubPhase?.fileTree||{});
     const [error, setError] = useState("");
     const [selectedFile,setSelectedFile] = useState(false)
     const [showLittlebox,setShowLittleBox] = useState(false)
@@ -42,8 +45,8 @@ const FileVisualization = () => {
 
     const [imageurl,setImageUrl] = useState(null)
     const [message,setMessage] = useState("")
-    const [fileAnnotations,setFileAnnotations] = useState(githubPhaseConfigData.fileAnnotations ||{})
-    const [hoveredFile,setHoveredFile] = useState( githubPhaseConfigData.hoveredFile || null)
+    const [fileAnnotations,setFileAnnotations] = useState(wizardData?.githubPhase?.fileAnnotations ||{})
+    const [hoveredFile,setHoveredFile] = useState( wizardData?.githubPhase?.hoveredFile || null)
 
     
     useEffect(()=> {
@@ -94,6 +97,11 @@ const FileVisualization = () => {
 
     //for colors and descriptions
     const handleFileClick = async(file) => {
+        if(interactionsTrackerGit.clicks <= 3) {
+            setInteractionsTrackerGit((prev)=>({
+                 ...prev,fileClick:1,clicks:interactionsTrackerGit.clicks+1
+            }))
+       }
       setSelectedFile(file)
       await fetchFileContent(file)
     }
@@ -138,6 +146,11 @@ const FileVisualization = () => {
 
     // Handle clicking a folder
     const handleFolderClick = (path) => {
+        if(interactionsTrackerGit.clicks <= 3) {
+            setInteractionsTrackerGit((prev)=>({
+                 ...prev,folderClick:1,clicks:interactionsTrackerGit.clicks+1
+            }))
+       }
         if (fileTree[path]) {
             // If already loaded, remove (collapse)
             setFileTree((prevTree) => {
@@ -185,9 +198,9 @@ const FileVisualization = () => {
                         handleFileClick(file)
                       }}> {file.name}
                             {hoveredFile?.path === file.path && fileAnnotations[file.path] &&(
-                            <div className="fixed w-80 right-1/2 top-1/2 z-50">
-                                <div className="bg-black/50 shadow-lg p-5 rounded-sm">
-                                        <h1 className="text-2xl capitalize text-white text-[10px] text-left">{fileAnnotations[file?.path]?.notes}</h1>
+                            <div className="fixed w-120 h-1/2 right-1/2 top-50 z-50">
+                                <div className="bg-[#530DF6] opacity-80 shadow-lg p-5 rounded-sm">
+                                        <h1 className="text-[20px] capitalize text-white text-[10px] text-left">{fileAnnotations[file?.path]?.notes}</h1>
                                         <div className="flex flex-row bg-gray mt-2">
                                             {fileAnnotations[file?.path]?.colors?.map(color =>(
                                                 <div style={{backgroundColor:color}} key={color} className="w-4 h-4 rounded-full mr-2"></div>
@@ -230,7 +243,14 @@ const FileVisualization = () => {
 
                <div  className="cursor-pointer w-50 rounded-sm absolute bg-white bottom-5 right-5 p-5 shadow-lg"> 
                {COLORS.map((c) => (
-                    <div onClick={()=> setShowLittleBox(true)} key={c.description}  className=" z-[50]">
+                    <div onClick={()=> {
+                        setShowLittleBox(true)
+                        if(interactionsTrackerGit.clicks <= 3) {
+                            setInteractionsTrackerGit((prev)=>({
+                                 ...prev,smallBoxClick:1,clicks:interactionsTrackerGit.clicks+1
+                            }))
+                       }
+                    }} key={c.description}  className=" z-[50]">
                     <div className="flex items-center mb-1">
                          <div className={`h-2 shadow-lg w-2 rounded-full bg-[${c.color}] mr-2`}></div>
                         <p className="text-[5px] text-left">{c.description}</p>
@@ -281,10 +301,14 @@ const FileVisualization = () => {
 
 
            <div className={`bg-[#F5F5F5] w-1/2 relative bg-white shadow-lg border-[2px] border-[#D9D9D9] z-[5]`}>
-
+            
                <div className="file-list h-[380px] overflow-x-scroll custom-scrollbar">
+ 
                 {selectedFile?.name && fileContent !== null ? <div className="p-5">
-                    <h2 className="font-semibold text-2xl text-left">{selectedFile.name}</h2>
+                    <div className="flex flex-col flex-grow px-5">
+                <h2 className="font-semibold text-2xl text-left mb-2">{selectedFile.name}</h2>
+                <div className="bg-[#530DF6] h-2 w-full"></div>
+                </div>
                     <pre className="">
                         <code>{fileContent}</code>
                     </pre>

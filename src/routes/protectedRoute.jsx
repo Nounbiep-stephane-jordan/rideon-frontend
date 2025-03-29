@@ -1,4 +1,5 @@
 import {Outlet,Navigate} from "react-router-dom"
+import Nav from "../component/nav/nav"
  
 
 const ProtectedRoute = () => {
@@ -7,7 +8,10 @@ const ProtectedRoute = () => {
     if(user?.is_new == "new") {
      return <Navigate to="/new" />
     } else {
-     return <Outlet/>
+     return <>
+     <Nav/>
+     <Outlet/>
+     </>
     }
     } else {
      return <Navigate to="/login"/>

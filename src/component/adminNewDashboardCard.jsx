@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-
+ 
 import { useNavigate } from "react-router-dom";
 
  
@@ -32,7 +31,7 @@ const AdminNewDashboardCard = ({ imageSource, featureTitle, description,route })
           } else {
           // otherwise
           // new user but not admin redirect to the configured wizard for which this credentials were created
-          
+          navigate("/")
           }
 
         }} className="bg-[#530DF6] cursor-pointer rounded-l-full w-[108px] h-[40px] text-white font-semibold">

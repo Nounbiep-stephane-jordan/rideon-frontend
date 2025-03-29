@@ -1,21 +1,24 @@
-/* eslint-disable react/prop-types */
+
  
 import API from "../../api/api"
-import OrangeExclamation from "../../assets/orange-exclamation.png"
-import { useState } from "react"
+import OrangeExclamation from "../../assets/orange-exclamation.webp"
+import { useContext, useState } from "react"
 import {useNavigate} from "react-router-dom"
 import {useGlobalVariables} from "../../context/global"
-import cardImg from "../../assets/card.jpg"
+import cardImg from "../../assets/card.webp"
+import { WizardProgressContext } from "../../context/wizardProgressContext"
 
 
 const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
   const navigate = useNavigate()
-  const {setWizardData,setIsEditingWizard,setCoddingStandardsConfigData,setInstallationGuidesConfigData,setMeetTheTeamConfigData,setGithubPhaseConfigData,setEditingWizardProjectId} = useGlobalVariables()
- 
+  const {setWizardData,setIsEditingWizard,setCoddingStandardsConfigData,setInstallationGuidesConfigData,setMeetTheTeamConfigData,setGithubPhaseConfigData,setEditingWizardProjectId,setWizardStartStage} = useGlobalVariables()
+ const {setWizardProgressSaved} = useContext(WizardProgressContext)
+ let user = JSON.parse(localStorage.getItem("user"))
   const startWiward = async(project_id) => {
    await API.post("/start-wizard",{project_id}).then((res) => {
-      console.log(res.data)
-      setWizardData(res.data.wizardData)
+      setWizardData({...res.data,project_id,projectName:res.data.installationGuide.textData.projectName})
+      setWizardProgressSaved(false)
+      setWizardStartStage(0)
       navigate("/wizard")
     }).catch(err => {
       console.log(err,"in start wizard")
@@ -25,9 +28,9 @@ const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_full
 
 
   const editWizard = async(project_id) => {
-    console.log(project_id,"in start edit handler")
+   
    await API.post("/edit-wizard",{project_id}).then((res) => {
-      console.log(res.data)
+       
       let {
         installationGuide,
         coddingStandards,
@@ -48,18 +51,22 @@ const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_full
   }
 
  
-const options = [
+const options = user.role == "admin" ? [
   {key:"Start wizard",handler:(project_id)=> startWiward(project_id)},
-  {key:"Edit wizard",handler:(project_id)=> {
+    {key:"Edit wizard",handler:(project_id)=> {
     editWizard(project_id)
   }},
   {key:"File visual..",handler:()=> {}},
   {key:"Faq",handler:()=> {}},
   {key:"Delete",handler:()=> {
     setShowDeleteModal(true) 
-    setActiveProject()
   }},
+]: [
+  {key:"Start wizard",handler:(project_id)=> startWiward(project_id)},
+  {key:"File visual..",handler:()=> {}},
+  {key:"Faq",handler:()=> {}},
 ]
+
 const [isClicked,setIsclicked] = useState(false)
 
 
@@ -67,6 +74,7 @@ const [isClicked,setIsclicked] = useState(false)
       <div className={`flex-col w-40 h-30`}>
         <div className="orange-shadow relative" onClick={() => {
           setIsclicked(false)
+          setActiveProject()
           handleCardClick(p)
           setActiveProject()
         }}>

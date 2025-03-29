@@ -36,7 +36,7 @@ const defaultCod = {
  const defaultMeet = {
      members:[],
      text:"Enter the welcome message...",
-     stepContents:{}
+     stepContents:{stepstake:"",stepgoal1:"",stepgoal2:"",stepprob:""}
 
  }
 
@@ -74,10 +74,12 @@ export const GlobalProvider = ({children}) => {
 
      const [isEditingWizard,setIsEditingWizard] = useState(false)
      const [editingWizardProjectId,setEditingWizardProjectId] = useState(null) //contains the id of hte project edited
-     
+ 
 
      const [isAppLoading,setIsAppLoading] = useState(false)
      const [messageToDisplay,setMessageToDisplay] = useState("")
+
+     const [wizardStartStage,setWizardStartStage] = useState(0)
       
      const hideLoader = () => {
           setTimeout(()=> setIsAppLoading(false),2000)
@@ -92,11 +94,13 @@ export const GlobalProvider = ({children}) => {
 
      //actaul wizard data
      const [wizardData,setWizardData] = useState({
-          coddingStandardsData:defaultCod,
-          meetTheTeamData:defaultMeet,
-          githubPhaseData:defaultGit,
-          installationGuidesData:defaultGuide
-     })
+          installationGuide:defaultGuide,
+          coddingStandards:defaultCod,
+          meetTheTeam:defaultMeet,
+          githubPhase:defaultGit,
+          projectId:null,
+          projectName:""
+        })
 
  
  
@@ -157,7 +161,9 @@ export const GlobalProvider = ({children}) => {
           isEditingWizard,setIsEditingWizard, editingWizardProjectId,setEditingWizardProjectId,
 
           showLoader,hideLoader,isAppLoading,
-          messageToDisplay,setMessageToDisplay
+          messageToDisplay,setMessageToDisplay,
+
+          wizardStartStage,setWizardStartStage
 
 
           }}> 
