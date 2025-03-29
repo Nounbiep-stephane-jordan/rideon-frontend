@@ -8,10 +8,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"
 import Congratulations from "./screens/congratulation"
 import Spinner from "../../component/spinner/spinner"
-
- 
-import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps";
-import Congratulations from "./screens/congratulation";
 import WizardFallBackLoader from "../../component/fallback/wizardFallbackLoader";
 
  
