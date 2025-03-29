@@ -20,7 +20,7 @@ const MainDashboard = () => {
           {id:"p;;",name:"dec"}])
      // const [credentials, setCredentials] = useState()
 
-     const [activeProject,setActiveProject] = useState({})
+     const { activeProject, setActiveProject} = useGlobalVariables;
      const [showDeleteModal,setShowDeleteModal] = useState(false)
      const [activeCredentials, setActiveCredentials] = useState({})
     const {githubData,setGithubData} = useGlobalVariables()

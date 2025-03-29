@@ -75,7 +75,7 @@ export const GlobalProvider = ({children}) => {
      const [isEditingWizard,setIsEditingWizard] = useState(false)
      const [editingWizardProjectId,setEditingWizardProjectId] = useState(null) //contains the id of hte project edited
      
-
+     const [activeProject,setActiveProject] = useState({}) // Contains data of the selected project in dashboard
      const [isAppLoading,setIsAppLoading] = useState(false)
      const [messageToDisplay,setMessageToDisplay] = useState("")
       
@@ -148,7 +148,7 @@ export const GlobalProvider = ({children}) => {
           meetTheTeamConfigData,setMeetTheTeamConfigData,
           installationGuidesConfigData,setInstallationGuidesConfigData,
           githubData,setGithubData,commitStatus,setCommitStatus,
-          handleCleanWizardConfig,
+          handleCleanWizardConfig,activeProject,setActiveProject,
 
           //actaul data
           wizardData,setWizardData,

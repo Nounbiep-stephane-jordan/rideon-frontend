@@ -314,10 +314,39 @@ const fetchFileContent = async (commit) => {
 
 
 const fileVisualisationPhase1 = () => {
-  const { githubData } = useGlobalVariables();
+  const { activeProject,githubData,setGithubData,showLoader,hideLoader } = useGlobalVariables();
   const { token, repo, owner, fileAnnotations } = githubData;
   const [selectedFile, setSelectedFile] = useState(null);
   console.log("Git hub data: ",githubData)
+
+const fetchGitHistory = async () => {
+  const { id } = activeProject;
+  console.log("Active Poject", activeProject);
+  await API.post(`/git-history`, { id });
+
+  showLoader()
+    .then((res) => {
+      let generalData = res.data?.projects;
+      const rawGitHistory = generalData[1]?.description;
+      const git = JSON.parse(rawGitHistory);
+      setGithubData(git);
+      // Get the description string
+
+      console.log("General data in desription ", generalData);
+      //     console.log("Description destructured ", rawDescription);
+      console.log("Git History: ", githubData);
+
+      console.log("Active project data", activeProject);
+    })
+    .catch((err) => {
+      console.log(err, err?.status);
+      hideLoader();
+    });
+};
+
+ useEffect(() => {
+     fetchGitHistory();
+}, [activeProject])
 
 
   return (
