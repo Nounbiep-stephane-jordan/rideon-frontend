@@ -168,7 +168,7 @@ const DependencyGraph = ({ data }) => {
 
 
 
-const DependencyMap = ({ owner = "Nounbiep-stephane-jordan",fileName = "api.js", repo = "rideon-frontend", filePath = "src/api/api.js", token = "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" }) => {
+const DependencyMap = ({ owner = "Nounbiep-stephane-jordan",fileName = "api.js", repo = "rideon-frontend", filePath = "src/api/api.js", token = "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" }) => {
 
   
 
@@ -223,7 +223,7 @@ const [data,setData] = useState(null)
 the dependency graph serves as a refresher, helping them recall the project's structure and pinpoint areas they need to focus on. 
 It also aids in identifying potential bottlenecks or tightly coupled components that might need refactoring. 
 Overall, this feature enhances collaboration, reduces onboarding time, and improves codebase maintainability, making it an invaluable asset for any development team.</p> */}
-               {loading && <Spinner text="laoding" />}
+               {loading && <Spinner text="Please be patient this operation might take some minutes. Do not leave this page" />}
                {data && <DependencyGraph data={data}/>}
              
           </div>

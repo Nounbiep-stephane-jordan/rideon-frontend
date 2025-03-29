@@ -12,6 +12,11 @@ import ops from "../../assets/oops.webp"
     {keyword:"API",question:"Where is the of the user controller",answer:"The api are located in the user route folder but has recently been moved to the protected route folder."}
    ]
 
+   let FilteredAnswers = answers
+   const handleChange = (value) => {
+      FilteredAnswers =  answers.filter((an) => an.keyword == value || an.question.includes(value))
+   }
+
    const [noresult,setNoresult] = useState(false)
    
    return (<div  className="p-5">
@@ -24,7 +29,7 @@ import ops from "../../assets/oops.webp"
 
 
      <div className="flex flex-row justify-between items-center">
-     <input className="mt-5 rounded-lg pl-3 py-2 bg-white outline-2 outline-gray-500 w-80" placeholder="Search" type="text" name="search"/>
+     <input onChange={handleChange} className="mt-5 rounded-lg pl-3 py-2 bg-white outline-2 outline-gray-500 w-80" placeholder="Search" type="text" name="search"/>
 
      <div className="cursor-pointer bg-[#530DF6] rounded-full h-[50px] w-[50px] flex items-center justify-center">
       <img src={message} className="h-5 w-5"/>
@@ -40,8 +45,8 @@ import ops from "../../assets/oops.webp"
      <div  className="outline-2 outline-[#530DF6] mt-5 w-full h-[400px] cursor-pointer">
    
  
-      {answers.map((an) => {
-        return <div className="p-5">
+      {FilteredAnswers.map((an) => {
+        return <div key={an?.keyword} className="p-5">
           <h3 className="font-bold text-black">Where are <span className="text-[#530DF6]">{an.keyword}</span> end points found</h3>
           <p className="ml-5 mt-5">{an.answer}</p>
         </div>

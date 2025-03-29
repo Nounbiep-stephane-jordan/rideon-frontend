@@ -15,7 +15,9 @@ import faqSelected from "../../assets/faq_selected.svg";
 import logedUser from "../../assets/loged_user.svg";
 import { useNavigate } from "react-router-dom";
 import { useGlobalVariables } from "../../context/global";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { WizardProgressContext } from "../../context/wizardProgressContext";
+import API from "../../api/api";
 
 const Icon = ({ source, onClick }) => { // 1-Unselected nav bar icon
   return (
@@ -47,7 +49,7 @@ const IconSelected = ({ source, onClick,type }) => { // 2-selected nav bar icon
       transition={{ type: "smooth", stiffness: 250, damping: 15 }}
     >
       <motion.img className="size-4" src={source} alt="icon" />
-     {!newQuestionArrived && type=="faq" ?  <div className="border-none absolute top-5 left-5 h-4 w-4 rounded-full bg-[#FF8000] flex items-center justify-center"><p className="text-white text-[8px]">1</p></div>: null}
+     {newQuestionArrived && type=="faq" ?  <div className="border-none absolute top-5 left-5 h-4 w-4 rounded-full bg-[#FF8000] flex items-center justify-center"><p className="text-white text-[8px]">1</p></div>: null}
     </motion.div> 
   );
 };
@@ -69,7 +71,22 @@ const Nav = () => { // 4-nav bar component
   /* Seperated the nav bar elements into 4 main components */
 
  const [showModal,setShowModal] = useState(false)
- const {selectedIcon,setSelectedIcon,activeProject} = useGlobalVariables()
+ const {selectedIcon,setSelectedIcon,activeProject,setWizardData,setWizardStartStage} = useGlobalVariables()
+  const {setWizardProgressSaved} = useContext(WizardProgressContext)
+
+   const startWizard = async(project_id) => {
+    await API.post("/start-wizard",{project_id}).then((res) => {
+       setWizardData({...res.data,project_id,projectName:res.data.installationGuide.textData.projectName})
+       setWizardProgressSaved(false)
+       setWizardStartStage(0)
+       setSelectedIcon("onboardingWizard")
+       navigate("/wizard")
+     }).catch(err => {
+       console.log(err,"in start wizard")
+     })
+   
+   }
+ 
   return (
    <div>
     {showModal ?     <div> 
@@ -77,7 +94,7 @@ const Nav = () => { // 4-nav bar component
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center"
+        className="fixed z-[9999999] inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center"
       >
   
         <motion.div
@@ -88,7 +105,7 @@ const Nav = () => { // 4-nav bar component
         >
           <div className="flex flex-col items-center justify-between">
             <div className="self-center">
-            <img alt="dustbin" src=""/>
+            <img alt="select" className="h-50 w-50" src="/select.svg"/>
             </div>
             <p className="w-1/2 m-auto text-center">Please do select a project on the dashbaord first before launching it wizard. </p>
              <div className="flex items-center justify-center mt-5">
@@ -132,7 +149,7 @@ const Nav = () => { // 4-nav bar component
             onClick={() => {
               console.log(activeProject)
               if(activeProject?.id) {
-                setSelectedIcon("onboardingWizard")
+                startWizard(activeProject?.id)
               } else {
                 setShowModal(true)
               }

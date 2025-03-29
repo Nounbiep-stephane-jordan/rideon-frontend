@@ -95,7 +95,7 @@ useEffect(()=> {
 
 
       {isClicked === true && isSelected === true ? 
-      <div className={`z-[99999] top-[1px] left-[100px] absolute w-[150px] h-[100px] blue-bg blue-shadow p-[10px] rounded-sm`}>
+      <div className={` top-[1px] left-[100px] absolute w-[150px] h-[100px] blue-bg blue-shadow p-[10px] rounded-sm`}>
                     {options.map((val) => (
                          <p key={val.key} onClick={()=> val.handler(project_id)} className="text-white text-[10px] text-left mb-[2px] cursor-pointer hover:text-[15px] transition duration-300">{val.key}</p>
                     ))}

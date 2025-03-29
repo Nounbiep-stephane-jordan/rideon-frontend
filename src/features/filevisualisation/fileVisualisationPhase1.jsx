@@ -34,7 +34,7 @@ const COLORS = [
 const DependencyMapButton = ({ onClick }) => (
   <div
     onClick={onClick}
-    className="absolute flex items-center justify-center bg-[#530DF6] rounded-full w-[50px] h-[50px]"
+    className="absolute flex z-[1] items-center justify-center bg-[#530DF6] rounded-full w-[50px] h-[50px]"
   >
     <img
       src="/dependencymapbtn.svg"

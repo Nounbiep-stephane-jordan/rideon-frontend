@@ -155,7 +155,7 @@ const fetchActiveProjectData = async() => {
                <div className="flex flex-row justify-between mb-5">
                
                <div className="flex flex-col">
-               <div className="z-[-5] flex flex-initial justify-between mr-5 p-2 w-[550px] h-[180px] custom-scroll-x relative">
+               <div className="flex flex-initial justify-between mr-5 p-2 w-[550px] h-[180px] custom-scroll-x relative">
           
              
                {projectsList.map((project) => (
@@ -259,7 +259,7 @@ const fetchActiveProjectData = async() => {
       >
         <div className="flex flex-col items-center justify-between">
           <div className="self-center">
-          <img alt="dustbin" src="/delete-icon.svg"/>
+          <img alt="dustbin"  src="/delete-icon.svg"/>
           </div>
           <p className="w-1/2 m-auto text-center">Do you really want to delete <span className="text-[#530DF6] font-semibold uppercase">{activeProject.name}</span> ? this action is irriversible</p>
            <div className="grid gap-5 grid-cols-2 items-center justify-between mt-5">
