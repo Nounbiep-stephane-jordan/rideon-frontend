@@ -313,7 +313,7 @@ const fetchFileContent = async (commit) => {
 
 
 
-const fileVisualisationPhase1 = () => {
+const FileVisualisationPhase1 = () => {
   const { githubData } = useGlobalVariables();
   const { token, repo, owner, fileAnnotations } = githubData;
   const [selectedFile, setSelectedFile] = useState(null);
@@ -342,4 +342,4 @@ const fileVisualisationPhase1 = () => {
   );
 };
 
-export default fileVisualisationPhase1;
+export default FileVisualisationPhase1;

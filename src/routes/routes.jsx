@@ -10,6 +10,7 @@ import Spinner from "../component/spinner/spinner";
 import { useGlobalVariables } from "../context/global";
 import DependencyMap from "../features/fileVisualisation/dependencyMap";
 import Faq from "../features/faq/faqScreen"
+import FileVisualisationPhase1 from "../features/fileVisualisation/fileVisualisationPhase1";
 
  
  
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
       { path: "/", element: <MainDashboard /> },
       { path: "/wizard", element: <OnboardingWizard  /> },
       { path: "/wizard-config-1", element: <OnboardingWizardConfig stage={0} /> },
-      { path="/file-visualisation", element: <FileVisualisationPha />},
+      { path:"/file-visualisation", element: <FileVisualisationPhase1 />},
       { path: "/dependency-map", element: <DependencyMap   /> },
       { path: "/faq", element: <Faq/> },
     ],
