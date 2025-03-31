@@ -11,7 +11,7 @@ import { WizardProgressContext } from "../../context/wizardProgressContext"
 
 const ProjectCard = ({resetActiveProject,setActiveProject,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
   const navigate = useNavigate()
-  const {setWizardData,setIsEditingWizard,setCoddingStandardsConfigData,setInstallationGuidesConfigData,setMeetTheTeamConfigData,setGithubPhaseConfigData,setEditingWizardProjectId,setWizardStartStage} = useGlobalVariables()
+  const {setSelectedIcon,setWizardData,setIsEditingWizard,setCoddingStandardsConfigData,setInstallationGuidesConfigData,setMeetTheTeamConfigData,setGithubPhaseConfigData,setEditingWizardProjectId,setWizardStartStage} = useGlobalVariables()
  const {setWizardProgressSaved} = useContext(WizardProgressContext)
  let user = JSON.parse(localStorage.getItem("user"))
   const startWiward = async(project_id) => {
@@ -56,8 +56,14 @@ const options = user.role == "admin" ? [
     {key:"Edit wizard",handler:(project_id)=> {
     editWizard(project_id)
   }},
-  {key:"File visual..",handler:()=> {}},
-  {key:"Faq",handler:()=> {}},
+  {key:"File visual..",handler:()=> {
+    navigate("/file-visualisation")
+    setSelectedIcon("fileVisualisation")
+  }},
+  {key:"Faq",handler:()=> {
+    navigate("/faq")
+    setSelectedIcon('faq')
+  }},
   {key:"Delete",handler:()=> {
     setShowDeleteModal(true) 
   }},

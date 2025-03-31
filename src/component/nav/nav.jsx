@@ -73,6 +73,7 @@ const Nav = () => { // 4-nav bar component
  const [showModal,setShowModal] = useState(false)
  const {selectedIcon,setSelectedIcon,activeProject,setWizardData,setWizardStartStage} = useGlobalVariables()
   const {setWizardProgressSaved} = useContext(WizardProgressContext)
+  const [destination,setDestination] = useState(null)
 
    const startWizard = async(project_id) => {
     await API.post("/start-wizard",{project_id}).then((res) => {
@@ -107,7 +108,7 @@ const Nav = () => { // 4-nav bar component
             <div className="self-center">
             <img alt="select" className="h-50 w-50" src="/select.svg"/>
             </div>
-            <p className="w-1/2 m-auto text-center">Please do select a project on the dashbaord first before launching it wizard. </p>
+            <p className="w-1/2 m-auto text-center">{`Please do select a project on the dashbaord first before launching it ${destination}.`} </p>
              <div className="flex items-center justify-center mt-5">
                  <button onClick={() => setShowModal(false)} className="cursor-pointer bg-[#8EFF2C] px-5 py-2 shadow text-white font-semibold">Ok</button>
              </div>
@@ -151,6 +152,7 @@ const Nav = () => { // 4-nav bar component
               if(activeProject?.id) {
                 startWizard(activeProject?.id)
               } else {
+                setDestination("Wizard")
                 setShowModal(true)
               }
              
@@ -169,8 +171,15 @@ const Nav = () => { // 4-nav bar component
           type={selectedIcon}
             source={fileVisualisation}
             onClick={() => {
-              setSelectedIcon("fileVisualisation") 
-              navigate("/file-visualisation")
+
+              if(activeProject?.id) {
+                setSelectedIcon("fileVisualisation") 
+                navigate("/file-visualisation")
+              } else {
+                setDestination("File visualization")
+                setShowModal(true)
+              }
+
             }}
             
           />
@@ -180,6 +189,7 @@ const Nav = () => { // 4-nav bar component
             source={faqSelected}
             type={selectedIcon}
             onClick={() =>{ 
+
               setSelectedIcon("faq")
               navigate("/faq")
 
@@ -188,8 +198,14 @@ const Nav = () => { // 4-nav bar component
           />
         ) : (
           <Icon type={selectedIcon} source={faq} onClick={() => {
-            setSelectedIcon("faq")
-            navigate("/faq")
+            if(activeProject?.id) {
+              setSelectedIcon("faq")
+              navigate("/faq")
+            } else {
+              setDestination("Faq section")
+              setShowModal(true)
+            }
+
 
           }} />
         )}
