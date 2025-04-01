@@ -24,8 +24,8 @@ const MainDashboard = () => {
             userProgress: [],
           });
      const [showDeleteModal,setShowDeleteModal] = useState(false)
-     const [activeCredentials, setActiveCredentials] = useState({})
-    const {githubData,setGithubData} = useGlobalVariables()
+    // const [activeCredentials, setActiveCredentials] = useState({})
+   // const {githubData,setGithubData} = useGlobalVariables()
 
      const [message,setMessage] = useState(false)
      const [isVisible,setIsVisible]= useState(false)
@@ -99,8 +99,7 @@ const MainDashboard = () => {
 const fetchActiveProjectData = async() => {
      
      const {id} = activeProject
- 
-//      console.log("Active Poject",activeProject);
+   console.log("Active Poject",activeProject);
 //      await API.post(`/project-credentials`,{id})
 
 //      showLoader()
@@ -179,7 +178,7 @@ const fetchActiveProjectData = async() => {
                     transition={{type:"spring",stiffness:300,damping:20}}
                     
                     >
-                    <ProjectCard setActiveProject={() =>setActiveProject({...project})} project_id={project.id} setShowDeleteModal={setShowDeleteModal}  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
+                    <ProjectCard projectdata={project} project_id={project.id} setShowDeleteModal={setShowDeleteModal}  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
                     </motion.div>
                     
                ))}

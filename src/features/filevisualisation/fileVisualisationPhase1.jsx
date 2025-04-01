@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "./../../api/api";
 import { useGlobalVariables } from "../../context/global";
 import { div, p, span } from "framer-motion/client";
+import Nav from "./../../component/nav/nav";
 
 const COLORS = [
   {
@@ -44,22 +46,18 @@ const DependencyMapButton = ({ onClick }) => (
   </div>
 );
 
-const ColorDescription = () => (
-  <div className="p-[5px] flex flex-col gap-2 justify-center w-[200px] h-[150px] rounded-[15px] shadow-sm bg-[#F5F5F5]">
-    {COLORS.map((c, index) => (
-      <div key={index} className="flex flex-row gap-2">
-        <div className={`${c.classes} `} />
-        <p className="text-[8px] text-left">{c.description}</p>
-      </div>
-    ))}
-  </div>
-);
+/* const ColorDescription = ({ setIsClicked, isClicked }) => {
+  
+  return(
+  
+)}; */
 
 const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
   const [error, setError] = useState("");
   const [expandedFolders, setExpandedFolders] = useState({});
   const [fileTree, setFileTree] = useState([]);
-  const {commitStatus} = useGlobalVariables();
+  const { commitStatus } = useGlobalVariables();
+  const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     if (owner && repo && token) {
@@ -110,8 +108,6 @@ const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
     }
   };
 
-  
-
   const renderFiles = (files, parentPath = "") => {
     return (
       <ul className="flex flex-col items-start justify-start ml-[1px]">
@@ -120,15 +116,17 @@ const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
             const filePath = parentPath
               ? `${parentPath}/${file.name}`
               : file.name;
-            
-      
-              const annotations = fileAnnotations[`${filePath}`]?.colors || [];
-    
+
+            const annotations = fileAnnotations[`${filePath}`]?.colors || [];
+
             return (
               <div className="flex justify-center items-center" key={filePath}>
                 <div className="flex">
                   {annotations.map((colors, index) => (
-                    <div className={` w-[10px] h-[10px]  bg-[${colors}] rounded-full shadow`} key={index}/>
+                    <div
+                      className={` w-[10px] h-[10px]  bg-[${colors}] rounded-full shadow`}
+                      key={index}
+                    />
                   ))}
                 </div>
                 <li className=" m-1" key={filePath}>
@@ -167,36 +165,63 @@ const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
       ) : (
         ""
       )}
-      
-      <div className={`${commitStatus.selected? "blur-xs z-[-2] " : ""} grid grid-cols-2 gap-10 p-[15px] w-[500px] h-[500px] shadow bg-white rounded`}>
-        <div className="p-1 w-[200px] h-[400px] overflow-scroll  hide-scrollbar">
+
+      <div
+        className={`${
+          commitStatus.selected ? "blur-xs z-[-2] " : ""
+        } grid grid-cols-2 gap-10 p-[15px] w-[500px] h-[500px] shadow bg-white rounded`}
+      >
+        <div
+          className={` ${
+            isClicked ? "blur-xs" : ""
+          } p-1 w-[200px] h-[400px] overflow-scroll  hide-scrollbar`}
+        >
           {renderFiles(fileTree)}
         </div>
-        <div className="self-end">
-          <ColorDescription />
+
+        <div
+          onClick={() => {
+            setIsClicked(!isClicked);
+          }}
+          className={`  p-[5px] flex flex-col gap-2 justify-center  rounded-[15px] shadow-sm  cursor-pointer transition delay-150 duration-300 ease-out ${
+            isClicked
+              ? "z-10 absolute self-center backdrop-blur-xs shadow-xl  w-[350px] h-[250px]"
+              : "self-end w-[220px] h-[150px] bg-[#F5F5F5]"
+          } `}
+        >
+          {COLORS.map((c, index) => (
+            <div
+              key={index}
+              className=" transition-all delay-150 duration-300 flex flex-row gap-2"
+            >
+              <div className={`${c.classes} `} />
+              <p
+                className={` ${
+                  isClicked ? "text-[13px]" : "text-[8px]"
+                }  text-left`}
+              >
+                {c.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 };
 
-const FileDescription = ({
-  selectedFile,
-  token,
-  repo,
-  owner,
-}) => {
+const FileDescription = ({ selectedFile, token, repo, owner }) => {
+  const navigate = useNavigate();
+  const [commits, setCommits] = useState([]);
+  const [fileContent, setFileContent] = useState(null);
+  const [commitClick, setCommitClick] = useState(false);
+  const { commitStatus, setCommitStatus } = useGlobalVariables();
 
-const [commits, setCommits] = useState([]);
-const [fileContent, setFileContent] = useState(null);
-const [commitClick, setCommitClick] = useState(false);
-const {commitStatus,setCommitStatus} = useGlobalVariables();
+  const handleCommitStatus = (message, selected) => {
+    setCommitStatus({ message: message || "", selected: selected });
+  };
 
-const handleCommitStatus = (message, selected) => {
-setCommitStatus({ message: message || "", selected: selected });
-};
-
-console.log("Selected file for description: ",selectedFile);
+  console.log("Selected file for description: ", selectedFile);
   useEffect(() => {
     if (!selectedFile) return;
     const fetchCommits = async () => {
@@ -209,7 +234,7 @@ console.log("Selected file for description: ",selectedFile);
         );
         if (!response.ok) throw new Error("Failed to fetch commits");
         const data = await response.json();
-        console.log("Commit data :", data)
+        console.log("Commit data :", data);
         setCommits(data);
       } catch (err) {
         console.error(err);
@@ -218,7 +243,7 @@ console.log("Selected file for description: ",selectedFile);
     fetchCommits();
   }, [selectedFile]);
 
-const fetchFileContent = async (commit) => {
+  const fetchFileContent = async (commit) => {
     try {
       const response = await fetch(
         `https://api.github.com/repos/${owner}/${repo}/contents/${selectedFile}?ref=${commit.sha}`,
@@ -229,7 +254,7 @@ const fetchFileContent = async (commit) => {
       if (!response.ok) throw new Error("Failed to fetch file content");
       const data = await response.json();
       console.log("File Content Data:", data);
-      
+
       // Decode Base64 content
       const decodedContent = atob(data.content).replace(/\r?\n/g, "\n");
       setFileContent(decodedContent);
@@ -239,7 +264,7 @@ const fetchFileContent = async (commit) => {
       setFileContent("Failed to load file content.");
     }
   };
-  const nonEmpty = (fileContent != null)
+  const nonEmpty = fileContent != null;
   return (
     <div className="grid p-[20px] w-[500px] h-[500px] rounded shadow bg-white">
       {selectedFile ? (
@@ -306,48 +331,50 @@ const fetchFileContent = async (commit) => {
       )}
 
       <div className="grid justify-items-end self-end ">
-        <DependencyMapButton />
+        <DependencyMapButton
+          onClick={() =>
+            navigate(`/dependency-map/`, { token, repo, owner, selectedFile })
+          }
+        />
       </div>
     </div>
-  );};
-
-
-
-const fileVisualisationPhase1 = () => {
-  const { activeProject,githubData,setGithubData,showLoader,hideLoader } = useGlobalVariables();
-  const { token, repo, owner, fileAnnotations } = githubData;
-  const [selectedFile, setSelectedFile] = useState(null);
-  console.log("Git hub data: ",githubData)
-
-const fetchGitHistory = async () => {
-  const { id } = activeProject;
-  console.log("Active Poject", activeProject);
-  await API.post(`/git-history`, { id });
-
-  showLoader()
-    .then((res) => {
-      let generalData = res.data?.projects;
-      const rawGitHistory = generalData[1]?.description;
-      const git = JSON.parse(rawGitHistory);
-      setGithubData(git);
-      // Get the description string
-
-      console.log("General data in desription ", generalData);
-      //     console.log("Description destructured ", rawDescription);
-      console.log("Git History: ", githubData);
-
-      console.log("Active project data", activeProject);
-    })
-    .catch((err) => {
-      console.log(err, err?.status);
-      hideLoader();
-    });
+  );
 };
 
- useEffect(() => {
-     fetchGitHistory();
-}, [activeProject])
+const FileVisualisationPhase1 = () => {
+  const { activeProject, githubData, setGithubData, showLoader, hideLoader } =
+    useGlobalVariables();
+  const { token, repo, owner, fileAnnotations } = githubData;
+  const [selectedFile, setSelectedFile] = useState(null);
+  console.log("Git hub data: ", githubData);
 
+  const fetchGitHistory = async () => {
+    const { id } = activeProject;
+    console.log("Active Poject", activeProject);
+    showLoader()
+    await API.post(`/git-history`, { id })
+
+      .then((res) => {
+        let generalData = res.data?.projects;
+        const gitdata = JSON.parse(generalData[0]?.description);
+        setGithubData(gitdata);
+        // Get the description string
+
+        hideLoader();
+        console.log("General data in desription ", generalData);
+
+        console.log("Git History: ", githubData);
+
+        console.log("Active project data", activeProject);
+      })
+      .catch((err) => {
+        console.log(err, err?.status);
+      });
+  };
+
+  useEffect(() => {
+    fetchGitHistory();
+  }, [activeProject]);
 
   return (
     <div className="h-screen w-screen ">
@@ -371,4 +398,4 @@ const fetchGitHistory = async () => {
   );
 };
 
-export default fileVisualisationPhase1;
+export default FileVisualisationPhase1;

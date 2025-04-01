@@ -2,7 +2,7 @@
  
 
 import { lazy, memo, Suspense, useContext, useEffect, useMemo, useRef, useState } from "react"
-import {AnimatePresence,motion} from "framer-motion"
+import {AnimatePresence} from "framer-motion"
 import { useGlobalVariables } from "../../context/global"
 import {  useBlocker, useNavigate } from 'react-router-dom';
 import OnbaordingWizardNavigationSteps from "./configuration/navigationSteps"

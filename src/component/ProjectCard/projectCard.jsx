@@ -9,9 +9,9 @@ import cardImg from "../../assets/card.webp"
 import { WizardProgressContext } from "../../context/wizardProgressContext"
 
 
-const ProjectCard = ({setActiveProject,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
+const ProjectCard = ({projectdata,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
   const navigate = useNavigate()
-  const {setWizardData,setIsEditingWizard,setCoddingStandardsConfigData,setInstallationGuidesConfigData,setMeetTheTeamConfigData,setGithubPhaseConfigData,setEditingWizardProjectId,setWizardStartStage} = useGlobalVariables()
+  const {setWizardData,setIsEditingWizard,setCoddingStandardsConfigData,setInstallationGuidesConfigData,setMeetTheTeamConfigData,setGithubPhaseConfigData,setEditingWizardProjectId,setWizardStartStage, setActiveProject} = useGlobalVariables()
  const {setWizardProgressSaved} = useContext(WizardProgressContext)
  let user = JSON.parse(localStorage.getItem("user"))
   const startWiward = async(project_id) => {
@@ -74,9 +74,8 @@ const [isClicked,setIsclicked] = useState(false)
       <div className={`flex-col w-40 h-30`}>
         <div className="orange-shadow relative" onClick={() => {
           setIsclicked(false)
-          setActiveProject()
+          setActiveProject(projectdata)
           handleCardClick(p)
-          setActiveProject()
         }}>
         <img className="cursor-pointer" src={cardImg} alt="card-img"/>
         {is_fully_configured ? null :<img alt="exclamation" src={OrangeExclamation} className="w-7 absolute top-[5px] right-[0px]"/>}
