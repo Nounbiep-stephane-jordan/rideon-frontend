@@ -57,7 +57,7 @@ const OnboardingWizardConfig = ({stage}) => {
      return (
           <div className="">
             {/*it will show this loading when the component is still mounting we can style it so it looks better */}
-            <Suspense fallback={<Spinner text="Loading....subsequent loads wil be much faste"/>}>
+            <Suspense fallback={<Spinner text="Loading....subsequent loads will be much faste"/>}>
             <AnimatePresence mode="wait" initial={false} custom={direction}>
             <motion.div
               key={activeStep}

@@ -17,15 +17,13 @@ const MainDashboard = () => {
      const [projectsList,setProjectList] = useState([ 
           {id:"p;",name:"dec"},
 ])
-     // const [credentials, setCredentials] = useState()
-     const { activeProject, setActiveProject } = useGlobalVariables;
-          const [activeProjectData, setActiveProjectData] = useState({
-            credentials: [],
-            userProgress: [],
-          });
+ 
+     const [activeProjectData,setActiveProjectData] = useState({credentials:[],userProgress:[]})
+    
      const [showDeleteModal,setShowDeleteModal] = useState(false)
-    // const [activeCredentials, setActiveCredentials] = useState({})
-   // const {githubData,setGithubData} = useGlobalVariables()
+     const [activeCredentials, setActiveCredentials] = useState({})
+    const {githubData,setGithubData,activeProject,setActiveProject} = useGlobalVariables()
+ 
 
      const [message,setMessage] = useState(false)
      const [isVisible,setIsVisible]= useState(false)
@@ -139,11 +137,7 @@ const fetchActiveProjectData = async() => {
 
      })
 }
-
-     useEffect(() => {
-          setSelectedIcon("home");
-     }, []);
-
+ 
      useEffect(()=> {
           fetchData()
      },[])
@@ -178,7 +172,9 @@ const fetchActiveProjectData = async() => {
                     transition={{type:"spring",stiffness:300,damping:20}}
                     
                     >
-                    <ProjectCard projectdata={project} project_id={project.id} setShowDeleteModal={setShowDeleteModal}  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
+ 
+                    <ProjectCard resetActiveProject={() => setActiveProject({})} setActiveProject={() =>setActiveProject({...project})} project_id={project.id} setShowDeleteModal={setShowDeleteModal}  handleCardClick={handleCardClick} p={project.id} isSelected={focusedIndex ===project.id} name={project.name.length > 15 ? project.name.slice(0,15)+"..." : project.name} is_fully_configured={project?.is_fully_configured}/>
+ 
                     </motion.div>
                     
                ))}
@@ -265,7 +261,7 @@ const fetchActiveProjectData = async() => {
       >
         <div className="flex flex-col items-center justify-between">
           <div className="self-center">
-          <img alt="dustbin" src="/delete-icon.svg"/>
+          <img alt="dustbin"  src="/delete-icon.svg"/>
           </div>
           <p className="w-1/2 m-auto text-center">Do you really want to delete <span className="text-[#530DF6] font-semibold uppercase">{activeProject.name}</span> ? this action is irriversible</p>
            <div className="grid gap-5 grid-cols-2 items-center justify-between mt-5">

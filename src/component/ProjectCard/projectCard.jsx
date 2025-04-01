@@ -2,16 +2,16 @@
  
 import API from "../../api/api"
 import OrangeExclamation from "../../assets/orange-exclamation.webp"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import {useNavigate} from "react-router-dom"
 import {useGlobalVariables} from "../../context/global"
 import cardImg from "../../assets/card.webp"
 import { WizardProgressContext } from "../../context/wizardProgressContext"
 
 
-const ProjectCard = ({projectdata,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
+const ProjectCard = ({resetActiveProject,setActiveProject,name,isSelected,handleCardClick,p,is_fully_configured,project_id,setShowDeleteModal}) => {
   const navigate = useNavigate()
-  const {setWizardData,setIsEditingWizard,setCoddingStandardsConfigData,setInstallationGuidesConfigData,setMeetTheTeamConfigData,setGithubPhaseConfigData,setEditingWizardProjectId,setWizardStartStage, setActiveProject} = useGlobalVariables()
+  const {setSelectedIcon,setWizardData,setIsEditingWizard,setCoddingStandardsConfigData,setInstallationGuidesConfigData,setMeetTheTeamConfigData,setGithubPhaseConfigData,setEditingWizardProjectId,setWizardStartStage} = useGlobalVariables()
  const {setWizardProgressSaved} = useContext(WizardProgressContext)
  let user = JSON.parse(localStorage.getItem("user"))
   const startWiward = async(project_id) => {
@@ -56,8 +56,14 @@ const options = user.role == "admin" ? [
     {key:"Edit wizard",handler:(project_id)=> {
     editWizard(project_id)
   }},
-  {key:"File visual..",handler:()=> {}},
-  {key:"Faq",handler:()=> {}},
+  {key:"File visual..",handler:()=> {
+    navigate("/file-visualisation")
+    setSelectedIcon("fileVisualisation")
+  }},
+  {key:"Faq",handler:()=> {
+    navigate("/faq")
+    setSelectedIcon('faq')
+  }},
   {key:"Delete",handler:()=> {
     setShowDeleteModal(true) 
   }},
@@ -68,14 +74,19 @@ const options = user.role == "admin" ? [
 ]
 
 const [isClicked,setIsclicked] = useState(false)
-
+useEffect(()=> {
+  if(isSelected == false) {
+    resetActiveProject()
+  }
+},[])
 
   return <>
       <div className={`flex-col w-40 h-30`}>
         <div className="orange-shadow relative" onClick={() => {
           setIsclicked(false)
-          setActiveProject(projectdata)
+          setActiveProject()
           handleCardClick(p)
+          setActiveProject()
         }}>
         <img className="cursor-pointer" src={cardImg} alt="card-img"/>
         {is_fully_configured ? null :<img alt="exclamation" src={OrangeExclamation} className="w-7 absolute top-[5px] right-[0px]"/>}
@@ -90,7 +101,7 @@ const [isClicked,setIsclicked] = useState(false)
 
 
       {isClicked === true && isSelected === true ? 
-      <div className={`z-[99999] top-[1px] left-[100px] absolute w-[150px] h-[100px] blue-bg blue-shadow p-[10px] rounded-sm`}>
+      <div className={` top-[1px] left-[100px] absolute w-[150px] h-[100px] blue-bg blue-shadow p-[10px] rounded-sm`}>
                     {options.map((val) => (
                          <p key={val.key} onClick={()=> val.handler(project_id)} className="text-white text-[10px] text-left mb-[2px] cursor-pointer hover:text-[15px] transition duration-300">{val.key}</p>
                     ))}

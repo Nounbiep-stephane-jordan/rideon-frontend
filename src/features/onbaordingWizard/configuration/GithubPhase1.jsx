@@ -45,6 +45,7 @@ const GithubPhase1 = () => {
     //for colors and descriptions
     const handleFileClick = async(file) => {
       setShowModal(!showModal)
+      console.log(file)
       setSelectedFile(file)
     }
 

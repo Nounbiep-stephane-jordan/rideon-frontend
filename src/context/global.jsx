@@ -58,6 +58,7 @@ const defaultCod = {
 
 
 export const GlobalProvider = ({children}) => {
+ 
   const [selectedIcon, setSelectedIcon] = useState("home"); //for nav bar
   const [user, setUser] = useState(null);
 
@@ -183,6 +184,7 @@ export const GlobalProvider = ({children}) => {
       {children}
     </GlobalVariablesContext.Provider>
   );
+ 
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

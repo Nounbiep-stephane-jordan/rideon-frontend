@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "./../../api/api";
 import { useGlobalVariables } from "../../context/global";
-import { div, p, span } from "framer-motion/client";
-import Nav from "./../../component/nav/nav";
+ 
+ 
 
 const COLORS = [
   {
@@ -36,7 +36,7 @@ const COLORS = [
 const DependencyMapButton = ({ onClick }) => (
   <div
     onClick={onClick}
-    className="absolute flex items-center justify-center bg-[#530DF6] rounded-full w-[50px] h-[50px]"
+    className="absolute flex z-[1] items-center justify-center bg-[#530DF6] rounded-full w-[50px] h-[50px]"
   >
     <img
       src="/dependencymapbtn.svg"
@@ -342,8 +342,10 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
 };
 
 const FileVisualisationPhase1 = () => {
+ 
   const { activeProject, githubData, setGithubData, showLoader, hideLoader } =
     useGlobalVariables();
+ 
   const { token, repo, owner, fileAnnotations } = githubData;
   const [selectedFile, setSelectedFile] = useState(null);
   console.log("Git hub data: ", githubData);
