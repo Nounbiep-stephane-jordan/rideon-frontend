@@ -8,11 +8,12 @@ import ops from "../../assets/oops.webp"
 import {motion} from "framer-motion"
 import API from "../../api/api"
 import { useGlobalVariables } from "../../context/global"
+import { Question_LIMIT } from "../../utils/constants"
 const Faq = () => {
-  const {activeProject} = useGlobalVariables()
+  const {activeProject,hideLoader,showLoader} = useGlobalVariables()
   const [active, setActive] = useState(null)
   const options = ['Environment setup', 'Common issues', 'Api']
-  const [answers] = useState([
+  const [answers,setAnswers] = useState([
     {keyword: "API", question: "Where are end points found", answer: "The api are located in the route folder but has recently been moved to the protected route folder."},
     {keyword: "API", question: "Where is the of the user controller", answer: "The api are located in the user route folder but has recently been moved to the protected route folder."},
     {keyword: "Environment setup", question: "How to set up development environment", answer: "To set up the development environment, first install Node.js and then run npm install."},
@@ -63,6 +64,8 @@ const Faq = () => {
   let user = JSON.parse(localStorage.getItem("user"))
   const saveQuestion = async() => {
     if(!activeProject?.id) return
+    setShowQuestionModal(false)
+    showLoader()
     let data = {
       keyword:activeQuestionCat,
       question:searchTerm,
@@ -72,13 +75,50 @@ const Faq = () => {
       user_role:user.role
     }
 
-    API.post("/save-question",data).then((res) => {
+   await API.post("/save-question",data).then((res) => {
       console.log(res)
+      console.log(res)
+      hideLoader()
+
     }).catch(err => {
       console.log(err,"in save qeusiton")
+      hideLoader()
     })
   }
 
+
+  const [offset,setOffSet] = useState(0)
+  const loadData = async() => {
+ 
+      if(!activeProject?.id) return
+      showLoader()
+      let data = {
+        project_id:activeProject?.id,
+        user_id:user.id,
+        user_role:user.role,
+        offset,
+        limit:Question_LIMIT
+      }
+  
+     await API.post("/load-faq",data).then((res) => {
+        console.log(res)
+      
+        if(res?.data?.faq>0) {
+          setAnswers(res.data.faq)
+          setOffSet(offset + res.data?.faq.length);
+        }
+        hideLoader()
+  
+      }).catch(err => {
+        console.log(err,"in load qeusiton")
+        hideLoader()
+      })
+    
+  }
+
+  useEffect(() => {
+    loadData()
+  },[activeProject?.id])
 
   return (
     <div className="p-5">
@@ -106,7 +146,7 @@ const Faq = () => {
                    </textarea>
                    <div className="flex items-center jusitfy-between">{options.map((op) => <div onClick={() => setActiveQuestionCat(op)} key={op+1} className={`py-2 px-2 ${activeQuestionCat == op? 'text-white bg-[#530DF6]':'text-black bg-[#F7F7F7]}'}`}>{op}</div>)}</div>
                    <div className="flex items-center justify-center mt-5">
-                       <button onClick={() => setShowQuestionModal(false)} className="cursor-pointer bg-[#8EFF2C] px-5 py-2 shadow text-white font-semibold">Ok</button>
+                       <button onClick={() => saveQuestion()} className="cursor-pointer bg-[#8EFF2C] px-5 py-2 shadow text-white font-semibold">Ok</button>
                    </div>
                 </div>
         
@@ -155,6 +195,7 @@ const Faq = () => {
               <p className="ml-5 mt-5">{an.answer}</p>
             </div>
           ))}
+          <button onClick={() => loadData()} className="btn items-center justify-center bg-[#530DF6] text-white px-2 cursor-pointer">show more</button>
         </div>
       )}
     </div>

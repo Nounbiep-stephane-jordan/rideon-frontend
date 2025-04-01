@@ -176,7 +176,7 @@ const saveWizardProgress = async() => {
         </div>
       )}
 
-           <Suspense fallback={<Spinner text="Loading....subsequent loads wil be much faste"/>}> 
+           <Suspense fallback={<Spinner text="Loading....subsequent loads will be much faste"/>}> 
            <AnimatePresence mode="wait" initial={false} custom={direction}>
            <motion.div
               key={activeStep}
