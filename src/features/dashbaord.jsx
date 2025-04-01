@@ -165,7 +165,7 @@ const fetchActiveProjectData = async() => {
                     animate={{
                          opacity:focusedIndex === null || focusedIndex === project.id ? 1: 0.4,
                          scale:focusedIndex ===project.id ? 1.1 : 1,
-                         // y:focusedIndex===null?0:project.id===focusedIndex?-project.id*1:20,
+                          
                          
                         }}
 
