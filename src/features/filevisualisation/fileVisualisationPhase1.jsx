@@ -215,7 +215,7 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
   const [commits, setCommits] = useState([]);
   const [fileContent, setFileContent] = useState(null);
   const [commitClick, setCommitClick] = useState(false);
-  const { commitStatus, setCommitStatus } = useGlobalVariables();
+  const { commitStatus, setCommitStatus,setDependencyMapData } = useGlobalVariables();
 
   const handleCommitStatus = (message, selected) => {
     setCommitStatus({ message: message || "", selected: selected });
@@ -332,8 +332,13 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
 
       <div className="grid justify-items-end self-end ">
         <DependencyMapButton
-          onClick={() =>
-            navigate(`/dependency-map/`, { token, repo, owner, selectedFile })
+          onClick={() => {
+            if(selectedFile) {
+              console.log(selectedFile)
+              setDependencyMapData({token,owner,repo,filePath:selectedFile,fileName:selectedFile.slice(0,selectedFile.lastIndexOf("/"))})
+              navigate(`/dependency-map`)
+            }
+          }
           }
         />
       </div>
@@ -348,11 +353,11 @@ const FileVisualisationPhase1 = () => {
  
   const { token, repo, owner, fileAnnotations } = githubData;
   const [selectedFile, setSelectedFile] = useState(null);
-  console.log("Git hub data: ", githubData);
+  // console.log("Git hub data: ", githubData);
 
   const fetchGitHistory = async () => {
     const { id } = activeProject;
-    console.log("Active Poject", activeProject);
+    // console.log("Active Poject", activeProject);
     showLoader()
     await API.post(`/git-history`, { id })
 
@@ -363,11 +368,11 @@ const FileVisualisationPhase1 = () => {
         // Get the description string
 
         hideLoader();
-        console.log("General data in desription ", generalData);
+        // console.log("General data in desription ", generalData);
 
-        console.log("Git History: ", githubData);
+        // console.log("Git History: ", githubData);
 
-        console.log("Active project data", activeProject);
+        // console.log("Active project data", activeProject);
       })
       .catch((err) => {
         console.log(err, err?.status);

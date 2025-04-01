@@ -10,6 +10,7 @@ import Congratulations from "./screens/congratulation"
 import Spinner from "../../component/spinner/spinner"
 import { WizardProgressContext } from "../../context/wizardProgressContext";
 import API from "../../api/api";
+import {motion} from 'framer-motion'
 
  
 

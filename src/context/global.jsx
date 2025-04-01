@@ -86,6 +86,10 @@ export const GlobalProvider = ({children}) => {
 
   const [wizardStartStage, setWizardStartStage] = useState(0);
 
+  const [dependencyMapData,setDependencyMapData] = useState({
+    token:"", repo:"", owner:"",fileName:"",filePath:""
+  })
+
   const hideLoader = () => {
     setTimeout(() => setIsAppLoading(false), 2000);
   };
@@ -179,6 +183,8 @@ export const GlobalProvider = ({children}) => {
 
         wizardStartStage,
         setWizardStartStage,
+        dependencyMapData,
+        setDependencyMapData
       }}
     >
       {children}

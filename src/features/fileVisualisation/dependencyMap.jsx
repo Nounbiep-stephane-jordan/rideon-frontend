@@ -168,11 +168,18 @@ const DependencyGraph = ({ data }) => {
 
 
 
-const DependencyMap = ({ owner = "Nounbiep-stephane-jordan",fileName = "api.js", repo = "rideon-frontend", filePath = "src/api/api.js", token = "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" }) => {
-
+const DependencyMap = () => {
+  // { owner = "Nounbiep-stephane-jordan",fileName = "api.js", repo = "rideon-frontend", filePath = "src/api/api.js", token = "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" }
   
-
-const {setSelectedIcon} = useGlobalVariables()
+ 
+const {setSelectedIcon,dependencyMapData} = useGlobalVariables()
+const { 
+  owner,
+  repo,
+   fileName,
+   filePath,
+  token,
+} = dependencyMapData
 const [loading, setLoading] = useState(false);
 const [data,setData] = useState(null)
      const fetchDependencies = async () => {
