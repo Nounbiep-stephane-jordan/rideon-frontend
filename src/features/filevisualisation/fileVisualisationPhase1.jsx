@@ -236,13 +236,16 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
   const [commits, setCommits] = useState([]);
   const [fileContent, setFileContent] = useState(null);
   const [commitClick, setCommitClick] = useState(false);
-  const { commitStatus, setCommitStatus,setDependencyMapData } = useGlobalVariables();
+  const { commitStatus, setCommitStatus,setDependencyMapData,setSelectedIcon } = useGlobalVariables();
 
   const handleCommitStatus = (message, selected) => {
     setCommitStatus({ message: message || "", selected: selected });
   };
 
-  console.log("Selected file for description: ", selectedFile);
+     useEffect(() => {
+       setSelectedIcon("fileVisualisation");
+     }, []);
+
   useEffect(() => {
     if (!selectedFile) return;
     const fetchCommits = async () => {

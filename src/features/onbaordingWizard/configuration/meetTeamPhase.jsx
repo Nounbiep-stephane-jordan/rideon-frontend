@@ -61,6 +61,12 @@ const MeetTeamPhaseConfig = () => {
 
      const createForm = () => {
           setShouldShow(!shouldShow)
+          setFormData({
+               username:"",
+               email:"",
+               access:"",
+               password:""
+          })
      }
 
      const getText = (value) => {
