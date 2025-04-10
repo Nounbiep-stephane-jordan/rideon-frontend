@@ -386,7 +386,7 @@ const FileVisualisationPhase1 = () => {
   return (
     <div className="h-screen w-screen ">
       <div className="absolute inset-0 bg-[url('/filevisualisationBg.svg')]  bg-[auto_450px] bg-bottom bg-no-repeat z-[-2]"></div>
-      <div className="mt-10 flex justify-around">
+      <div className="mt-10 flex justify-around items-center">
         <FileTree
           token={token}
           repo={repo}
