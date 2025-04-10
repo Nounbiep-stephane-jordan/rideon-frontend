@@ -58,6 +58,8 @@ const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
   const [fileTree, setFileTree] = useState([]);
   const { commitStatus } = useGlobalVariables();
   const [isClicked, setIsClicked] = useState(false);
+  const [isHovered, setIsHovered] = useState({hovered: false, filePath: ""});
+
 
   useEffect(() => {
     if (owner && repo && token) {
@@ -121,15 +123,34 @@ const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
 
             return (
               <div className="flex justify-center items-center" key={filePath}>
-                <div className="flex">
+                <div
+                  className={`flex flex-col justify-around items-center ${
+                    isHovered?.hovered &&
+                    isHovered?.filePath === filePath &&
+                    fileAnnotations[`${isHovered.filePath}`]
+                      ? "w-[100px] h-[40px] bg-[#F9F9F9] rounded-[10px] shadow-sm  absolute left-1/4 top-1/3"
+                      : "hidden"
+                  }`}
+                >
+                  <p className="text-[11px]">{isHovered?.filePath}</p>
+                  <div className="flex">
+
                   {annotations.map((colors, index) => (
                     <div
-                      className={` w-[10px] h-[10px]  bg-[${colors}] rounded-full shadow`}
+                      className={` w-[10px] h-[10px] m-1 bg-[${colors}] rounded-full shadow`}
                       key={index}
                     />
                   ))}
+                  </div>
                 </div>
-                <li className=" m-1" key={filePath}>
+                <li
+                  className={`m-1`}
+                  key={filePath}
+                  onMouseEnter={() =>
+                    setIsHovered({ hovered: true, filePath: filePath })
+                  }
+                  onMouseLeave={() => setIsHovered(null)}
+                >
                   <span
                     onClick={() =>
                       file.type === "dir"
