@@ -1,64 +1,58 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
-import {createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-
-
-const GlobalVariablesContext = createContext()
-const defaultGuide  = {
-     textData:{
-          projectName:"Enter project name...",
-          projectDescription:"Enter the project description in brief..."
-     },
-     prerequisites:[{id:1,key:"",value:""}],
-     additionalLinks:[{id:"add1",value:""}],
-     credentials:[{
-          id:1,
-          title:"",
-          pairs:[{id:1,key:"",value:""}]
-     }],
-     installationGuidesOsText:{
-          windows:"",
-          ios:"",
-          linux:""
-     },
-     steps:[],
- }
+const GlobalVariablesContext = createContext();
+const defaultGuide = {
+  textData: {
+    projectName: "Enter project name...",
+    projectDescription: "Enter the project description in brief...",
+  },
+  prerequisites: [{ id: 1, key: "", value: "" }],
+  additionalLinks: [{ id: "add1", value: "" }],
+  credentials: [
+    {
+      id: 1,
+      title: "",
+      pairs: [{ id: 1, key: "", value: "" }],
+    },
+  ],
+  installationGuidesOsText: {
+    windows: "",
+    ios: "",
+    linux: "",
+  },
+  steps: [],
+};
 
 const defaultCod = {
-     descriptions:[''],
-     standards:[''],
-     step2Data:{left:'',right:''},
-     step3Data:[''],
- }
+  descriptions: [""],
+  standards: [""],
+  step2Data: { left: "", right: "" },
+  step3Data: [""],
+};
 
+const defaultMeet = {
+  members: [],
+  text: "Enter the welcome message...",
+  stepContents: { stepstake: "", stepgoal1: "", stepgoal2: "", stepprob: "" },
+};
 
- const defaultMeet = {
-     members:[],
-     text:"Enter the welcome message...",
-     stepContents:{stepstake:"",stepgoal1:"",stepgoal2:"",stepprob:""}
+const defaultGit = {
+  token: "",
+  repo: "",
+  owner: "",
+  fileAnotations: {},
+  fileTree: {},
+  hoveredFile: null,
+};
 
- }
+const commitState = {
+  message: "",
+  selected: undefined,
+};
 
- const defaultGit = {
-     token:"",
-     repo:"",
-     owner:"",
-     fileAnotations:{},
-     fileTree:{},
-     hoveredFile:null
- }  
-
- const commitState = {
-     message:"",
-     selected: undefined
- }
-
-
-
-
-export const GlobalProvider = ({children}) => {
- 
+export const GlobalProvider = ({ children }) => {
   const [selectedIcon, setSelectedIcon] = useState("home"); //for nav bar
   const [user, setUser] = useState(null);
 
@@ -85,10 +79,15 @@ export const GlobalProvider = ({children}) => {
   const [messageToDisplay, setMessageToDisplay] = useState("");
 
   const [wizardStartStage, setWizardStartStage] = useState(0);
-
-  const [dependencyMapData,setDependencyMapData] = useState({
-    token:"", repo:"", owner:"",fileName:"",filePath:""
-  })
+ 
+  const [dependencyMapData, setDependencyMapData] = useState({
+    token: "",
+    repo: "",
+    owner: "",
+    fileName: "",
+    filePath: "",
+  });
+ 
 
   const hideLoader = () => {
     setTimeout(() => setIsAppLoading(false), 2000);
@@ -184,14 +183,15 @@ export const GlobalProvider = ({children}) => {
         wizardStartStage,
         setWizardStartStage,
         dependencyMapData,
-        setDependencyMapData
+ 
+        setDependencyMapData,
+ 
       }}
     >
       {children}
     </GlobalVariablesContext.Provider>
   );
- 
-}
+};
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const useGlobalVariables = () => useContext(GlobalVariablesContext)
+export const useGlobalVariables = () => useContext(GlobalVariablesContext);

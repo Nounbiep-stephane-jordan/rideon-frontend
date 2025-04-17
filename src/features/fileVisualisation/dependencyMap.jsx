@@ -1,13 +1,9 @@
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useGlobalVariables } from "../../context/global";
-import Spinner from '../../component/spinner/spinner';
-import API from '../../api/api';
-
-
+import Spinner from "../../component/spinner/spinner";
+import API from "../../api/api";
 
 import * as d3 from "d3";
-
- 
 
 const DependencyGraph = ({ data }) => {
   const svgRef = useRef();
@@ -44,7 +40,10 @@ const DependencyGraph = ({ data }) => {
       .forceSimulation()
       .force(
         "link",
-        d3.forceLink().id((d) => d.id).distance(350) // Increase link distance
+        d3
+          .forceLink()
+          .id((d) => d.id)
+          .distance(350) // Increase link distance
       )
       .force("charge", d3.forceManyBody().strength(-1500)) // Increase repulsion
       .force("center", d3.forceCenter(width / 2, height / 2))
@@ -165,9 +164,8 @@ const DependencyGraph = ({ data }) => {
     </div>
   );
 };
-
-
-
+ 
+ 
 const DependencyMap = () => {
   // { owner = "Nounbiep-stephane-jordan",fileName = "api.js", repo = "rideon-frontend", filePath = "src/api/api.js", token = "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" }
   
@@ -222,6 +220,7 @@ const [data,setData] = useState(null)
                </div>
                <h1 className="mt-5 font-[25px]">{`Relationships are determine by checking what are imported from ${fileName}`}</h1>
                {/* <p className="mt-5">Helpfull notes: This feature, the Dependency Graph Visualization, is a powerful tool designed to help developers quickly understand the structure and relationships within a codebase.
+ 
                 For new developers onboarding onto an ongoing project, it provides a clear, visual representation of how different files and components are interconnected, 
                 making it easier to grasp the overall architecture and identify key dependencies. Instead of manually tracing through imports and exports, 
                 they can see at a glance which files rely on others, accelerating their learning curve and reducing the time needed to become productive.</p>
@@ -230,25 +229,12 @@ const [data,setData] = useState(null)
 the dependency graph serves as a refresher, helping them recall the project's structure and pinpoint areas they need to focus on. 
 It also aids in identifying potential bottlenecks or tightly coupled components that might need refactoring. 
 Overall, this feature enhances collaboration, reduces onboarding time, and improves codebase maintainability, making it an invaluable asset for any development team.</p> */}
-               {loading && <Spinner text="Please be patient this operation might take some minutes. Do not leave this page" />}
-               {data && <DependencyGraph data={data}/>}
-             
-          </div>
-     )
-}
-
+      {loading && (
+        <Spinner text="Please be patient this operation might take some minutes. Do not leave this page" />
+      )}
+      {data && <DependencyGraph data={data} />}
+    </div>
+  );
+};
 
 export default DependencyMap;
-
-
-
-
-
-
- 
-
-
- 
-
-
- 
