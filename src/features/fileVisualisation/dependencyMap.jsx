@@ -164,56 +164,63 @@ const DependencyGraph = ({ data }) => {
     </div>
   );
 };
-
+ 
+ 
 const DependencyMap = () => {
   // { owner = "Nounbiep-stephane-jordan",fileName = "api.js", repo = "rideon-frontend", filePath = "src/api/api.js", token = "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" }
+  
+ 
+const {setSelectedIcon,dependencyMapData} = useGlobalVariables()
+const { 
+  owner,
+  repo,
+   fileName,
+   filePath,
+  token,
+} = dependencyMapData
+const [loading, setLoading] = useState(false);
+const [data,setData] = useState(null)
+     const fetchDependencies = async () => {
+       try {
+         setLoading(true);
+          await API.post('/dependencies', {
+           owner,
+           repo,
+           file:{name:fileName,src:filePath},
+           token,
+         }).then((res) => {
+          console.log(res.data)
+          setData(res.data)
+          setLoading(false)
 
-  const { setSelectedIcon, dependencyMapData } = useGlobalVariables();
-  const { owner, repo, fileName, filePath, token } = dependencyMapData;
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
-  const fetchDependencies = async () => {
-    try {
-      setLoading(true);
-      await API.post("/dependencies", {
-        owner,
-        repo,
-        file: { name: fileName, src: filePath },
-        token,
-      })
-        .then((res) => {
-          console.log(res.data);
-          setData(res.data);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.log(err, "in catch bllock");
-        });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    setSelectedIcon("fileVisualisation");
-  }, []);
+         }).catch((err) => {
+          console.log(err,"in catch bllock")
+         })
 
-  useEffect(() => {
-    fetchDependencies();
-  }, [owner, repo, filePath, token]);
+ 
+  
+       } catch (error) {
+     console.log(error)
+       } finally {
+         setLoading(false);
+       }
+     };
+     useEffect(() => {
+          setSelectedIcon("fileVisualisation")
+     },[])
 
-  return (
-    <div className="p-[20px] flex flex-col justify-center">
-      <div className="grid grid-rows-1 gap-5 items-center shadow-sm w-1/2">
-        <div
-          className={`py-5 pl-5 cursor-pointer  rounded-lg bg-[#530DF6] text-white font-semibold`}
-        >
-          <h1>{`Import Export relationships for ${fileName}`}</h1>
-        </div>
-      </div>
-      <h1 className="mt-5 font-[25px]">{`Relationships are determine by checking what are imported from ${fileName}`}</h1>
-      {/* <p className="mt-5">Helpfull notes: This feature, the Dependency Graph Visualization, is a powerful tool designed to help developers quickly understand the structure and relationships within a codebase.
+     useEffect(() => {
+      fetchDependencies()
+     },[owner,repo,filePath,token])
+     
+     return (
+          <div className="p-[20px] flex flex-col justify-center">
+               <div className="grid grid-rows-1 gap-5 items-center shadow-sm w-1/2"> 
+                    <div  className={`py-5 pl-5 cursor-pointer  rounded-lg bg-[#530DF6] text-white font-semibold`}><h1>{`Import Export relationships for ${fileName}`}</h1></div>
+               </div>
+               <h1 className="mt-5 font-[25px]">{`Relationships are determine by checking what are imported from ${fileName}`}</h1>
+               {/* <p className="mt-5">Helpfull notes: This feature, the Dependency Graph Visualization, is a powerful tool designed to help developers quickly understand the structure and relationships within a codebase.
+ 
                 For new developers onboarding onto an ongoing project, it provides a clear, visual representation of how different files and components are interconnected, 
                 making it easier to grasp the overall architecture and identify key dependencies. Instead of manually tracing through imports and exports, 
                 they can see at a glance which files rely on others, accelerating their learning curve and reducing the time needed to become productive.</p>

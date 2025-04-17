@@ -8,7 +8,7 @@ import { useGlobalVariables } from "../../context/global";
 import { Question_LIMIT } from "../../utils/constants";
 import { div } from "framer-motion/client";
 const Faq = () => {
-  const { activeProject, hideLoader, showLoader } = useGlobalVariables();
+  const { activeProject, hideLoader, showLoader, setSelectedIcon } = useGlobalVariables();
   const [active, setActive] = useState(null);
   const options = ["Environment setup", "Common issues", "Api"];
   const [selectedOperation, setSelectedOperation] = useState({
@@ -112,6 +112,10 @@ const Faq = () => {
       (active || searchTerm) && filteredAnswers.length === 0;
     setNoresult(shouldShowNoResults);
   }, [filteredAnswers, active, searchTerm]);
+
+  useEffect(() => {
+    setSelectedIcon("faq")
+  }, [])
 
   const [activeQuestionCat, setActiveQuestionCat] = useState("Common issues");
 

@@ -56,7 +56,9 @@ const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
   const [fileTree, setFileTree] = useState([]);
   const { commitStatus } = useGlobalVariables();
   const [isClicked, setIsClicked] = useState(false);
+ 
   const [isHovered, setIsHovered] = useState({ hovered: false, filePath: "" });
+ 
 
   useEffect(() => {
     if (owner && repo && token) {
@@ -131,12 +133,14 @@ const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
                 >
                   <p className="text-[11px]">{isHovered?.filePath}</p>
                   <div className="flex">
+ 
                     {annotations.map((colors, index) => (
                       <div
                         className={` w-[10px] h-[10px] m-1 bg-[${colors}] rounded-full shadow`}
                         key={index}
                       />
                     ))}
+ 
                   </div>
                 </div>
                 <li
@@ -232,20 +236,24 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
   const [commits, setCommits] = useState([]);
   const [fileContent, setFileContent] = useState(null);
   const [commitClick, setCommitClick] = useState(false);
+ 
   const {
     commitStatus,
     setCommitStatus,
     setDependencyMapData,
     setSelectedIcon,
   } = useGlobalVariables();
+ 
 
   const handleCommitStatus = (message, selected) => {
     setCommitStatus({ message: message || "", selected: selected });
   };
 
-  useEffect(() => {
-    setSelectedIcon("fileVisualisation");
-  }, []);
+ 
+     useEffect(() => {
+       setSelectedIcon("fileVisualisation");
+     }, []);
+ 
 
   useEffect(() => {
     if (!selectedFile) return;
@@ -358,6 +366,7 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
       <div className="grid justify-items-end self-end ">
         <DependencyMapButton
           onClick={() => {
+ 
             if (selectedFile) {
               console.log(selectedFile);
               setDependencyMapData({
@@ -370,6 +379,7 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
               navigate(`/dependency-map`);
             }
           }}
+ 
         />
       </div>
     </div>
@@ -387,7 +397,9 @@ const FileVisualisationPhase1 = () => {
   const fetchGitHistory = async () => {
     const { id } = activeProject;
     // console.log("Active Poject", activeProject);
+ 
     showLoader();
+ 
     await API.post(`/git-history`, { id })
 
       .then((res) => {
