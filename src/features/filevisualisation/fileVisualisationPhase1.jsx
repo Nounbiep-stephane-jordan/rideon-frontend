@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "./../../api/api";
 import { useGlobalVariables } from "../../context/global";
- 
- 
 
 const COLORS = [
   {
@@ -58,6 +56,7 @@ const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
   const [fileTree, setFileTree] = useState([]);
   const { commitStatus } = useGlobalVariables();
   const [isClicked, setIsClicked] = useState(false);
+  const [isHovered, setIsHovered] = useState({ hovered: false, filePath: "" });
 
   useEffect(() => {
     if (owner && repo && token) {
@@ -121,15 +120,33 @@ const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
 
             return (
               <div className="flex justify-center items-center" key={filePath}>
-                <div className="flex">
-                  {annotations.map((colors, index) => (
-                    <div
-                      className={` w-[10px] h-[10px]  bg-[${colors}] rounded-full shadow`}
-                      key={index}
-                    />
-                  ))}
+                <div
+                  className={`flex flex-col justify-around items-center ${
+                    isHovered?.hovered &&
+                    isHovered?.filePath === filePath &&
+                    fileAnnotations[`${isHovered.filePath}`]
+                      ? "w-[100px] h-[40px] bg-[#F9F9F9] rounded-[10px] shadow-sm  absolute left-1/4 top-1/3"
+                      : "hidden"
+                  }`}
+                >
+                  <p className="text-[11px]">{isHovered?.filePath}</p>
+                  <div className="flex">
+                    {annotations.map((colors, index) => (
+                      <div
+                        className={` w-[10px] h-[10px] m-1 bg-[${colors}] rounded-full shadow`}
+                        key={index}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <li className=" m-1" key={filePath}>
+                <li
+                  className={`m-1`}
+                  key={filePath}
+                  onMouseEnter={() =>
+                    setIsHovered({ hovered: true, filePath: filePath })
+                  }
+                  onMouseLeave={() => setIsHovered(null)}
+                >
                   <span
                     onClick={() =>
                       file.type === "dir"
@@ -215,13 +232,21 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
   const [commits, setCommits] = useState([]);
   const [fileContent, setFileContent] = useState(null);
   const [commitClick, setCommitClick] = useState(false);
-  const { commitStatus, setCommitStatus } = useGlobalVariables();
+  const {
+    commitStatus,
+    setCommitStatus,
+    setDependencyMapData,
+    setSelectedIcon,
+  } = useGlobalVariables();
 
   const handleCommitStatus = (message, selected) => {
     setCommitStatus({ message: message || "", selected: selected });
   };
 
-  console.log("Selected file for description: ", selectedFile);
+  useEffect(() => {
+    setSelectedIcon("fileVisualisation");
+  }, []);
+
   useEffect(() => {
     if (!selectedFile) return;
     const fetchCommits = async () => {
@@ -332,9 +357,19 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
 
       <div className="grid justify-items-end self-end ">
         <DependencyMapButton
-          onClick={() =>
-            navigate(`/dependency-map/`, { token, repo, owner, selectedFile })
-          }
+          onClick={() => {
+            if (selectedFile) {
+              console.log(selectedFile);
+              setDependencyMapData({
+                token,
+                owner,
+                repo,
+                filePath: selectedFile,
+                fileName: selectedFile.slice(0, selectedFile.lastIndexOf("/")),
+              });
+              navigate(`/dependency-map`);
+            }
+          }}
         />
       </div>
     </div>
@@ -342,18 +377,17 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
 };
 
 const FileVisualisationPhase1 = () => {
- 
   const { activeProject, githubData, setGithubData, showLoader, hideLoader } =
     useGlobalVariables();
- 
+
   const { token, repo, owner, fileAnnotations } = githubData;
   const [selectedFile, setSelectedFile] = useState(null);
-  console.log("Git hub data: ", githubData);
+  // console.log("Git hub data: ", githubData);
 
   const fetchGitHistory = async () => {
     const { id } = activeProject;
-    console.log("Active Poject", activeProject);
-    showLoader()
+    // console.log("Active Poject", activeProject);
+    showLoader();
     await API.post(`/git-history`, { id })
 
       .then((res) => {
@@ -363,11 +397,11 @@ const FileVisualisationPhase1 = () => {
         // Get the description string
 
         hideLoader();
-        console.log("General data in desription ", generalData);
+        // console.log("General data in desription ", generalData);
 
-        console.log("Git History: ", githubData);
+        // console.log("Git History: ", githubData);
 
-        console.log("Active project data", activeProject);
+        // console.log("Active project data", activeProject);
       })
       .catch((err) => {
         console.log(err, err?.status);
