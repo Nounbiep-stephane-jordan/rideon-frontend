@@ -177,6 +177,7 @@ const {
    fileName,
    filePath,
   token,
+  commitSha,
 } = dependencyMapData
 const [loading, setLoading] = useState(false);
 const [data,setData] = useState(null)
@@ -188,6 +189,7 @@ const [data,setData] = useState(null)
            repo,
            file:{name:fileName,src:filePath},
            token,
+           commitSha,
          }).then((res) => {
           console.log(res.data)
           setData(res.data)

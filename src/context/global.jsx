@@ -84,6 +84,7 @@ export const GlobalProvider = ({ children }) => {
     token: "",
     repo: "",
     owner: "",
+    commitSha: "",
     fileName: "",
     filePath: "",
   });

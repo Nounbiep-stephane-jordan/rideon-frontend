@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "./../../api/api";
 import { useGlobalVariables } from "../../context/global";
+// import { div } from "framer-motion/client";
 
 const COLORS = [
   {
@@ -31,7 +32,7 @@ const COLORS = [
   },
 ];
 
-const DependencyMapButton = ({ onClick }) => (
+/* const DependencyMapButton = ({ onClick }) => (
   <div
     onClick={onClick}
     className="absolute flex z-[1] items-center justify-center bg-[#530DF6] rounded-full w-[50px] h-[50px]"
@@ -42,7 +43,7 @@ const DependencyMapButton = ({ onClick }) => (
       className="size-[29px]"
     />
   </div>
-);
+); */
 
 /* const ColorDescription = ({ setIsClicked, isClicked }) => {
   
@@ -51,7 +52,7 @@ const DependencyMapButton = ({ onClick }) => (
 )}; */
 
 const FileTree = ({ token, repo, owner, fileAnnotations, handleFileClick }) => {
-  const [error, setError] = useState("");
+  const [/* error */, setError] = useState("");
   const [expandedFolders, setExpandedFolders] = useState({});
   const [fileTree, setFileTree] = useState([]);
   const { commitStatus } = useGlobalVariables();
@@ -236,9 +237,11 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
   const [commits, setCommits] = useState([]);
   const [fileContent, setFileContent] = useState(null);
   const [commitClick, setCommitClick] = useState(false);
+  const [option, setOption] = useState(null);
+  const [commitSha, setCommitSha] = useState("");
  
   const {
-    commitStatus,
+     //commitStatus,
     setCommitStatus,
     setDependencyMapData,
     setSelectedIcon,
@@ -301,7 +304,7 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
   return (
     <div className="grid p-[20px] w-[500px] h-[500px] rounded shadow bg-white">
       {selectedFile ? (
-        <div className="grid">
+        <div className="grid transition-descrete delay-150 duration-700 ease-in-out">
           <div className="flex flex-row justify-between">
             <p className="underline underline-offset-8 decoration-[#530DF6] decoration-[5px]">
               {selectedFile || "Select a file"}
@@ -309,6 +312,7 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
             {commitClick ? (
               <span
                 onClick={() => {
+                  setOption(null);
                   setCommitClick(false);
                   handleCommitStatus("", false);
                 }}
@@ -321,8 +325,8 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
             )}
           </div>
 
-          <div className="p-2 w-full h-[400px]  overflow-scroll hide-scrollbar">
-            {commitClick ? (
+          <div className="p-2 w-full h-[400px]  overflow-scroll hide-scrollbar ">
+            {option === "fileContent" ? (
               nonEmpty ? (
                 <p className="whitespace-pre-wrap font-mono text-sm">
                   {fileContent}
@@ -331,29 +335,87 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
                 <p>File is Empty</p>
               )
             ) : (
-              <ul>
+              <ul className="flex flex-col transition-descrete delay-150 duration-700 ease-in-out">
                 {commits.map((commit) => (
-                  <li
-                    key={commit.sha}
-                    className="cursor-pointer"
-                    onClick={() => {
-                      fetchFileContent(commit);
-                      setCommitClick(true);
-                      handleCommitStatus(commit.commit.message, true);
-                    }}
-                  >
-                    <img
-                      src={commit.committer?.avatar_url}
-                      alt="avatar"
-                      className="w-6 h-6 rounded-full"
-                    />
-                    <span>{commit.committer.login}</span>
-                    <span>
-                      {new Date(
-                        commit.commit.committer.date
-                      ).toLocaleDateString()}
-                    </span>
-                  </li>
+                  <div>
+                    <li
+                      key={commit.sha}
+                      className="flex gap-2 mb-1 cursor-pointer hover:bg-[#FBFBFB] rounded-full"
+                      onClick={() => {
+                        setCommitClick(!commitClick);
+                        setCommitSha(commit.sha);
+                      }}
+                    >
+                      <img
+                        src={commit.committer?.avatar_url}
+                        alt="avatar"
+                        className="w-6 h-6 rounded-full"
+                      />
+                      <span>{commit.committer.login}</span>
+                      <span>
+                        {new Date(
+                          commit.commit.committer.date
+                        ).toLocaleDateString()}
+                      </span>
+                    </li>
+                    {commitClick ? (
+                      commitSha === commit.sha ? (
+                        <div className="p-[10px] mt-[10px] mb-[10px] flex flex-col w-[200px] h-[40px] justify-center shadow-md rounded">
+                          <div className="flex gap-2 items-center">
+                            <div
+                              onClick={() => {
+                                setOption("fileContent");
+                                fetchFileContent(commit);
+                                handleCommitStatus(commit.commit.message, true);
+                              }}
+                              className="flex justify-center items-center w-[15px] h-[15px] rounded-full bg-[#530DF6] cursor-pointer"
+                            >
+                              <img
+                                src="/file_content.png"
+                                alt="file_icon"
+                                className="size-[10px]"
+                              />
+                            </div>
+                            <p className="text-[13px]">File Content</p>
+                          </div>
+                          <div className="flex gap-2 items-center">
+                            <div
+                              onClick={() => {
+                                setOption("dependencyMap");
+                                if (selectedFile) {
+                                  console.log(selectedFile);
+                                  setDependencyMapData({
+                                    token,
+                                    owner,
+                                    repo,
+                                    commitSha,
+                                    filePath: selectedFile,
+                                    fileName: selectedFile.slice(
+                                      0,
+                                      selectedFile.lastIndexOf("/")
+                                    ),
+                                  });
+                                  navigate(`/dependency-map`);
+                                }
+                              }}
+                              className="flex justify-center items-center w-[15px] h-[15px] rounded-full bg-[#530DF6] cursor-pointer"
+                            >
+                              <img
+                                src="/dependencymapbtn.svg"
+                                alt="map_btn"
+                                className="size-[10px]"
+                              />
+                            </div>
+                            <p className="text-[13px]">Dependency map</p>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )
+                    ) : (
+                      ""
+                    )}
+                  </div>
                 ))}
               </ul>
             )}
@@ -363,25 +425,13 @@ const FileDescription = ({ selectedFile, token, repo, owner }) => {
         <p>Select the file to see commit history</p>
       )}
 
-      <div className="grid justify-items-end self-end ">
+      {/* <div className="grid justify-items-end self-end ">
         <DependencyMapButton
           onClick={() => {
- 
-            if (selectedFile) {
-              console.log(selectedFile);
-              setDependencyMapData({
-                token,
-                owner,
-                repo,
-                filePath: selectedFile,
-                fileName: selectedFile.slice(0, selectedFile.lastIndexOf("/")),
-              });
-              navigate(`/dependency-map`);
-            }
+          
           }}
- 
         />
-      </div>
+      </div> */}
     </div>
   );
 };
